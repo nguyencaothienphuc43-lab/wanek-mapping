@@ -1795,7 +1795,7 @@ function slOverview(){
     slBars(SLINES.filter(l=>l.L==='exp').sort((a,b)=>b.v-a.v).map(l=>({n:SP_[l.to].n,t:SP_[l.to].n+', '+SP_[l.to].ctry+' — '+SP_[l.to].note,v:l.v,line:l.id})).concat([{n:'Chưa giải thích',v:3425,a:'gap'}]))+
     `<h3>Điểm xếp hàng tại Việt Nam · 2023</h3>`+
     slBars([{n:'Bình Dương',v:18272},{n:'Cát Lái',v:14649,port:'catlai'},{n:'Đồng Nai',v:4241},{n:'Cái Mép',v:1543,port:'vt'},{n:'Phước Long',v:404},{n:'SPICT (nhãn gốc)',v:5}])+
-    `<p class="small muted" style="margin-top:6px">“Bình Dương” có thể là điểm nhận hàng / khai thác nội địa. Không thể kết luận chỉ 3,94% hàng đi qua Cái Mép trên chặng tàu mẹ.</p>`;
+    `<p class="small muted" style="margin-top:6px"></p>`;
   }else if(slView==='imp'){
     const im=CAR.filter(c=>c.im).sort((a,b)=>b.im-a.im),show=slMore?im:im.slice(0,10),rest=im.slice(10);
     h=`<div class="tag"><i class="a-oc-bg"></i>NHẬP NGUYÊN LIỆU</div><h2>Cát Lái nhận 89,5% container nhập; COSCO, SITC, Evergreen dẫn đầu</h2>
