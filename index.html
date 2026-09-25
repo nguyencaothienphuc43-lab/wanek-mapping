@@ -635,7 +635,7 @@ const NODES=[
   {id:'v_hieulong',k:'vendor',n:'Hiếu Long Furniture',lb:'Hiếu Long',sub:'Hố Nai 3, Trảng Bom (Đồng Nai)',ll:[10.958,106.935],dir:'bottom',bol:55,prod:'Bàn ăn, ghế, ghế quầy bar'},
   {id:'v_happy',k:'vendor',n:'Happy Furniture (Việt Nam)',lb:'Happy Furniture',sub:'KCN VSIP Quảng Ngãi · công ty con của Ounuoya (Trung Quốc)',ll:[15.214,108.806],dir:'right',bol:226,prod:'Sofa bọc vải / da, áo sofa, nệm mút'},
   {id:'f_millennium',k:'fac',wk:'A',n:'Millennium Furniture (Ashley)',lb:'Millennium (Ashley) · VSIP QN',sub:'Số 01, đường 01, KCN VSIP Quảng Ngãi',ll:[15.224,108.792],dir:'left',mz:5.5,lz:8,src:'I, W',
-    facts:[['Chủ sở hữu','100% vốn Mỹ, thuộc Ashley (thành lập 10/2017)'],['Sản phẩm','Sofa da, sofa vải, bộ cắt may'],['Vận đơn biển giao Ashley (Mỹ)','53']],d:'Nhà máy anh em của Wanek trong tập đoàn Ashley tại Quảng Ngãi.'},
+    facts:[['Chủ sở hữu','100% vốn Mỹ, thuộc Ashley (thành lập 10/2017)'],['Sản phẩm','Sofa da, sofa vải, bộ cắt may'],['Các Supplier cho Ashley (Mỹ)','53']],d:'Nhà máy anh em của Wanek trong tập đoàn Ashley tại Quảng Ngãi.'},
 
   // ---- nhãn ----
   {id:'x_hcmports',k:'label',cls:'lb-cluster',n:'Cụm cảng TP.HCM',ll:[10.77,106.77],dir:'right',lz:7.5,lzMax:10.5},
@@ -650,7 +650,7 @@ NODES.filter(n=>n.k==='vendor').forEach(n=>{
   if(n.mz==null) n.mz=n.id==='v_happy'?5.5:7;
   if(n.lz==null) n.lz=n.id==='v_happy'?8:10;
   n.src='I, W';
-  n.facts=[['Sản phẩm',n.prod],['Vận đơn biển giao Ashley (Mỹ, 2015–9/2026)',f0(n.bol)]];
+  n.facts=[['Sản phẩm',n.prod],['Các Supplier cho Ashley (Mỹ, 2015–9/2026)',f0(n.bol)]];
   if(n.id!=='v_happy') n.facts.push(['Cách Wanek VSIP II (đường chim bay)','~'+f0(kmBetween(n.ll,[11.078,106.68]))+' km']);
   n.d="Nhà máy vệ tinh trong mạng cung ứng Ashley – Wanek. Theo vận đơn Hải quan Mỹ, nhà máy giao hàng trực tiếp cho Ashley. Tuyến vào Wanek là khái quát: Wanek điều phối nguồn hàng từ trên 120 nhà máy ở Việt Nam, chưa xác nhận hàng đi qua kho Wanek.";
 });
@@ -848,7 +848,7 @@ const nameOf=id=>Z[id]?Z[id].n:(N[id]?(N[id].n):id);
 const shortOf=id=>Z[id]?Z[id].n:(N[id]?(N[id].lb||N[id].n):id);
 const grpOf=f=>ST[f.st].g;
 
-FLOWS.filter(f=>f.st==='ven').forEach(f=>{const v=N[f.from];f.lab=v.n+' · '+v.prod.toLowerCase();f.info=f0(v.bol)+' vận đơn biển giao Ashley (Mỹ, 2015–9/2026)';
+FLOWS.filter(f=>f.st==='ven').forEach(f=>{const v=N[f.from];f.lab=v.n+' · '+v.prod.toLowerCase();f.info=f0(v.bol)+' các Supplier cho Ashley (Mỹ, 2015–9/2026)';
   f.note='Quy mô theo vận đơn Hải quan Mỹ: nhà máy giao hàng trực tiếp cho Ashley. Tuyến vào '+(f.to==='wanek'?'Wanek':'Millennium (Ashley)')+' là khái quát, chưa xác nhận hàng đi qua kho Wanek.';});
 
 /* widths per unit scale */
@@ -1278,7 +1278,7 @@ function renderOverview(){
     <h3>Nguyên phụ liệu nhập vào Wanek · 2025 · triệu USD</h3>`+
     bars([{n:'Remacro (cơ cấu ghế)',v:18.84,flow:'r_remacro'},{n:'Crest Leathers (da)',v:14.44,flow:'r_crest'},{n:'Ningbo Dafa (xơ PE)',v:12.9,flow:'r_dafa'}],{g:'wk',fmt:f2})+
     `<div class="flist" style="margin-top:6px">${flowItem(FLOWS.find(f=>f.id==='r_dpf'))}</div>
-    <h3>Nhà máy vệ tinh · vận đơn biển giao Ashley 2015–9/2026</h3>`+
+    <h3>Nhà máy vệ tinh · các Supplier cho Ashley 2015–9/2026</h3>`+
     bars(V.map(n=>({n:n.lb.split(' · ')[0],v:n.bol,node:n.id})),{g:'wk',fmt:f0})+
     `<p class="small muted" style="margin-top:6px"></p>`;
   }
@@ -1325,7 +1325,7 @@ function renderFlow(id){
   const facts=[];
   if(f.parts){facts.push(['Gỗ xẻ',f0(f.parts[0])+' m³']);facts.push(['Gỗ tròn',f.parts[1]==null?'Nguồn không nêu':f0(f.parts[1])+' m³']);}
   if(f.usd) facts.push(['Trị giá',f2(f.usd)+' tr USD']);
-  if(f.info) facts.push(['Quy mô giao hàng cho Ashley',f.info.replace(' vận đơn biển giao Ashley (Mỹ, 2015–9/2026)',' vận đơn (2015–9/2026)')]);
+  if(f.info) facts.push(['Quy mô giao hàng cho Ashley',f.info.replace(' các Supplier cho Ashley (Mỹ, 2015–9/2026)',' vận đơn (2015–9/2026)')]);
   if(f.u==='usd'&&f.st==='sup'){facts.push(['Tỷ trọng NK toàn ngành',f1(f.v/2812.468*100)+'%']);}
   if(f.u==='cont'&&f.st==='port') facts.push(['Tỷ trọng trong mẫu nhập Wanek',f1(f.v/17437*100)+'%']);
   if(f.u==='cont'&&f.st==='pol') facts.push(['Tỷ trọng xuất Wanek 2023',f1(f.v/39114*100)+'%']);
