@@ -1765,7 +1765,6 @@ function slOverview(){
     h=`<div class="tag"><i class="a-ex-bg"></i>Hãng tàu · Wanek / Ashley</div><h2>COSCO chở 40% hàng xuất Wanek, 71% đi bờ Tây Bắc Mỹ</h2>
     <p>Năm 2023, bốn nhãn COSCO, MSC, Wan Hai và Evergreen chở 76,35% trong 39.114 container xuất. Hàng nhập nguyên liệu tập trung ở Cát Lái, qua mạng nội Á của COSCO, SITC, Evergreen.</p>
     <h3>Xuất khẩu 2023 theo liên minh 2026</h3>`+slStack(slAlliSegs(2),EXT[2023])+
-    `<p class="small muted">Phép chiếu theo cấu trúc nhóm hiện tại. Nếu OCL = OOCL và gộp ANL vào CMA CGM, OCEAN có 23.128 container, 59,13% — không chứng minh hàng đã đi cùng mạng dịch vụ.</p>
     <h3>Hãng chở nhiều nhất · 2023 · container</h3>`+
     slBars(top.map(c=>({n:c.n+(c.cond?' (?)':''),v:c.ex[2],a:c.a,cond:c.cond,car:c.id})).concat([{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.ex[2])),go:'exp'},{n:'Chênh chưa giải thích',v:EXGAP[2],a:'gap'}]))+
     `<div class="bar-foot"><span>Tổng Wanek xuất khẩu 2023</span><span>39.114</span></div>
