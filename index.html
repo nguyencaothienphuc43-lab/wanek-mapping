@@ -1800,11 +1800,11 @@ function slOverview(){
     const im=CAR.filter(c=>c.im).sort((a,b)=>b.im-a.im),show=slMore?im:im.slice(0,10),rest=im.slice(10);
     h=`<div class="tag"><i class="a-oc-bg"></i>Nhập nguyên liệu · cộng dồn 2021–2023</div><h2>Cát Lái nhận 89,5% container nhập; COSCO, SITC, Evergreen dẫn đầu</h2>
     <p>Tổng 17.437 container theo cảng nhập; 23 nhãn hãng cộng 16.524, chênh 913 (5,24%). Kỳ cộng dồn theo chú thích biểu đồ, cần xác nhận bằng dữ liệu gốc.</p>
-    <h3>Theo nhãn hãng · container</h3>`+
+    <h3>HÃNG TÀU · container</h3>`+
     slBars(show.map(c=>({n:c.n+(c.imL?' · '+c.imL:''),v:c.im,a:c.a,car:c.id})).concat(slMore?[]:[{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.im))}]).concat([{n:'Chênh lệch',v:IMGAP,a:'gap'}]))+
     `<div class="bar-foot"><span>Tổng đối soát theo cảng nhập</span><span>17.437</span></div>
     <div class="btnrow" style="margin-top:8px"><button class="btn" data-more>${slMore?'Thu gọn danh sách':'Xem đủ 23 nhãn'}</button></div>
-    <h3>Cặp xuất xứ – hãng tiêu biểu</h3><div class="flist">${SLINES.filter(l=>l.L==='imp').sort((a,b)=>b.v-a.v).map(slLineItem).join('')}</div>
+    <h3>TUYẾN - HÃNG TÀU</h3><div class="flist">${SLINES.filter(l=>l.L==='imp').sort((a,b)=>b.v-a.v).map(slLineItem).join('')}</div>
     <p class="small muted" style="margin-top:6px">Trích chọn để chứng minh cặp tuyến – hãng; không cộng thành sản lượng năm. Tuyến Montreal, Savannah vẽ khái quát qua Panama.</p>
     <h3>Cảng nhập tại Việt Nam · container</h3>`+
     slBars([{n:'Cát Lái',v:15601,port:'catlai'},{n:'Đồng Nai',v:815},{n:'SPITC',v:482},{n:'VICT',v:266},{n:'Cái Mép',v:74,port:'vt'},{n:'Khác',v:199}])+
