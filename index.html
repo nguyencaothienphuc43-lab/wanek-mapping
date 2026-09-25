@@ -68,7 +68,20 @@ button{font:inherit;color:inherit}
 .card{pointer-events:auto;background:var(--panel);border:1px solid rgba(255,255,255,.55);border-radius:14px;box-shadow:var(--shadow);
   backdrop-filter:blur(8px) saturate(1.15);-webkit-backdrop-filter:blur(8px) saturate(1.15)}
 /* overlay boxes 15% smaller on desktop */
-@media (min-width:761px){.col-left,.detail{zoom:.85}}
+@media (min-width:761px){
+  .col-left,.detail{zoom:.85}
+  /* thanh điều khiển nằm ngang, giữa đáy màn hình */
+  .col-left{position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));margin:0 auto;width:max-content;max-height:none;
+    overflow:visible;flex-direction:row;align-items:flex-end}
+  .col-left>.card{box-sizing:border-box;max-height:calc(100vh - 150px);overflow:auto;scrollbar-width:thin}
+  .col-left>.brand{flex:0 0 348px}
+  .col-left>.stages{flex:0 1 510px;min-width:300px}
+  .detail{margin-left:auto}
+  #stageList,#slLayerList{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;align-items:start}
+  #stageList .grp:nth-child(-n+2){margin-top:0}
+  .stages .howto{grid-template-columns:34px 1fr 34px 1fr 34px 1fr;gap:6px 8px}
+  .stages .grp-h{flex-wrap:wrap;row-gap:0;white-space:nowrap}
+}
 
 /* brand */
 .brand{padding:16px 16px 14px}
@@ -296,7 +309,6 @@ body.mode-sl .m-flow{display:none!important}
 .dt-body td.n,.dt-body th.n{text-align:right;font-variant-numeric:tabular-nums;padding-right:0}
 dl.facts.sl{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}
 dl.facts.sl dd{text-align:right;padding-left:10px}
-.src{font-size:11px;color:var(--ink-3);margin-top:14px;padding-top:8px;border-top:1px solid var(--line)}
 .a-gap-bg,.legend i.gap{background:rgba(18,25,34,.2)}
 .bars.wide .br{grid-template-columns:150px 1fr 58px}
 .tags{display:flex;flex-wrap:wrap;gap:5px}
@@ -405,11 +417,11 @@ dl.facts.sl dd{text-align:right;padding-left:10px}
       <div class="alli" id="slAlli" role="group" aria-label="Lọc theo liên minh"></div>
       <div class="howto">
         <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="3" x2="38" y2="3" stroke="var(--a-ex)" stroke-opacity=".45" stroke-width="1.8"/><line x1="2" y1="9" x2="38" y2="9" stroke="var(--a-ex)" stroke-opacity=".45" stroke-width="5"/></svg>
-        <span>Nét liền: có số container, dày theo lượng. Xám đậm: tổng Wanek, chưa tách theo hãng</span>
+        <span>Nét liền: có số container, dày theo lượng; xám = tổng Wanek chưa tách hãng</span>
         <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="38" y2="6" stroke="var(--a-oc)" stroke-width="2.2" stroke-dasharray="5 4"/></svg>
-        <span>Nét đứt: dịch vụ hãng công bố 2026, lượng hàng Wanek chưa xác định (KXD)</span>
+        <span>Nét đứt: dịch vụ công bố 2026, lượng Wanek chưa xác định</span>
         <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="38" y2="6" stroke="var(--a-oc)" stroke-opacity=".4" stroke-width="4"/></svg>
-        <span>Màu nhạt: nhãn chưa xác nhận (OCL có thể là OOCL)</span>
+        <span>Màu nhạt: nhãn chưa xác nhận (OCL?)</span>
       </div>
       <details class="glyphs" id="slGlyphDetails">
         <summary>Ký hiệu cảng</summary>
@@ -1122,7 +1134,7 @@ document.getElementById('glyphLegend').innerHTML=GL.map(([t,n])=>`<div>${glyph(n
   `<div><svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true"><line x1="1" y1="6" x2="25" y2="6" stroke="var(--panel-solid)" stroke-width="6.5" stroke-linecap="round"/><line x1="1" y1="6" x2="25" y2="6" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></svg><span>Biên giới Việt Nam</span></div>`+
   [['Nhà máy Wanek / Ashley',{k:'fac',wk:'W'}],['Nhà máy vệ tinh',{k:'vendor',bol:500}],['NCC nguyên phụ liệu của Wanek',{k:'rsup'}]].map(([t,n])=>`<div>${glyph(n)}<span>${t}</span></div>`).join('')+
   `<div><svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><circle cx="11" cy="11" r="9" fill="var(--wk)" fill-opacity=".05" stroke="var(--wk)" stroke-width="1.4" stroke-dasharray="2 3" stroke-linecap="round"/></svg><span>Bán kính 10 / 25 / 50 km từ Wanek</span></div>`;
-try{if(window.innerHeight>=940) document.getElementById('glyphs').open=true;}catch(e){}
+['glyphs','slGlyphDetails'].forEach(i=>document.getElementById(i).addEventListener('toggle',()=>layoutDock()));
 
 /* =============== UI: regions & detail =============== */
 const REGIONS={
@@ -1142,10 +1154,18 @@ function fitPad(){
     const bot=window.innerHeight-document.getElementById('detail').getBoundingClientRect().top+8;
     return {paddingTopLeft:[16,top],paddingBottomRight:[16,bot]};
   }
-  let lw=document.querySelector('.col-left').getBoundingClientRect().right+12;
   let rw=window.innerWidth-document.getElementById('detail').getBoundingClientRect().left+12;
-  if(window.innerWidth-lw-rw<520){const k=Math.max(0,(window.innerWidth-520)/(lw+rw));lw=Math.max(16,lw*k);rw=Math.max(16,rw*k);}
-  return {paddingTopLeft:[lw,16],paddingBottomRight:[rw,16]};
+  let bot=window.innerHeight-document.querySelector('.col-left').getBoundingClientRect().top+12;
+  if(window.innerWidth-16-rw<520) rw=Math.max(16,window.innerWidth-536);
+  if(window.innerHeight-16-bot<260) bot=Math.max(16,window.innerHeight-276);
+  return {paddingTopLeft:[16,16],paddingBottomRight:[rw,bot]};
+}
+/* màn hình hẹp: nếu thanh dưới chạm bảng chi tiết bên phải, rút ngắn bảng chi tiết cho đứng trên thanh */
+function layoutDock(){
+  const d=document.getElementById('detail');d.style.maxHeight='';
+  if(mobile()) return;
+  const dr=d.getBoundingClientRect(),cr=document.querySelector('.col-left').getBoundingClientRect();
+  if(cr.right>dr.left-8) d.style.maxHeight=Math.max(180,(cr.top-12-dr.top)/0.85)+'px';
 }
 function goRegion(r,animate){
   region=r;
@@ -1287,7 +1307,6 @@ function renderFlow(id){
   if(f.parts){facts.push(['Gỗ xẻ',f0(f.parts[0])+' m³']);facts.push(['Gỗ tròn',f.parts[1]==null?'Nguồn không nêu':f0(f.parts[1])+' m³']);}
   if(f.usd) facts.push(['Trị giá',f2(f.usd)+' tr USD']);
   if(f.info) facts.push(['Quy mô giao hàng cho Ashley',f.info.replace(' vận đơn biển giao Ashley (Mỹ, 2015–9/2026)',' vận đơn (2015–9/2026)')]);
-  if(f.u==='usd'&&f.st==='raw') facts.push(['Nguồn số liệu','Giá trị nhập của Wanek theo nhà cung cấp, 2025']);
   if(f.u==='usd'&&f.st==='sup'){facts.push(['Tỷ trọng NK toàn ngành',f1(f.v/2812.468*100)+'%']);}
   if(f.u==='cont'&&f.st==='port') facts.push(['Tỷ trọng trong mẫu nhập Wanek',f1(f.v/17437*100)+'%']);
   if(f.u==='cont'&&f.st==='pol') facts.push(['Tỷ trọng xuất Wanek 2023',f1(f.v/39114*100)+'%']);
@@ -1336,13 +1355,6 @@ function flyToSel(){
 /* Nguồn: Phân tích hãng tàu và tuyến vận chuyển phục vụ Wanek/Ashley, chốt 25/09/2026.
    Ô không có dữ liệu giữ null (hiển thị “—”, không phải 0). */
 let mode='flow';
-const SLSRC={
-  P:'Tài liệu nền Furniture Industry Supply Chain Report 17/01/2024, trang 40–46: sản lượng Wanek theo hãng, cảng; chưa có file giao dịch gốc để kiểm toán.',
-  H:'Công bố hãng tàu về mạng dịch vụ 12/2025–06/2026: OOCL (Day 10, 20/01/2026), MSC (02/04/2026), Maersk (15/01 và 11/05/2026), CMA CGM (flyer MTE 06/2026), ONE (29/01/2026; flyer EC2 12/2025), CNC (01/2026), UWL (06/03/2026).',
-  O:'Báo cáo thường niên, trang cổ đông và công bố hãng về sở hữu, liên minh — kiểm tra đến 25/09/2026.',
-  B:'ImportInfo — dữ liệu manifest công khai, ba vận đơn mẫu 8–9/2026; chưa đối chiếu B/L doanh nghiệp.',
-  M:'Drewry WCI 24/09/2026; Sea-Intelligence GLP 7/2026; VietnamNet (dẫn Bộ NN&MT) 8 tháng 2026; ITTO 01–15/05/2026; kết quả Q2/2026 của Maersk, CMA CGM, Hapag-Lloyd; UNCTAD RMT 2025.'
-};
 const ALLI={
   oc:{n:'OCEAN',full:'OCEAN Alliance',mem:'CMA CGM (gồm ANL, CNC), COSCO, OOCL, Evergreen',d:'Day 10 công bố 41 dịch vụ, 394 tàu, khoảng 5,3 triệu TEU sức chở (01/2026) — sức chở đội tàu, không phải số container Wanek.'},
   ms:{n:'MSC',full:'MSC',mem:'MSC',d:'Mạng dịch vụ mang thương hiệu MSC như Sentosa, Chinook. Đánh giá từng dịch vụ.'},
@@ -1477,16 +1489,16 @@ const EXP=[
 ];
 /* Cặp xuất xứ – hãng nhập tiêu biểu (container, trang 45–46; trích chọn, không phải tổng năm) */
 const IMP=[
-  {id:'i_sha_cosco',from:'sha',car:'cosco',v:2562,pg:'Trang 45, bảng bên trái',m:'Bằng chứng về một luồng nhập lớn từ Trung Quốc',off:-5,via:[[29.9,122.7],[28.8,122.5],...CN_DN]},
-  {id:'i_sha_sitc',from:'sha',car:'sitc',v:756,pg:'Trang 45, bảng bên trái',m:'Có nhà cung cấp nội Á ngoài nhóm COSCO',off:2,via:[[29.9,122.7],[28.8,122.5],...CN_DN]},
-  {id:'i_pen_emc',from:'pen',car:'evergreen',v:449,pg:'Trang 45, bảng bên trái',m:'Có luồng từ Malaysia',off:-2.5,via:[[5.05,100.15],[3.9,100.45],[2.8,101.1],[1.7,102.8],[1.2,103.7],[1.5,104.6],[3.5,105.9],[7.2,107.7],[10.22,107.22],...RIV]},
-  {id:'i_pen_whl',from:'pen',car:'wanhai',v:272,pg:'Trang 45, bảng bên trái',m:'Có nhiều hãng trên xuất xứ Malaysia',off:2.5,via:[[5.05,100.15],[3.9,100.45],[2.8,101.1],[1.7,102.8],[1.2,103.7],[1.5,104.6],[3.5,105.9],[7.2,107.7],[10.22,107.22],...RIV]},
-  {id:'i_mtl_hpl',from:'mtl',car:'hapag',v:310,pg:'Trang 45, bảng bên trái',m:'Có luồng nhập từ Bắc Mỹ',off:0,gen:true,via:[[46.8,288.8],[48.4,291.3],[49.3,293.8],[47.3,299.6],[43.5,299],[37,293.5],[28,289],...rev(PAN_N),[9.45,280.05],...rev(TP_PAN),...rev(OUT_N),[10.22,107.22],...RIV]},
-  {id:'i_sav_cma',from:'sav',car:'cma',v:175,pg:'Trang 45, bảng bên trái',m:'Có luồng nhập từ Mỹ',off:4,gen:true,via:[[31.85,279.5],[29,279.8],[26,280.05],[24.3,279.4],[23.9,277.5],[21.8,274.8],[17.5,276.5],[13,278.8],[9.6,280.1],...rev(TP_PAN),...rev(OUT_N),[10.22,107.22],...RIV]},
-  {id:'i_lyg_cosco',from:'lyg',car:'cosco',v:164,pg:'Trang 45, bảng bên trái',m:'Có luồng từ miền đông Trung Quốc',off:-2,via:[[34.6,120.35],[33.2,121.9],[31.5,123],[29.9,122.7],[28.8,122.5],...CN_DN]},
-  {id:'i_lyg_cnc',from:'lyg',car:'cnc',v:143,pg:'Trang 45, bảng bên trái',m:'Vai trò của hãng nội Á thuộc nhóm CMA CGM',off:2,via:[[34.6,120.35],[33.2,121.9],[31.5,123],[29.9,122.7],[28.8,122.5],...CN_DN]},
-  {id:'i_riz_cosco',from:'riz',car:'cosco',v:174,pg:'Trang 46',m:'Thêm xuất xứ Trung Quốc',off:-4,via:[[35.1,120.4],[33.6,122.1],[31.5,123.1],[29.9,122.7],[28.8,122.5],...CN_DN]},
-  {id:'i_ngb_cosco',from:'ngb',car:'cosco',v:114,pg:'Trang 46',m:'Thêm xuất xứ Trung Quốc',off:5,via:[[29.75,122.4],[28.8,122.5],...CN_DN]}
+  {id:'i_sha_cosco',from:'sha',car:'cosco',v:2562,m:'Bằng chứng về một luồng nhập lớn từ Trung Quốc',off:-5,via:[[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_sha_sitc',from:'sha',car:'sitc',v:756,m:'Có nhà cung cấp nội Á ngoài nhóm COSCO',off:2,via:[[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_pen_emc',from:'pen',car:'evergreen',v:449,m:'Có luồng từ Malaysia',off:-2.5,via:[[5.05,100.15],[3.9,100.45],[2.8,101.1],[1.7,102.8],[1.2,103.7],[1.5,104.6],[3.5,105.9],[7.2,107.7],[10.22,107.22],...RIV]},
+  {id:'i_pen_whl',from:'pen',car:'wanhai',v:272,m:'Có nhiều hãng trên xuất xứ Malaysia',off:2.5,via:[[5.05,100.15],[3.9,100.45],[2.8,101.1],[1.7,102.8],[1.2,103.7],[1.5,104.6],[3.5,105.9],[7.2,107.7],[10.22,107.22],...RIV]},
+  {id:'i_mtl_hpl',from:'mtl',car:'hapag',v:310,m:'Có luồng nhập từ Bắc Mỹ',off:0,gen:true,via:[[46.8,288.8],[48.4,291.3],[49.3,293.8],[47.3,299.6],[43.5,299],[37,293.5],[28,289],...rev(PAN_N),[9.45,280.05],...rev(TP_PAN),...rev(OUT_N),[10.22,107.22],...RIV]},
+  {id:'i_sav_cma',from:'sav',car:'cma',v:175,m:'Có luồng nhập từ Mỹ',off:4,gen:true,via:[[31.85,279.5],[29,279.8],[26,280.05],[24.3,279.4],[23.9,277.5],[21.8,274.8],[17.5,276.5],[13,278.8],[9.6,280.1],...rev(TP_PAN),...rev(OUT_N),[10.22,107.22],...RIV]},
+  {id:'i_lyg_cosco',from:'lyg',car:'cosco',v:164,m:'Có luồng từ miền đông Trung Quốc',off:-2,via:[[34.6,120.35],[33.2,121.9],[31.5,123],[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_lyg_cnc',from:'lyg',car:'cnc',v:143,m:'Vai trò của hãng nội Á thuộc nhóm CMA CGM',off:2,via:[[34.6,120.35],[33.2,121.9],[31.5,123],[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_riz_cosco',from:'riz',car:'cosco',v:174,m:'Thêm xuất xứ Trung Quốc',off:-4,via:[[35.1,120.4],[33.6,122.1],[31.5,123.1],[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_ngb_cosco',from:'ngb',car:'cosco',v:114,m:'Thêm xuất xứ Trung Quốc',off:5,via:[[29.75,122.4],[28.8,122.5],...CN_DN]}
 ];
 /* Dịch vụ hãng công bố 2026 (lượng hàng Wanek trên từng dịch vụ: KXD) */
 const SVC=[
@@ -1536,15 +1548,15 @@ const CORR=[
 const BLS=[
   {id:'b_1',car:'evergreen',cond:true,g:'Sofa',hs:'94016100',to:'sju',lb:'Sofa · San Juan',
     f:[['Master / house B/L','EGLV235601262456 / BEJBBHCM26070442'],['Tàu, chuyến','MEDSTAR, 037N'],['Ngày đến thực tế','17/09/2026'],['Nhận hàng / cảng nước ngoài / cảng dỡ','TP.HCM / Colón, Panama / San Juan, Puerto Rico'],['Hàng, HS','Sofa, 94016100'],['Lượng, container','48 kiện carton, 2.667 kg · EGSU1759908 (45G1)'],['Bên vận tải','House: BEJB; master tiền tố EGLV — cần đối chiếu Evergreen ở cấp master']],
-    note:'Hồ sơ Wanek Furniture Co., Ltd. Colón là cảng của chặng manifest phản ánh, không đủ kết luận xuất xứ Panama. Puerto Rico cần phân loại riêng với Mỹ lục địa. Chưa xác định mã dịch vụ.',
+    note:'Colón là cảng của chặng manifest phản ánh, không đủ kết luận xuất xứ Panama. Puerto Rico cần phân loại riêng với Mỹ lục địa. Chưa xác định mã dịch vụ.',
     path:['catlai',...rev(RIV),[10.22,107.22],...OUT_N,...TP_PAN,'mzp',[12,282],[16.5,289],[18,292],[18.62,292.45],[18.55,293.45],'sju']},
   {id:'b_2',car:'msc',cond:true,g:'Sofa',hs:'94016100',to:'sea',lb:'Sofa · FROB',
     f:[['Master / house B/L','MEDUXT639358 / BANQ1076216143'],['Tàu, chuyến','MSC NICOLE X, UK633'],['Ngày đến / ngày chạy bản ghi','13/08/2026 / 11/09/2026'],['Nhận hàng / cảng Mỹ trong bản ghi','TP.HCM / Seattle'],['Người nhận','The Dufresne Group Inc., Canada'],['Hàng, HS','Sofa, 94016100'],['Lượng, container','118 carton, 4.559 kg · MSMU4752701 (House FROB)'],['Bên vận tải','House: BANQ; master và tên tàu cho dấu vết MSC']],
-    note:'Hồ sơ Wanek Furniture LLC. FROB là hàng còn trên tàu khi ghé cảng Mỹ, cần tách khỏi chỉ tiêu hàng dỡ nhập Mỹ. Chưa gán lô này vào Chinook chỉ từ tên tàu hoặc tiền tố chuyến.',
+    note:'FROB là hàng còn trên tàu khi ghé cảng Mỹ, cần tách khỏi chỉ tiêu hàng dỡ nhập Mỹ. Chưa gán lô này vào Chinook chỉ từ tên tàu hoặc tiền tố chuyến.',
     path:['catlai',...rev(RIV),[10.22,107.22],...OUT_N,...TP_PNW,'sea']},
   {id:'b_3',car:'one',g:'Đồ gỗ phòng ngủ',hs:'940350',to:'lax',lb:'Phòng ngủ · Ashley',
     f:[['Master B/L / carrier','ONEYSGNGQ5209303 / ONEY'],['Tàu, chuyến','WIDE ALPHA, 613E, IMO 9694529'],['Ngày đến thực tế','21/09/2026'],['Điểm nhận / cảng xếp / cảng dỡ','Dĩ An, Bình Dương / Vũng Tàu / Los Angeles'],['Người nhận','Ashley Furniture Trading Company LLC'],['Hàng, HS','Giường, tủ đầu giường; 940350'],['Lượng, container','150 carton, 8.478 kg · BSIU9814216 (45G1)']],
-    note:'Hồ sơ Ashley Furniture Trading Company. Trường shipper trống nên không gán cho Wanek. Trường phương thức ghi “Vessel, non-container” nhưng có container ID; cần kiểm tra trước khi tổng hợp tự động.',
+    note:'Trường shipper trống nên không gán cho Wanek. Trường phương thức ghi “Vessel, non-container” nhưng có container ID; cần kiểm tra trước khi tổng hợp tự động.',
     path:['vt',...VT_OUT,...OUT_N,...TP_LA,'lax']}
 ];
 const REC=[
@@ -1761,8 +1773,7 @@ function slOverview(){
     slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}])+
     `<p class="small muted" style="margin-top:6px">Bình quân toán học 752 container / tuần; bờ Tây Bắc Mỹ 531 / tuần. Không phải dự báo booking.</p>
     <h3>Sáu điểm cần biết</h3><ol class="pts">${KEYS.map(k=>`<li>${k}</li>`).join('')}</ol>
-    <div class="btnrow"><button class="btn" data-v="exp">Xuất khẩu</button><button class="btn" data-v="imp">Nhập nguyên liệu</button><button class="btn" data-v="svc">Dịch vụ 2026</button><button class="btn" data-v="mkt">Cước &amp; lịch tàu</button></div>
-    <p class="src">Nguồn: ${esc(SLSRC.P)} ${esc(SLSRC.O)}</p>`;
+    <div class="btnrow"><button class="btn" data-v="exp">Xuất khẩu</button><button class="btn" data-v="imp">Nhập nguyên liệu</button><button class="btn" data-v="svc">Dịch vụ 2026</button><button class="btn" data-v="mkt">Cước &amp; lịch tàu</button></div>`;
   }else if(slView==='exp'){
     const y=YEARS[slYear],cs=CAR.filter(c=>c.ex&&c.ex[slYear]!=null).sort((a,b)=>b.ex[slYear]-a.ex[slYear]);
     h=`<div class="tag"><i class="a-ex-bg"></i>Xuất khẩu Wanek · 2021–2023</div><h2>39.114 container năm 2023: phục hồi, nhưng còn dưới 2021</h2>
@@ -1777,8 +1788,7 @@ function slOverview(){
     slBars(SLINES.filter(l=>l.L==='exp').sort((a,b)=>b.v-a.v).map(l=>({n:SP_[l.to].n,t:SP_[l.to].n+', '+SP_[l.to].ctry+' — '+SP_[l.to].note,v:l.v,line:l.id})).concat([{n:'Chưa giải thích',v:3425,a:'gap'}]))+
     `<h3>Điểm xếp hàng tại Việt Nam · 2023</h3>`+
     slBars([{n:'Bình Dương',v:18272},{n:'Cát Lái',v:14649,port:'catlai'},{n:'Đồng Nai',v:4241},{n:'Cái Mép',v:1543,port:'vt'},{n:'Phước Long',v:404},{n:'SPICT (nhãn gốc)',v:5}])+
-    `<p class="small muted" style="margin-top:6px">“Bình Dương” có thể là điểm nhận hàng / khai thác nội địa. Không thể kết luận chỉ 3,94% hàng đi qua Cái Mép trên chặng tàu mẹ.</p>
-    <p class="src">Nguồn: ${esc(SLSRC.P)}</p>`;
+    `<p class="small muted" style="margin-top:6px">“Bình Dương” có thể là điểm nhận hàng / khai thác nội địa. Không thể kết luận chỉ 3,94% hàng đi qua Cái Mép trên chặng tàu mẹ.</p>`;
   }else if(slView==='imp'){
     const im=CAR.filter(c=>c.im).sort((a,b)=>b.im-a.im),show=slMore?im:im.slice(0,10),rest=im.slice(10);
     h=`<div class="tag"><i class="a-oc-bg"></i>Nhập nguyên liệu · cộng dồn 2021–2023</div><h2>Cát Lái nhận 89,5% container nhập; COSCO, SITC, Evergreen dẫn đầu</h2>
@@ -1792,8 +1802,7 @@ function slOverview(){
     <h3>Cảng nhập tại Việt Nam · container</h3>`+
     slBars([{n:'Cát Lái',v:15601,port:'catlai'},{n:'Đồng Nai',v:815},{n:'SPITC',v:482},{n:'VICT',v:266},{n:'Cái Mép',v:74,port:'vt'},{n:'Khác',v:199}])+
     `<h3>Nhóm hàng nhập</h3><div class="tags">${GOODS_IN.map(g=>`<span>${esc(g)}</span>`).join('')}</div>
-    <p class="note">Hai biểu đồ cơ cấu (trang 43 và 48) khác nhau rõ: xơ/sợi 36,42% so với 10,36%, veneer 5,30% so với 27,95%. <b>Chưa đủ bằng chứng</b> để nói hãng nào chở bao nhiêu OSB, vải hay gỗ — cần bảng nối B/L – container – mã hàng.</p>
-    <p class="src">Nguồn: ${esc(SLSRC.P)}</p>`;
+    <p class="note">Hai biểu đồ cơ cấu (trang 43 và 48) khác nhau rõ: xơ/sợi 36,42% so với 10,36%, veneer 5,30% so với 27,95%. <b>Chưa đủ bằng chứng</b> để nói hãng nào chở bao nhiêu OSB, vải hay gỗ — cần bảng nối B/L – container – mã hàng.</p>`;
   }else if(slView==='svc'){
     const G=[['wc','Việt Nam → bờ Tây Mỹ'],['pnw','Việt Nam → Tây Bắc Mỹ / Canada'],['ec','Việt Nam → bờ Đông Mỹ qua Panama'],['eu','Việt Nam → châu Âu'],['cn','Trung Quốc → TP.HCM · chiều nhập']];
     h=`<div class="tag"><i class="a-oc-bg"></i>Dịch vụ công bố · 12/2025–06/2026</div><h2>12 dịch vụ nối Việt Nam với Bắc Mỹ, châu Âu và Trung Quốc</h2>
@@ -1802,8 +1811,7 @@ function slOverview(){
     `<div class="note"><b>Đã kết thúc: ${esc(SVC_END.code)}</b> (UWL/ESL). ${esc(SVC_END.st)}</div>
     <h3>Hàng nào hợp hành lang nào</h3>
     <table><thead><tr><th>Hành lang</th><th>Nhóm hàng cần kiểm tra</th><th>Đối chiếu · quy mô có bằng chứng</th></tr></thead><tbody>${CORR.map(c=>`<tr><td>${esc(c.n)}</td><td>${esc(c.g)}</td><td>${esc(c.s)}<br><span class="muted">${esc(c.q)}</span></td></tr>`).join('')}</tbody></table>
-    <p class="small muted">Định hướng phân tích và mua dịch vụ, không khẳng định từng hãng đang chở các nhóm hàng này cho Wanek.</p>
-    <p class="src">Nguồn: ${esc(SLSRC.H)}</p>`;
+    <p class="small muted">Định hướng phân tích và mua dịch vụ, không khẳng định từng hãng đang chở các nhóm hàng này cho Wanek.</p>`;
   }else{
     h=`<div class="tag"><i class="a-ex-bg"></i>Thị trường · 2026</div><h2>Cước Shanghai – LA 7.838 USD/FEU; lịch tàu đúng giờ 56,4%</h2>
     <p>Chỉ số thị trường để đặt câu hỏi khi so RFQ, không thay cho báo giá hay KPI tuyến của Wanek.</p>
@@ -1822,8 +1830,7 @@ function slOverview(){
     <h3>Tiêu chí chấm RFQ đề xuất</h3>`+
     slBars([['Tổng chi phí tới kho',35],['Đúng lịch, đúng hạn giao',25],['Chỗ và thiết bị',15],['Thời gian, độ biến động',15],['Xử lý phát sinh, dữ liệu',10]].map(([n,v])=>({n,v})),{fmt:v=>v+'%',max:35,wide:true})+
     `<p class="small muted" style="margin-top:6px">Trọng số khởi đầu để thảo luận, không phải chuẩn ngành hay kết quả kiểm định.</p>
-    <h3>Việc cần làm theo hãng</h3>${recTable(REC)}
-    <p class="src">Nguồn: ${esc(SLSRC.M)}</p>`;
+    <h3>Việc cần làm theo hãng</h3>${recTable(REC)}`;
   }
   body.innerHTML=h;slWire();
 }
@@ -1847,8 +1854,7 @@ function slRenderCar(id){
   ${c.note?`<p class="note">${esc(c.note)}</p>`:''}
   ${lineList('Dịch vụ công bố 2026',ls.filter(l=>l.L==='svc'))}${lineList('Cặp nhập tiêu biểu',ls.filter(l=>l.L==='imp'))}${lineList('Vận đơn mẫu 2026',ls.filter(l=>l.L==='bl'))}
   ${rec.length?`<h3>Việc cần làm</h3>${recTable(rec)}`:''}
-  <div class="btnrow">${ls.length?'<button class="btn" data-fly>Phóng tới tuyến</button>':''}<button class="btn" data-solo="${c.a}">Chỉ xem nhóm ${esc(A.n)}</button></div>
-  <p class="src">Nguồn: ${esc(SLSRC.P)} ${esc(SLSRC.O)}</p>`;
+  <div class="btnrow">${ls.length?'<button class="btn" data-fly>Phóng tới tuyến</button>':''}<button class="btn" data-solo="${c.a}">Chỉ xem nhóm ${esc(A.n)}</button></div>`;
   slWire();
 }
 function slRenderLine(id){
@@ -1863,7 +1869,7 @@ function slRenderLine(id){
   }else if(l.L==='imp'){
     h=`<div class="tag"><i class="${aBg(c.a)}"></i>Nhập nguyên liệu · cặp xuất xứ – hãng</div><h2>${esc(SP_[l.from].n)} → Cát Lái</h2><p class="muted">${esc(c.n)} · ${esc(ALLI[c.a].full)}</p>
     <div class="bigv">${f0(l.v)}<small>container</small></div><p class="muted small">Trên dòng được trích chọn · cộng dồn 2021–2023</p>
-    ${facts([['Hãng',c.n+(c.imL?' (nhãn '+c.imL+')':'')],['Vị trí nguồn',l.pg],['Ý nghĩa',l.m]])}
+    ${facts([['Hãng',c.n+(c.imL?' (nhãn '+c.imL+')':'')],['Ý nghĩa',l.m]])}
     <p class="note">Trích chọn để chứng minh cặp tuyến – hãng, không phải tổng năm. Đích vẽ về Cát Lái (89,47% container nhập); cảng nhập của từng cặp chưa tách.${l.gen?' Hành trình vẽ khái quát qua Panama, chưa rõ trung chuyển.':''}</p>`;
   }else if(l.L==='svc'){
     const F=[['Hãng công bố',c.n],['Nhóm / liên minh',ALLI[c.a].full],['Ngày cơ sở / trạng thái',l.st]];
@@ -1877,8 +1883,7 @@ function slRenderLine(id){
     h=`<div class="tag"><i class="${aBg(c.a)}"${l.cond?' style="opacity:.45"':''}></i>Vận đơn mẫu · ImportInfo</div><h2>${esc(l.g)} · ${esc(c.n)}${l.cond?' ?':''}</h2><p class="muted">Bằng chứng cấp lô hàng, không phải thị phần hãng năm 2026</p>
     ${facts(l.f)}<p class="note">${esc(l.note)}</p>`;
   }
-  body.innerHTML=`${SLBACK}${h}<div class="btnrow"><button class="btn" data-fly>Phóng tới tuyến</button>${c?`<button class="btn" data-car="${c.id}">Hồ sơ ${esc(c.n)}</button>`:''}</div>
-  <p class="src">Nguồn: ${esc(l.L==='svc'?SLSRC.H:l.L==='bl'?SLSRC.B:SLSRC.P)}</p>`;
+  body.innerHTML=`${SLBACK}${h}<div class="btnrow"><button class="btn" data-fly>Phóng tới tuyến</button>${c?`<button class="btn" data-car="${c.id}">Hồ sơ ${esc(c.n)}</button>`:''}</div>`;
   slWire();
 }
 function slRenderPort(id){
@@ -1978,6 +1983,7 @@ function setMode(m,instant){
   document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
   document.body.classList.remove('show-layers');
   ['layersBtn','slLayersBtn'].forEach(i=>document.getElementById(i).setAttribute('aria-pressed','false'));
+  layoutDock();
   const mc=map.getContainer();
   if(m==='sl'){
     select(null,null,true);
@@ -2003,10 +2009,11 @@ document.getElementById('modeSeg').addEventListener('click',e=>{const b=e.target
 /* =============== BOOT =============== */
 let bm=null;try{bm=localStorage.getItem('fvn-bm2');}catch(e){}
 setBase(BASE[bm]?bm:'light',true);
+layoutDock();
 goRegion('global',false);
 updateFlows();updateNodes();updateRings();
 if(/^#hang-?tau$/i.test(location.hash)) setMode('sl',true);
 setTimeout(checkFallback,6000);
-let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>map.invalidateSize(),150);});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{layoutDock();map.invalidateSize();},150);});
 })();
 </script>
