@@ -72,13 +72,20 @@ button{font:inherit;color:inherit}
 /* overlay boxes 15% smaller on desktop */
 @media (min-width:761px){
   .col-left,.detail{zoom:.85}
-  /* thanh điều khiển nằm ngang, giữa đáy màn hình */
-  .col-left{position:absolute;left:0;right:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));margin:0 auto;width:max-content;max-height:none;
+  /* thanh điều khiển nằm ngang, góc dưới bên trái (19px × zoom .85 ≈ 16px lề) */
+  .col-left{position:absolute;left:calc(19px + env(safe-area-inset-left,0px));bottom:calc(19px + env(safe-area-inset-bottom,0px));width:max-content;max-height:none;
     overflow:visible;flex-direction:row;align-items:flex-end}
-  .col-left>.card{box-sizing:border-box;max-height:calc(100vh - 150px);overflow:auto;scrollbar-width:thin}
+  .col-left .card{box-sizing:border-box;max-height:calc(100vh - 150px);overflow:auto;scrollbar-width:thin}
   .col-left>.brand{flex:0 0 348px}
-  .col-left>.stages{flex:0 1 510px;min-width:300px}
+  .dock-r{flex:0 1 510px;min-width:300px;display:grid}
   .detail{margin-left:auto}
+  /* giữ nguyên kích thước khi đổi chế độ: hai phiên bản của mỗi bảng chồng cùng một ô,
+     bản không dùng vẫn chiếm chỗ nhưng ẩn — mỗi bảng luôn cao bằng bản cao hơn */
+  .brand{display:grid;grid-template-columns:minmax(0,1fr)}
+  .brand>.m-flow,.brand>.m-sl{grid-area:2/1}
+  .dock-r>.stages{grid-area:1/1}
+  body:not(.mode-sl) .brand>.m-sl,body.mode-sl .brand>.m-flow,
+  body:not(.mode-sl) .dock-r>.m-sl,body.mode-sl .dock-r>.m-flow{display:block!important;visibility:hidden;pointer-events:none}
   #stageList,#slLayerList{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;align-items:start}
   #stageList .grp:nth-child(-n+2){margin-top:0}
   .stages .howto{grid-template-columns:34px 1fr 34px 1fr 34px 1fr;gap:6px 8px}
@@ -359,6 +366,7 @@ dl.facts.sl dd{text-align:right;padding-left:10px}
   body.show-layers .stages{display:block}
   body.mode-sl .stages.m-sl{display:none}
   body.mode-sl.show-layers .stages.m-sl{display:block}
+  body:not(.mode-sl) .stages.m-sl{display:none}
   .seg.mode{margin-bottom:10px}
   .detail{width:auto;align-self:stretch;max-height:40%}
   .seg button{font-size:12px;gap:4px;padding:7px 3px}
@@ -412,6 +420,7 @@ dl.facts.sl dd{text-align:right;padding-left:10px}
       </div>
     </section>
 
+    <div class="dock-r">
     <section class="card stages m-sl" id="slLayers" aria-label="Lớp tuyến hãng tàu">
       <div class="sec-h"><h2>Lớp tuyến hãng tàu</h2></div>
       <div id="slLayerList"></div>
@@ -447,6 +456,7 @@ dl.facts.sl dd{text-align:right;padding-left:10px}
         <div class="gl" id="glyphLegend"></div>
       </details>
     </section>
+    </div>
   </div>
 
   <aside class="card detail" id="detail" aria-live="polite">
