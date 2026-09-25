@@ -390,7 +390,7 @@ dl.facts.sl dd{text-align:right;padding-left:10px}
       <div class="kpis">
         <div class="kpi"><b>15,87<small>tỷ USD</small></b><span><i class="g-out-bg"></i>XK gỗ &amp; SP gỗ</span></div>
         <div class="kpi"><b>2,81<small>tỷ USD</small></b><span><i class="g-in-bg"></i>NK gỗ &amp; SP gỗ</span></div>
-        <div class="kpi"><b>5,08<small>tỷ USD</small></b><span><i class="g-out-bg"></i>XK 4 nhóm nội thất · Mỹ 78%</span></div>
+        <div class="kpi"><b>5,08<small>tỷ USD</small></b><span><i class="g-out-bg"></i>XK nội thất · Mỹ 78%</span></div>
       </div>
       <div class="regions" id="regions" role="group" aria-label="Khu vực">
         <button class="chip" data-r="global" aria-pressed="true">Toàn cầu</button>
@@ -519,10 +519,10 @@ const KIND={vendor:'Nhà máy vệ tinh (NCC thành phẩm)',rsup:'NCC nguyên p
 const NODES=[
   // ---- quốc gia ----
   {id:'us',k:'country',roles:['sup','mkt'],n:'Hoa Kỳ',sub:'Điểm đại diện: Los Angeles / Long Beach',ll:[33.74,241.73],dir:'right',src:'A',
-    facts:[['Nhập vào VN 2024','316,4 tr USD · 11,2%'],['Gỗ tròn','303,33 nghìn m³ · 89,90 tr USD'],['Gỗ xẻ','428,98 nghìn m³ · 215,32 tr USD'],['XK 4 nhóm nội thất TP','3.960,2 tr USD · 78,0%']],
+    facts:[['Nhập vào VN 2024','316,4 tr USD · 11,2%'],['Gỗ tròn','303,33 nghìn m³ · 89,90 tr USD'],['Gỗ xẻ','428,98 nghìn m³ · 215,32 tr USD'],['XK nội thất TP','3.960,2 tr USD · 78,0%']],
     d:'Vừa là nguồn gỗ tròn, gỗ xẻ lớn nhất, vừa là thị trường chiếm 78% xuất khẩu nội thất gỗ thành phẩm.'},
   {id:'cn',k:'country',roles:['sup','mkt'],n:'Trung Quốc',sub:'Điểm đại diện: châu thổ Châu Giang',ll:[22.3,114.15],dir:'top',src:'A',
-    facts:[['Nhập vào VN 2024','1.097,5 tr USD · 39,0%'],['XK 4 nhóm nội thất TP','29,3 tr USD · 0,6%']],
+    facts:[['Nhập vào VN 2024','1.097,5 tr USD · 39,0%'],['XK nội thất TP','29,3 tr USD · 0,6%']],
     d:'Nguồn cung lớn nhất của toàn ngành gỗ; tỷ trọng lớn ở nguyên liệu, nhỏ ở furniture thành phẩm.'},
   {id:'cm',k:'country',roles:['sup'],n:'Cameroon',sub:'Điểm đại diện: Douala',ll:[4.05,9.68],dir:'left',src:'A',
     facts:[['Nhập vào VN 2024','143,0 tr USD · 5,1%'],['Gỗ tròn','168,25 nghìn m³ · 65,74 tr USD'],['Gỗ xẻ','167,6 nghìn m³ · 77,25 tr USD']],
@@ -537,12 +537,12 @@ const NODES=[
   {id:'br',k:'country',roles:['sup'],n:'Brazil',sub:'Điểm đại diện: Santos',ll:[-23.98,-46.3],dir:'bottom',src:'A',facts:[['Nhập vào VN 2024','62,9 tr USD · 2,2%'],['Gỗ xẻ','237,97 nghìn m³ · 58,29 tr USD']]},
   {id:'nz',k:'country',roles:['sup'],n:'New Zealand',sub:'Điểm đại diện: Tauranga',ll:[-37.64,176.18],dir:'right',src:'A',facts:[['Nhập vào VN 2024','56,6 tr USD · 2,0%']]},
   {id:'pg',k:'country',roles:['sup'],n:'Papua New Guinea',sub:'Điểm đại diện: Madang',ll:[-5.21,145.8],dir:'right',src:'A',facts:[['Gỗ tròn 2024','99,34 nghìn m³ · 18,17 tr USD']],d:'Độ dày tuyến chỉ phản ánh gỗ tròn.'},
-  {id:'jp',k:'country',roles:['mkt'],n:'Nhật Bản',sub:'Điểm đại diện: Tokyo / Yokohama',ll:[35.44,139.65],dir:'right',src:'A',facts:[['XK 4 nhóm nội thất TP','239,8 tr USD · 4,7%']]},
-  {id:'eu',k:'country',roles:['mkt'],n:'EU-27',sub:'Điểm đại diện: Hamburg',ll:[53.54,9.97],dir:'right',src:'A',facts:[['XK 4 nhóm nội thất TP','230,7 tr USD · 4,5%']]},
-  {id:'uk',k:'country',roles:['mkt'],n:'Anh',sub:'Điểm đại diện: Felixstowe',ll:[51.95,1.33],dir:'top',src:'A',facts:[['XK 4 nhóm nội thất TP','161,7 tr USD · 3,2%']]},
-  {id:'ca',k:'country',roles:['mkt'],n:'Canada',sub:'Điểm đại diện: Vancouver',ll:[49.29,236.9],dir:'right',src:'A',facts:[['XK 4 nhóm nội thất TP','121,3 tr USD · 2,4%']]},
-  {id:'au',k:'country',roles:['mkt'],n:'Úc',sub:'Điểm đại diện: Sydney',ll:[-33.86,151.21],dir:'right',src:'A',facts:[['XK 4 nhóm nội thất TP','81,6 tr USD · 1,6%']]},
-  {id:'kr',k:'country',roles:['mkt'],n:'Hàn Quốc',sub:'Điểm đại diện: Busan',ll:[35.1,129.04],dir:'left',src:'A',facts:[['XK 4 nhóm nội thất TP','62,7 tr USD · 1,2%']]},
+  {id:'jp',k:'country',roles:['mkt'],n:'Nhật Bản',sub:'Điểm đại diện: Tokyo / Yokohama',ll:[35.44,139.65],dir:'right',src:'A',facts:[['XK nội thất TP','239,8 tr USD · 4,7%']]},
+  {id:'eu',k:'country',roles:['mkt'],n:'EU-27',sub:'Điểm đại diện: Hamburg',ll:[53.54,9.97],dir:'right',src:'A',facts:[['XK  nội thất TP','230,7 tr USD · 4,5%']]},
+  {id:'uk',k:'country',roles:['mkt'],n:'Anh',sub:'Điểm đại diện: Felixstowe',ll:[51.95,1.33],dir:'top',src:'A',facts:[['XK  nội thất TP','161,7 tr USD · 3,2%']]},
+  {id:'ca',k:'country',roles:['mkt'],n:'Canada',sub:'Điểm đại diện: Vancouver',ll:[49.29,236.9],dir:'right',src:'A',facts:[['XK  nội thất TP','121,3 tr USD · 2,4%']]},
+  {id:'au',k:'country',roles:['mkt'],n:'Úc',sub:'Điểm đại diện: Sydney',ll:[-33.86,151.21],dir:'right',src:'A',facts:[['XK  nội thất TP','81,6 tr USD · 1,6%']]},
+  {id:'kr',k:'country',roles:['mkt'],n:'Hàn Quốc',sub:'Điểm đại diện: Busan',ll:[35.1,129.04],dir:'left',src:'A',facts:[['XK  nội thất TP','62,7 tr USD · 1,2%']]},
   {id:'kh',k:'country',roles:['mkt'],n:'Campuchia',sub:'Hướng xuất qua cửa khẩu đường bộ',ll:[11.56,104.92],dir:'left',mz:5.5,lz:6,src:'—',
     facts:[['Cửa khẩu xuất','Chưa có dữ liệu lượng / trị giá']],d:'Tuyến khái quát theo sơ đồ chuỗi; chưa xác nhận cửa khẩu cụ thể nên không gán cho cửa khẩu nào.'},
 
@@ -690,7 +690,7 @@ const FLOWS=[
   {id:'s_nz',st:'sup',from:'nz',to:'gwS',v:56.61,u:'usd',per:'2024',src:'A',via:[[-35,177.5],[-25,168],[-12,160],[-3,155],[0,148],[1,138],...EAST_ID]},
   {id:'s_pg',st:'sup',from:'pg',to:'gwS',v:18.17,u:'usd',per:'2024',src:'A',via:[[-3,145.5],[-1.5,142],[0.5,138],...EAST_ID],note:'Chỉ có trị giá gỗ tròn.'},
 
-  // ---- cửa ngõ → thị trường (tr USD 2024, 4 nhóm nội thất TP) ----
+  // ---- cửa ngõ → thị trường (tr USD 2024,  nội thất TP) ----
   {id:'x_us',st:'mkt',from:'gwS',to:'us',v:3960.199,u:'usd',per:'2024',src:'A',share:78.03,via:[...OUT_N,[27,135],[35,155],[40,180],[40,205],[36,228]]},
   {id:'x_jp',st:'mkt',from:'gwS',to:'jp',v:239.752,u:'usd',per:'2024',src:'A',share:4.72,via:[...OUT_N,[26,127.5],[30.2,132],[33,137],[34.9,139.8]]},
   {id:'x_eu',st:'mkt',from:'gwS',to:'eu',v:230.688,u:'usd',per:'2024',src:'A',share:4.55,via:[...rev(TO_S),...rev(CAPE),...rev(ATL_EU),[51.45,3.4],[52.6,4.2],[54,7],[53.9,8.6]]},
@@ -1223,11 +1223,11 @@ function renderOverview(){
   view='overview';let h='';
   if(region==='global'){
     h=`</div><h2>Gỗ nhập từ 5 châu, nội thất chủ yếu xuất sang Mỹ</h2>
-    <p>Trung Quốc chiếm 39,0% kim ngạch nhập khẩu toàn ngành gỗ; 5 nguồn lớn nhất chiếm 64,4%. Ở chiều ra, Hoa Kỳ nhận 78,0% xuất khẩu 4 nhóm nội thất gỗ thành phẩm.</p>
+    <p>Trung Quốc chiếm 39,0% kim ngạch nhập khẩu toàn ngành gỗ; 5 nguồn lớn nhất chiếm 64,4%. Ở chiều ra, Hoa Kỳ nhận 78,0% xuất khẩu  nội thất gỗ thành phẩm.</p>
     <h3>Nguồn cung nhập khẩu · triệu USD</h3>`+
     bars([{n:'Trung Quốc',v:1097.463,node:'cn'},{n:'Hoa Kỳ',v:316.359,node:'us'},{n:'Cameroon',v:143.003,node:'cm'},{n:'Thái Lan',v:128.026,node:'th'},{n:'Lào',v:126.832,node:'la'},{n:'Bỉ',v:69.193,node:'be'},{n:'Chile',v:66.038,node:'cl'},{n:'Brazil',v:62.926,node:'br'},{n:'New Zealand',v:56.61,node:'nz'},{n:'Khác',v:746.02}],{g:'in',fmt:f1})+
     `<div class="bar-foot"><span>Tổng nhập khẩu gỗ &amp; SP gỗ</span><span>2.812,5</span></div>
-    <h3>Thị trường XK 4 nhóm nội thất gỗ · triệu USD</h3>`+
+    <h3>Thị trường XK  nội thất gỗ · triệu USD</h3>`+
     bars([{n:'Hoa Kỳ',v:3960.199,node:'us'},{n:'Nhật Bản',v:239.752,node:'jp'},{n:'EU-27',v:230.688,node:'eu'},{n:'Anh',v:161.693,node:'uk'},{n:'Canada',v:121.261,node:'ca'},{n:'Úc',v:81.575,node:'au'},{n:'Hàn Quốc',v:62.704,node:'kr'},{n:'Trung Quốc',v:29.315,node:'cn'},{n:'Khác',v:188.123}],{g:'out',fmt:f1});
   }else if(region==='vn'){
     h=`</div><h2>Hai cửa ngõ biển, sáu cửa khẩu gỗ Lào, hai cụm sản xuất</h2>
@@ -1320,7 +1320,7 @@ function renderFlow(id){
   const path=[f.from,...f.thruIds,f.to];
   let big='';
   if(f.u){
-    big=`<div class="bigv">${flowVal(f)}<small>${flowUnit(f)}</small></div><p class="muted small">${esc(f.per)}${f.share?` · ${f1(f.share)}% XK 4 nhóm nội thất`:''}</p>`;
+    big=`<div class="bigv">${flowVal(f)}<small>${flowUnit(f)}</small></div><p class="muted small">${esc(f.per)}${f.share?` · ${f1(f.share)}% XK  nội thất`:''}</p>`;
   }else big=`<p><span class="badge">Tuyến khái quát</span> chưa có số liệu lượng / trị giá</p>`;
   const facts=[];
   if(f.parts){facts.push(['Gỗ xẻ',f0(f.parts[0])+' m³']);facts.push(['Gỗ tròn',f.parts[1]==null?'Nguồn không nêu':f0(f.parts[1])+' m³']);}
