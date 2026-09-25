@@ -432,7 +432,7 @@ dl.facts.sl dd{text-align:right;padding-left:10px}
         <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="38" y2="6" stroke="var(--a-oc)" stroke-width="2.2" stroke-dasharray="5 4"/></svg>
         <span>Nét đứt: dịch vụ công bố 2026, lượng Wanek chưa xác định</span>
         <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="38" y2="6" stroke="var(--a-oc)" stroke-opacity=".4" stroke-width="4"/></svg>
-        <span>Màu nhạt: nhãn chưa xác nhận (OCL?)</span>
+        <span>Màu nhạt: vận đơn mẫu chỉ có dấu vết hãng ở cấp master</span>
       </div>
       <details class="glyphs" id="slGlyphDetails">
         <summary>Ký hiệu cảng</summary>
@@ -1390,8 +1390,8 @@ const CAR=[
   {id:'evergreen',n:'Evergreen',a:'oc',ex:[2288,797,4199],im:1794,imL:'EMC',own:'Evergreen Marine Corporation, thuộc nhóm Evergreen.'},
   {id:'uwl',n:'UWL',a:'ot',role:'NVOCC',ex:[null,2090,3846],own:'Thuộc World Shipping/World Group; dịch vụ logistics/NVOCC, không tự xác định tàu hay hãng vận hành.',
     note:'UWL/ESL đã kết thúc Sun Chief Express, chuyến cuối dự kiến rời TP.HCM 20/03/2026. Không dùng 3.846 container năm 2023 để khẳng định dịch vụ còn khả dụng.'},
-  {id:'ocl',n:'OCL',a:'oc',cond:true,ex:[null,null,2490],note:'Năm 2023 ghi “OCL”, các năm trước ghi “OOCL”. Nếu OCL = OOCL, nhóm COSCO có 18.296 container, 46,78% năm 2023. Cần xác nhận mã trước khi dùng tỷ trọng tập đoàn.'},
-  {id:'oocl',n:'OOCL',a:'oc',ex:[1712,1081,null],im:177,own:'Thuộc OOIL, nhóm COSCO SHIPPING.'},
+  {id:'oocl',n:'OOCL',a:'oc',ex:[1712,1081,2490],im:177,own:'Thuộc OOIL, nhóm COSCO SHIPPING.',
+    note:'Năm 2023 tài liệu ghi nhãn “OCL”, tính là OOCL. Nhóm COSCO (COSCO + OOCL) có 18.296 container, 46,78% năm 2023.'},
   {id:'hmm',n:'HMM',a:'pr',ex:[652,206,555],im:123,own:'Korea Development Bank 35,42%, Korea Ocean Business Corporation 35,08% (31/12/2025).'},
   {id:'one',n:'ONE',a:'pr',ex:[304,238,478],im:450,own:'ONE Holdings: NYK 38%, MOL 31%, K Line 31%.'},
   {id:'cma',n:'CMA CGM',a:'oc',ex:[2446,366,442],im:356,imL:'CMA',q2:'≈ 6,3 triệu TEU',own:'Tập đoàn gia đình Saadé; ANL và CNC thuộc nhóm.'},
@@ -1578,7 +1578,7 @@ const BLS=[
     path:['vt',...VT_OUT,...OUT_N,...TP_LA,'lax']}
 ];
 const REC=[
-  ['Duy trì nguồn cung chủ lực',['cosco','oocl','ocl'],'Lượng lịch sử lớn nhất, nhiều cửa ngõ','Contract owner, lượng theo service, phân bổ thiết bị, rollover'],
+  ['Duy trì nguồn cung chủ lực',['cosco','oocl'],'Lượng lịch sử lớn nhất, nhiều cửa ngõ','Contract owner, lượng theo service, phân bổ thiết bị, rollover'],
   ['Đối chiếu phương án bờ Tây / PNW',['msc'],'Sản lượng lịch sử đáng kể, có Sentosa / Chinook năm 2026','Chuyến thực tế, cảng / terminal, inland rate tới kho, free time'],
   ['Kiểm tra thêm lựa chọn LA / Oakland',['cma','maersk'],'Có hành trình Việt Nam – bờ Tây công bố (MTE, TP6)','Báo giá cùng cơ sở, transit thực tế, cut-off, bảo đảm chỗ'],
   ['Đối chiếu phương án Premier',['one','hmm','yml'],'Có FP2 / EC2 và mẫu vận đơn Ashley trên ONE','Hãng bán chỗ, tàu / vòng dịch vụ thực sự sử dụng'],
@@ -1745,10 +1745,10 @@ function slStack(segs,total){
   return `<div class="stack" role="img" aria-label="${esc(segs.map(s=>s.n+' '+pct(s.v,total,1)).join(', '))}">`+segs.map(s=>`<i class="${cls(s)}" style="flex:${s.v} 0 0" title="${esc(s.n)}: ${f0(s.v)} container · ${pct(s.v,total)}"></i>`).join('')+'</div>'+
     '<div class="legend">'+segs.map(s=>`<span><i class="${cls(s)}"></i>${esc(s.n)} <b>${pct(s.v,total,1)}</b></span>`).join('')+'</div>';
 }
-function slAlliAgg(yi){const g={};CAR.forEach(c=>{const v=c.ex&&c.ex[yi];if(v==null) return;const k=c.a+(c.cond?'-c':'');g[k]=(g[k]||0)+v;});return g;}
+function slAlliAgg(yi){const g={};CAR.forEach(c=>{const v=c.ex&&c.ex[yi];if(v==null) return;g[c.a]=(g[c.a]||0)+v;});return g;}
 function slAlliSegs(yi){
   const g=slAlliAgg(yi),out=[];
-  ALLI_ORD.forEach(a=>{if(g[a]) out.push({a,v:g[a],n:ALLI[a].n});if(g[a+'-c']) out.push({a,v:g[a+'-c'],cond:true,n:'OCL (nếu = OOCL)'});});
+  ALLI_ORD.forEach(a=>{if(g[a]) out.push({a,v:g[a],n:ALLI[a].n});});
   out.push({a:'gap',v:EXGAP[yi],n:'Chênh chưa giải thích'});
   return out;
 }
@@ -1848,7 +1848,7 @@ function slRenderCar(id){
   let big='';
   if(ex[2]!=null) big=`<div class="bigv">${f0(ex[2])}<small>container xuất 2023</small></div><p class="muted small">${pct(ex[2],EXT[2023])} tổng xuất khẩu Wanek 2023${ex[1]!=null?` · ${ex[2]>=ex[1]?'+':'−'}${f2(Math.abs(ex[2]/ex[1]*100-100))}% so với 2022`:''}</p>`;
   else if(c.im) big=`<div class="bigv">${f0(c.im)}<small>container nhập 2021–2023</small></div><p class="muted small">${pct(c.im,IMT)} tổng container nhập của Wanek</p>`;
-  const F=[['Nhóm / liên minh 2026',A.full+(c.cond?' (nếu OCL = OOCL)':'')],['Vai trò',c.role?c.role+' — không tự xác định tàu vận hành':'Hãng tàu']];
+  const F=[['Nhóm / liên minh 2026',A.full],['Vai trò',c.role?c.role+' — không tự xác định tàu vận hành':'Hãng tàu']];
   if(c.im) F.push(['Nhập nguyên liệu 2021–2023',f0(c.im)+' cont · '+pct(c.im,IMT)]);
   if(c.imL) F.push(['Nhãn trong bảng nhập',c.imL]);
   if(c.rel) F.push(['Độ tin cậy lịch tàu 7/2026',f1(c.rel)+'% · toàn cầu 56,4%']);
