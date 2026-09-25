@@ -1274,7 +1274,7 @@ function renderOverview(){
   }else if(region==='wanek'){
     const V=NODES.filter(n=>n.k==='vendor').sort((a,b)=>b.bol-a.bol);
     h=`</div><h2>Hơn 120 nhà máy Việt Nam cung ứng cho Wanek</h2>
-    <p>Wanek (Công ty TNHH Kỹ nghệ gỗ Hoa Nét, 100% vốn Ashley) có 3 nhà máy và 1 DC ở Bình Dương. Công ty lấy nguồn hàng từ trên 120 nhà máy ở Việt Nam và xuất trung bình 2.400 container nội thất mỗi tuần (TTXVN, 3/2025).</p>
+    <p>Wanek (Công ty TNHH Kỹ nghệ gỗ Hoa Nét, 100% vốn Ashley) có 3 nhà máy và 1 DC ở Bình Dương. Công ty lấy nguồn hàng từ trên 120 nhà máy ở Việt Nam và xuất trung bình 2.400 container nội thất mỗi tuần.</p>
     <h3>Nguyên phụ liệu nhập vào Wanek · 2025 · triệu USD</h3>`+
     bars([{n:'Remacro (cơ cấu ghế)',v:18.84,flow:'r_remacro'},{n:'Crest Leathers (da)',v:14.44,flow:'r_crest'},{n:'Ningbo Dafa (xơ PE)',v:12.9,flow:'r_dafa'}],{g:'wk',fmt:f2})+
     `<div class="flist" style="margin-top:6px">${flowItem(FLOWS.find(f=>f.id==='r_dpf'))}</div>
