@@ -36,6 +36,7 @@
   --m-sea:#d6e0e7; --m-land:#f4f5f2; --m-bord:#c1cad2;
   --m-wk:#b8327f; --m-wk-hi:#6e1146;
   --m-bd:#141b24; --m-bd-halo:rgba(255,255,255,.92);
+  --m-vn:#f0b93c; --m-vn-op:.22;
 
   /* hãng tàu: màu theo liên minh 2026 (4 màu qua kiểm tra mù màu mọi cặp + xám cho nhóm khác) */
   --a-oc:#2a78d6; --a-ms:#eda100; --a-ge:#008300; --a-pr:#e87ba4; --a-ot:#8a94a0; --a-ex:#3b4654;
@@ -51,6 +52,7 @@ html[data-bm="dark"]{
   --m-sea:#0d1319; --m-land:#1a232d; --m-bord:#2e3c4b;
   --m-wk:#c94590; --m-wk-hi:#ffc3de;
   --m-bd:#ffffff; --m-bd-halo:rgba(4,8,12,.8);
+  --m-vn:#f0b93c; --m-vn-op:.12;
   --sl-oc:#3987e5; --sl-ms:#c98500; --sl-ge:#008300; --sl-pr:#d55181; --sl-ot:#7d8896; --sl-ex:#c9d3de;
   --sl-oc-hi:#b1d2ff; --sl-ms-hi:#ffd88a; --sl-ge-hi:#8fe08f; --sl-pr-hi:#ffc3de; --sl-ot-hi:#c5ced8; --sl-ex-hi:#ffffff;
 }
@@ -244,6 +246,8 @@ button.br:hover{background:var(--chip)}
 .gw{fill:var(--m-wk);stroke:var(--m-node-2);stroke-width:1.6}
 .wk-ring{fill:none;stroke:var(--m-wk);stroke-opacity:.65;stroke-width:1.4;stroke-dasharray:2 6;stroke-linecap:round}
 /* Vietnam outline */
+.vn-fill{fill:var(--m-vn);fill-opacity:var(--m-vn-op)}
+.leaflet-tooltip.lbl.lb-vn{font-size:14px;letter-spacing:.08em}
 .vb-case{fill:none;stroke:var(--m-bd-halo);stroke-width:7;stroke-linejoin:round;stroke-linecap:round}
 .vb-line{fill:none;stroke:var(--m-bd);stroke-width:3;stroke-linejoin:round;stroke-linecap:round}
 .vc-case{fill:none;stroke:var(--m-bd-halo);stroke-width:4.5;stroke-linejoin:round;stroke-linecap:round}
@@ -627,7 +631,8 @@ const NODES=[
   {id:'x_hpports',k:'label',cls:'lb-cluster',n:'Cụm cảng Hải Phòng',ll:[20.85,106.74],dir:'top',lz:7.5,lzMax:11.5},
   {id:'x_hoangsa',k:'label',cls:'lb-sov',n:'Quần đảo Hoàng Sa<br>(Việt Nam)',ll:[16.45,111.9],dir:'center',lz:4.5},
   {id:'x_truongsa',k:'label',cls:'lb-sov',n:'Quần đảo Trường Sa<br>(Việt Nam)',ll:[9.9,114.3],dir:'center',lz:4.5},
-  {id:'x_biendong',k:'label',cls:'lb-sea',n:'Biển Đông',ll:[14.2,113.2],dir:'center',lz:3.5,lzMax:7}
+  {id:'x_biendong',k:'label',cls:'lb-sea',n:'Biển Đông',ll:[14.2,113.2],dir:'center',lz:3.5,lzMax:7},
+  {id:'x_vn',k:'label',cls:'lb-country lb-vn',n:'Việt Nam',ll:[12.35,107.45],dir:'center',lz:3.5,lzMax:8}
 ];
 function kmBetween(a,b){const R=6371,r=Math.PI/180,dLa=(b[0]-a[0])*r,dLo=(b[1]-a[1])*r,h=Math.sin(dLa/2)**2+Math.cos(a[0]*r)*Math.cos(b[0]*r)*Math.sin(dLo/2)**2;return 2*R*Math.asin(Math.sqrt(h));}
 NODES.filter(n=>n.k==='vendor').forEach(n=>{
@@ -870,11 +875,17 @@ map.createPane('vnb').style.zIndex=380;
 map.getPane('vnb').style.pointerEvents='none';
 const lowRenderer=L.svg({pane:'vnb',padding:0.6});
 
-/* Vietnam outline: land border bold, coastline lighter — drawn above every basemap */
+/* world topology (embedded), parsed once: Vietnam fill + offline vector basemap */
+let worldTopo;
+const getWorld=()=>{if(worldTopo===undefined){try{worldTopo=JSON.parse(document.getElementById('worldData').textContent);}catch(e){worldTopo=null;}}return worldTopo;};
+
+/* Vietnam: subtle fill, then outline — land border bold, coastline lighter — drawn above every basemap */
 (function(){
   let vn=null;try{vn=JSON.parse(document.getElementById('vnData').textContent);}catch(e){}
   if(!vn) return;
   const g=L.layerGroup().addTo(map);
+  const w=getWorld(),vg=w&&window.topojson&&w.objects.countries.geometries.find(x=>String(x.id)==='704');
+  if(vg) g.addLayer(L.geoJSON(topojson.feature(w,vg),{renderer:lowRenderer,pane:'vnb',interactive:false,style:()=>({className:'vn-fill',stroke:false,fill:true})}));
   const o=c=>({renderer:lowRenderer,pane:'vnb',className:c,interactive:false,smoothFactor:0.8});
   g.addLayer(L.polyline(vn.coast,o('vc-case')));g.addLayer(L.polyline(vn.border,o('vb-case')));
   g.addLayer(L.polyline(vn.coast,o('vc-line')));g.addLayer(L.polyline(vn.border,o('vb-line')));
@@ -892,8 +903,7 @@ const BASE={
 let vectorLayer=null;
 function buildVector(){
   if(vectorLayer) return vectorLayer;
-  const el=document.getElementById('worldData');let world=null;
-  try{world=JSON.parse(el.textContent);}catch(e){world=null;}
+  const world=getWorld();
   vectorLayer=L.layerGroup();
   if(!world||!window.topojson) return vectorLayer;
   const land=topojson.feature(world,world.objects.land);
@@ -1755,13 +1765,11 @@ function slOverview(){
     h=`<div class="tag"><i class="a-ex-bg"></i>Hãng tàu · Wanek / Ashley</div><h2>COSCO chở 40% hàng xuất Wanek, 71% đi bờ Tây Bắc Mỹ</h2>
     <p>Năm 2023, bốn nhãn COSCO, MSC, Wan Hai và Evergreen chở 76,35% trong 39.114 container xuất. Hàng nhập nguyên liệu tập trung ở Cát Lái, qua mạng nội Á của COSCO, SITC, Evergreen.</p>
     <h3>Xuất khẩu 2023 theo liên minh 2026</h3>`+slStack(slAlliSegs(2),EXT[2023])+
-    `<p class="small muted">Phép chiếu theo cấu trúc nhóm hiện tại. Nếu OCL = OOCL và gộp ANL vào CMA CGM, OCEAN có 23.128 container, 59,13% — không chứng minh hàng đã đi cùng mạng dịch vụ.</p>
-    <h3>Hãng chở nhiều nhất · 2023 · container</h3>`+
+    `<h3>Hãng chở nhiều nhất · 2023 · container</h3>`+
     slBars(top.map(c=>({n:c.n+(c.cond?' (?)':''),v:c.ex[2],a:c.a,cond:c.cond,car:c.id})).concat([{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.ex[2])),go:'exp'},{n:'Chênh chưa giải thích',v:EXGAP[2],a:'gap'}]))+
     `<div class="bar-foot"><span>Tổng Wanek xuất khẩu 2023</span><span>39.114</span></div>
     <h3>Cụm cửa ngõ đến · 2023 · container</h3>`+
-    slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}])+
-    `<p class="small muted" style="margin-top:6px">Bình quân toán học 752 container / tuần; bờ Tây Bắc Mỹ 531 / tuần. Không phải dự báo booking.</p>`;
+    slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}]);
   }else if(slView==='exp'){
     const y=YEARS[slYear],cs=CAR.filter(c=>c.ex&&c.ex[slYear]!=null).sort((a,b)=>b.ex[slYear]-a.ex[slYear]);
     h=`<div class="tag"><i class="a-ex-bg"></i>Xuất khẩu Wanek · 2021–2023</div><h2>39.114 container năm 2023: phục hồi, nhưng còn dưới 2021</h2>
