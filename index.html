@@ -1755,13 +1755,11 @@ function slOverview(){
     h=`<div class="tag"><i class="a-ex-bg"></i>Hãng tàu · Wanek / Ashley</div><h2>COSCO chở 40% hàng xuất Wanek, 71% đi bờ Tây Bắc Mỹ</h2>
     <p>Năm 2023, bốn nhãn COSCO, MSC, Wan Hai và Evergreen chở 76,35% trong 39.114 container xuất. Hàng nhập nguyên liệu tập trung ở Cát Lái, qua mạng nội Á của COSCO, SITC, Evergreen.</p>
     <h3>Xuất khẩu 2023 theo liên minh 2026</h3>`+slStack(slAlliSegs(2),EXT[2023])+
-    `<p class="small muted">Phép chiếu theo cấu trúc nhóm hiện tại. Nếu OCL = OOCL và gộp ANL vào CMA CGM, OCEAN có 23.128 container, 59,13% — không chứng minh hàng đã đi cùng mạng dịch vụ.</p>
-    <h3>Hãng chở nhiều nhất · 2023 · container</h3>`+
+    `<h3>Hãng chở nhiều nhất · 2023 · container</h3>`+
     slBars(top.map(c=>({n:c.n+(c.cond?' (?)':''),v:c.ex[2],a:c.a,cond:c.cond,car:c.id})).concat([{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.ex[2])),go:'exp'},{n:'Chênh chưa giải thích',v:EXGAP[2],a:'gap'}]))+
     `<div class="bar-foot"><span>Tổng Wanek xuất khẩu 2023</span><span>39.114</span></div>
     <h3>Cụm cửa ngõ đến · 2023 · container</h3>`+
-    slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}])+
-    `<p class="small muted" style="margin-top:6px">Bình quân toán học 752 container / tuần; bờ Tây Bắc Mỹ 531 / tuần. Không phải dự báo booking.</p>`;
+    slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}]);
   }else if(slView==='exp'){
     const y=YEARS[slYear],cs=CAR.filter(c=>c.ex&&c.ex[slYear]!=null).sort((a,b)=>b.ex[slYear]-a.ex[slYear]);
     h=`<div class="tag"><i class="a-ex-bg"></i>Xuất khẩu Wanek · 2021–2023</div><h2>39.114 container năm 2023: phục hồi, nhưng còn dưới 2021</h2>
