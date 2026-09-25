@@ -79,11 +79,12 @@ button{font:inherit;color:inherit}
   .col-left>.brand{flex:0 0 348px}
   .dock-r{flex:0 1 510px;min-width:300px;display:grid}
   .detail{margin-left:auto}
-  /* giữ nguyên kích thước khi đổi chế độ: hai phiên bản của mỗi bảng chồng cùng một ô,
-     bản không dùng vẫn chiếm chỗ nhưng ẩn — mỗi bảng luôn cao bằng bản cao hơn */
+  /* giữ vị trí khi đổi chế độ: hai phiên bản của mỗi bảng chồng cùng một ô, bản không dùng
+     vẫn chiếm chỗ nhưng ẩn. Bảng tiêu đề cao bằng bản cao hơn; bảng lớp giữ chiều cao tự nhiên,
+     bám đáy ô (không để khoảng trống) */
   .brand{display:grid;grid-template-columns:minmax(0,1fr)}
   .brand>.m-flow,.brand>.m-sl{grid-area:2/1}
-  .dock-r>.stages{grid-area:1/1}
+  .dock-r>.stages{grid-area:1/1;align-self:end}
   body:not(.mode-sl) .brand>.m-sl,body.mode-sl .brand>.m-flow,
   body:not(.mode-sl) .dock-r>.m-sl,body.mode-sl .dock-r>.m-flow{display:block!important;visibility:hidden;pointer-events:none}
   #stageList,#slLayerList{display:grid;grid-template-columns:1fr 1fr;column-gap:16px;align-items:start}
@@ -1855,7 +1856,7 @@ function slRenderCar(id){
   if(c.q2) F.push(['Sản lượng toàn hãng Q2/2026',c.q2]);
   body.innerHTML=`${SLBACK}<div class="tag"><i class="${aBg(c.a)}"${c.cond?' style="opacity:.45"':''}></i>${esc(A.full)}${c.role?' · '+esc(c.role):''}</div>
   <h2>${esc(c.n)}</h2>${c.own?`<p class="muted">${esc(c.own)}</p>`:''}${big}
-  ${c.ex?`<h3>Container xuất khẩu theo năm</h3>`+slBars(YEARS.map((y,i)=>({n:String(y),v:ex[i],a:c.a,cond:c.cond})),{max:Math.max(...ex.filter(v=>v!=null))})+`<p class="small muted" style="margin-top:4px">“—”: không thấy dòng trong bảng năm đó, không có nghĩa bằng 0.</p>`:''}
+  ${c.ex?`<h3>Container xuất khẩu theo năm</h3>`+slBars(YEARS.map((y,i)=>({n:String(y),v:ex[i],a:c.a,cond:c.cond})),{max:Math.max(...ex.filter(v=>v!=null))}):''}
   ${facts(F)}
   ${c.note?`<p class="note">${esc(c.note)}</p>`:''}
   ${lineList('Dịch vụ công bố 2026',ls.filter(l=>l.L==='svc'))}${lineList('Cặp nhập tiêu biểu',ls.filter(l=>l.L==='imp'))}${lineList('Vận đơn mẫu 2026',ls.filter(l=>l.L==='bl'))}
@@ -1960,8 +1961,7 @@ function slGoView(v,animate){
 const SLLAY=[
   {id:'exp',n:'Xuất khẩu Wanek 2023 → cảng đến',s:'Container, tổng chưa tách theo hãng',ic:`<line x1="2" y1="6" x2="26" y2="6" stroke="var(--a-ex)" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/><path d="M25 1.8 L33 6 L25 10.2 L27 6Z" fill="var(--a-ex)"/>`},
   {id:'svc',n:'Dịch vụ hãng công bố 2026',s:'12 dịch vụ · lượng Wanek chưa xác định',ic:`<line x1="2" y1="3" x2="30" y2="3" stroke="var(--a-oc)" stroke-width="2" stroke-dasharray="4 3"/><line x1="2" y1="6.5" x2="30" y2="6.5" stroke="var(--a-ms)" stroke-width="2" stroke-dasharray="4 3"/><line x1="2" y1="10" x2="30" y2="10" stroke="var(--a-pr)" stroke-width="2" stroke-dasharray="4 3"/>`},
-  {id:'imp',n:'Nhập nguyên liệu → Cát Lái',s:'Cặp xuất xứ – hãng, 2021–2023',ic:`<line x1="2" y1="6" x2="14" y2="6" stroke="var(--a-oc)" stroke-width="3.2"/><line x1="14" y1="6" x2="26" y2="6" stroke="var(--a-ot)" stroke-width="3.2"/><path d="M25 1.8 L33 6 L25 10.2 L27 6Z" fill="var(--a-ot)"/>`},
-  {id:'bl',n:'Vận đơn mẫu 2026',s:'Sofa, đồ gỗ phòng ngủ · cấp lô hàng',ic:`<rect x="3" y="0.8" width="28" height="10.4" rx="3.6" fill="var(--panel-solid)" stroke="var(--ink)" stroke-width="1.1"/><circle cx="8.6" cy="6" r="2.4" fill="var(--a-pr)"/><path d="M13.5 4.2h12M13.5 7.8h8" stroke="var(--ink)" stroke-width="1.1"/>`}
+  {id:'imp',n:'Nhập nguyên liệu → Cát Lái',s:'Cặp xuất xứ – hãng, 2021–2023',ic:`<line x1="2" y1="6" x2="14" y2="6" stroke="var(--a-oc)" stroke-width="3.2"/><line x1="14" y1="6" x2="26" y2="6" stroke="var(--a-ot)" stroke-width="3.2"/><path d="M25 1.8 L33 6 L25 10.2 L27 6Z" fill="var(--a-ot)"/>`}
 ];
 document.getElementById('slLayerList').innerHTML=SLLAY.map(x=>`<label class="st" for="sll-${x.id}"><input type="checkbox" id="sll-${x.id}" data-sll="${x.id}" checked><svg width="34" height="12" viewBox="0 0 34 12" aria-hidden="true">${x.ic}</svg><span class="t">${esc(x.n)}<small>${esc(x.s)}</small></span></label>`).join('');
 document.getElementById('slAlli').innerHTML=ALLI_ORD.map(a=>`<button class="chip" data-a="${a}" aria-pressed="true" title="${esc(ALLI[a].full+': '+ALLI[a].mem)}"><i class="a-${a}-bg"></i>${esc(ALLI[a].n)}</button>`).join('');
