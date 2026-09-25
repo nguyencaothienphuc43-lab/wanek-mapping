@@ -1660,7 +1660,7 @@ function slCarOf(l){return l.car||null;}
 function slTip(l){
   const c=l.car?CR[l.car]:null;
   if(l.L==='exp'){const p=SP_[l.to];return `<b>Việt Nam → ${esc(p.n)}</b>, ${esc(p.ctry)}<br><span class="v">${f0(p.v)} container</span> · ${f2(p.v/EXT[2023]*100)}% <span class="m">· Wanek xuất 2023</span><br><span class="m">Tổng Wanek, chưa tách theo hãng</span>`;}
-  if(l.L==='imp') return `<b>${esc(SP_[l.from].n)} → Cát Lái</b> · ${esc(c.n)}<br><span class="v">${f0(l.v)} container</span> <span class="m">· cộng dồn 2021–2023, dòng trích chọn</span><br><span class="m">${esc(ALLI[c.a].n)}${c.cond?' · nhãn chưa xác nhận':''}</span>`;
+  if(l.L==='imp') return `<b>${esc(SP_[l.from].n)} → Cát Lái</b> · ${esc(c.n)}<br><span class="v">${f0(l.v)} container</span> <span class="m">, dòng trích chọn</span><br><span class="m">${esc(ALLI[c.a].n)}${c.cond?' · nhãn chưa xác nhận':''}</span>`;
   if(l.L==='svc') return `<b>${esc(l.code)}</b> · ${esc(c.n)} <span class="m">(${esc(ALLI[c.a].n)})</span><br>${l.stops.map(s=>esc(SP_[s].n)).join(' → ')}<br><span class="m">Dịch vụ công bố 2026 · lượng Wanek: KXD</span>`;
   return `<b>Vận đơn mẫu · ${esc(l.g)}</b><br>${esc(c.n)}${l.cond?' (cần đối chiếu cấp master)':''} → ${esc(SP_[l.to].n)}<br><span class="m">Bằng chứng cấp lô hàng, không phải thị phần</span>`;
 }
@@ -1798,7 +1798,7 @@ function slOverview(){
     `<p class="small muted" style="margin-top:6px">“Bình Dương” có thể là điểm nhận hàng / khai thác nội địa. Không thể kết luận chỉ 3,94% hàng đi qua Cái Mép trên chặng tàu mẹ.</p>`;
   }else if(slView==='imp'){
     const im=CAR.filter(c=>c.im).sort((a,b)=>b.im-a.im),show=slMore?im:im.slice(0,10),rest=im.slice(10);
-    h=`<div class="tag"><i class="a-oc-bg"></i>Nhập nguyên liệu · cộng dồn 2021–2023</div><h2>Cát Lái nhận 89,5% container nhập; COSCO, SITC, Evergreen dẫn đầu</h2>
+    h=`<div class="tag"><i class="a-oc-bg"></i>NHẬP NGUYÊN LIỆU</div><h2>Cát Lái nhận 89,5% container nhập; COSCO, SITC, Evergreen dẫn đầu</h2>
     <p>Tổng 17.437 container theo cảng nhập; 23 nhãn hãng cộng 16.524, chênh 913 (5,24%). Kỳ cộng dồn theo chú thích biểu đồ, cần xác nhận bằng dữ liệu gốc.</p>
     <h3>HÃNG TÀU · container</h3>`+
     slBars(show.map(c=>({n:c.n+(c.imL?' · '+c.imL:''),v:c.im,a:c.a,car:c.id})).concat(slMore?[]:[{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.im))}]).concat([{n:'Chênh lệch',v:IMGAP,a:'gap'}]))+
