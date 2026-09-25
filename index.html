@@ -1230,7 +1230,7 @@ function renderOverview(){
     <h3>Thị trường XK 4 nhóm nội thất gỗ · triệu USD</h3>`+
     bars([{n:'Hoa Kỳ',v:3960.199,node:'us'},{n:'Nhật Bản',v:239.752,node:'jp'},{n:'EU-27',v:230.688,node:'eu'},{n:'Anh',v:161.693,node:'uk'},{n:'Canada',v:121.261,node:'ca'},{n:'Úc',v:81.575,node:'au'},{n:'Hàn Quốc',v:62.704,node:'kr'},{n:'Trung Quốc',v:29.315,node:'cn'},{n:'Khác',v:188.123}],{g:'out',fmt:f1});
   }else if(region==='vn'){
-    h=`<div class="tag"><i class="g-in-bg"></i>Việt Nam</div><h2>Hai cửa ngõ biển, sáu cửa khẩu gỗ Lào, hai cụm sản xuất</h2>
+    h=`</div><h2>Hai cửa ngõ biển, sáu cửa khẩu gỗ Lào, hai cụm sản xuất</h2>
     <p>Luồng biển quốc tế hội tụ về cửa ngõ phía Nam (Cái Mép – Cát Lái) và phía Bắc (Hải Phòng). Gỗ Lào vào qua các cửa khẩu miền Trung. Cụm nhà máy lớn nằm ở Bình Dương – Đồng Nai.</p>
     <h3>Kim ngạch gỗ &amp; SP gỗ · tỷ USD</h3>
     <div class="keyrow"><span><i class="g-out-bg"></i>Xuất khẩu</span><span><i class="g-in-bg"></i>Nhập khẩu</span></div>
@@ -1241,7 +1241,7 @@ function renderOverview(){
     `<p class="small muted" style="margin-top:6px">Gỗ tròn + gỗ xẻ: 4,22 triệu m³, 1,42 tỷ USD, bằng 50,5% kim ngạch nhập toàn ngành. Nguyên liệu còn phục vụ các ngành khác ngoài furniture.</p>
     <h3>Xem chi tiết</h3><div class="btnrow"><button class="btn" data-go="se">Đông Nam Bộ</button><button class="btn" data-go="north">Bắc Bộ</button><button class="btn" data-go="central">Miền Trung – Lào</button></div>`;
   }else if(region==='se'){
-    h=`<div class="tag"><i class="g-out-bg"></i>Đông Nam Bộ · trường hợp Wanek</div><h2>Nhập qua Cát Lái, xuất từ Bình Dương và Cát Lái</h2>
+    h=`</div><h2>Nhập qua Cát Lái, xuất từ Bình Dương và Cát Lái</h2>
     <p>89,5% container nhập của Wanek qua Cát Lái. Năm 2023, Bình Dương và Cát Lái chiếm 84,2% điểm xếp hàng xuất. Dữ liệu một doanh nghiệp, không đại diện cả nước.</p>
     <h3>Container nhập theo cảng · 2021–2023</h3>`+
     bars([{n:'Cát Lái',v:15601,flow:'wi_catlai'},{n:'Đồng Nai',v:815,flow:'wi_dongnai'},{n:'SP-ITC',v:482,flow:'wi_spitc'},{n:'VICT',v:266,flow:'wi_vict'},{n:'Cái Mép',v:74,flow:'wi_caimep'},{n:'Cát Lái Giang Nam',v:56},{n:'Tân Thuận',v:34},{n:'SSIT',v:33},{n:'Khác',v:76}],{g:'in',fmt:f0})+
@@ -1252,7 +1252,7 @@ function renderOverview(){
     <h3>Kho &amp; trung tâm phân phối</h3>
     <dl class="facts"><dt>U&amp;I Logistics — diện tích hệ thống</dt><dd>242.320 m²</dd><dt>Scansia — sức chứa kho thành phẩm</dt><dd>30.000 m³</dd><dt>Quy đổi sức chứa Scansia</dt><dd>450 cont 40’HC</dd></dl>`;
   }else if(region==='north'){
-    h=`<div class="tag"><i class="g-in-bg"></i>Bắc Bộ</div><h2>Cụm cảng Hải Phòng nhận gỗ xẻ châu Phi</h2>
+    h=`</div><h2>Cụm cảng Hải Phòng nhận gỗ xẻ châu Phi</h2>
     <p>Số liệu lịch sử 6 tháng đầu 2018: năm cảng Hải Phòng nhận phần lớn gỗ xẻ nhập từ châu Phi. Chỉ minh họa tuyến đã phát sinh, không phản ánh thị phần cảng hiện nay.</p>
     <h3>Gỗ xẻ châu Phi theo cảng · 6T/2018 · m³</h3>`+
     bars([{n:'Cảng Xanh VIP',v:42405,flow:'af_xanh'},{n:'Nam Hải Đình Vũ',v:36886,flow:'af_namhai'},{n:'Tân Vũ',v:26694,flow:'af_tanvu'},{n:'Cảng Hải Phòng',v:14665,flow:'af_hp'},{n:'Cát Lái (phía Nam)',v:13616,node:'p_catlai'},{n:'Tân Cảng Hải Phòng',v:10864,flow:'af_tchp'}],{g:'in',fmt:f0})+
@@ -1262,7 +1262,7 @@ function renderOverview(){
     </div>`;
   }else if(region==='central'){
     const G=[['La Lay',24326,3457,'g_lalay'],['Cầu Treo',20548,355,'g_cautreo'],['Lao Bảo',18112,377,'g_laobao'],['Bờ Y',7513,3057,'g_boy'],['Nam Giang',4353,0,'g_namgiang'],['Nậm Cắn',3637,691,'g_namcan']];
-    h=`<div class="tag"><i class="g-in-bg"></i>Miền Trung – Lào · 4T/2022</div><h2>Gỗ Lào vào qua sáu cửa khẩu</h2>
+    h=`</div><h2>Gỗ Lào vào qua sáu cửa khẩu</h2>
     <p>La Lay, Cầu Treo và Lao Bảo nhận 62.986 m³ gỗ xẻ, bằng 80,2% lượng gỗ xẻ qua sáu cửa khẩu trong kỳ. Chưa có trị giá theo từng cửa khẩu.</p>
     <h3>Lượng nhập theo cửa khẩu · m³</h3>
     <div class="keyrow"><span><i class="g-in-bg"></i>Gỗ xẻ</span><span><i class="g-in-bg" style="opacity:.45"></i>Gỗ tròn</span></div>`+
@@ -1280,7 +1280,7 @@ function renderOverview(){
     `<div class="flist" style="margin-top:6px">${flowItem(FLOWS.find(f=>f.id==='r_dpf'))}</div>
     <h3>Nhà máy vệ tinh · vận đơn biển giao Ashley 2015–9/2026</h3>`+
     bars(V.map(n=>({n:n.lb.split(' · ')[0],v:n.bol,node:n.id})),{g:'wk',fmt:f0})+
-    `<p class="small muted" style="margin-top:6px">Các nhà máy vệ tinh giao hàng trực tiếp cho Ashley theo vận đơn Hải quan Mỹ. Tuyến từ nhà máy vệ tinh vào Wanek là khái quát, chưa xác nhận hàng đi qua kho Wanek.</p>`;
+    `<p class="small muted" style="margin-top:6px"></p>`;
   }
   body.innerHTML=h;wireBody();
   body.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>goRegion(b.dataset.go,true)));
