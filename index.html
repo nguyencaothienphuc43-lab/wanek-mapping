@@ -36,6 +36,11 @@
   --m-sea:#d6e0e7; --m-land:#f4f5f2; --m-bord:#c1cad2;
   --m-wk:#b8327f; --m-wk-hi:#6e1146;
   --m-bd:#141b24; --m-bd-halo:rgba(255,255,255,.92);
+
+  /* hãng tàu: màu theo liên minh 2026 (4 màu qua kiểm tra mù màu mọi cặp + xám cho nhóm khác) */
+  --a-oc:#2a78d6; --a-ms:#eda100; --a-ge:#008300; --a-pr:#e87ba4; --a-ot:#8a94a0; --a-ex:#3b4654;
+  --sl-oc:#2a78d6; --sl-ms:#eda100; --sl-ge:#008300; --sl-pr:#e87ba4; --sl-ot:#7f8a97; --sl-ex:#3b4654;
+  --sl-oc-hi:#123f7c; --sl-ms-hi:#6e4a00; --sl-ge-hi:#004d00; --sl-pr-hi:#9c2359; --sl-ot-hi:#3d4753; --sl-ex-hi:#5b6673;
 }
 html[data-bm="dark"]{
   --m-in:#e0602c; --m-mid:#1fae7c; --m-out:#3f8cea;
@@ -46,6 +51,8 @@ html[data-bm="dark"]{
   --m-sea:#0d1319; --m-land:#1a232d; --m-bord:#2e3c4b;
   --m-wk:#c94590; --m-wk-hi:#ffc3de;
   --m-bd:#ffffff; --m-bd-halo:rgba(4,8,12,.8);
+  --sl-oc:#3987e5; --sl-ms:#c98500; --sl-ge:#008300; --sl-pr:#d55181; --sl-ot:#7d8896; --sl-ex:#c9d3de;
+  --sl-oc-hi:#b1d2ff; --sl-ms-hi:#ffd88a; --sl-ge-hi:#8fe08f; --sl-pr-hi:#ffc3de; --sl-ot-hi:#c5ced8; --sl-ex-hi:#ffffff;
 }
 
 html,body{height:100%}
@@ -193,7 +200,7 @@ button.br:hover{background:var(--chip)}
 .focus .zone{fill-opacity:.03;stroke-opacity:.25}
 .focus .zone.hl{fill-opacity:.14;stroke-opacity:.8}
 .vb-land{fill:var(--m-land);stroke:none}
-@media (prefers-reduced-motion:reduce){.fp{animation:none;display:none}.wk-pulse{animation:none;opacity:0}.demo-dash{animation:none}}
+@media (prefers-reduced-motion:reduce){.fp,.slp{animation:none;display:none}.wk-pulse{animation:none;opacity:0}.demo-dash{animation:none}}
 
 .nd{background:none;border:0}
 .nd svg{display:block;overflow:visible;transition:transform .15s}
@@ -243,6 +250,86 @@ button.br:hover{background:var(--chip)}
 .leaflet-bar{border:1px solid var(--line-2)!important;box-shadow:var(--shadow)!important;border-radius:10px!important;overflow:hidden}
 .leaflet-control-zoom{margin-right:16px!important;margin-bottom:10px!important}
 
+/* ---------- chế độ: Dòng hàng / Hãng tàu ---------- */
+.seg.mode{grid-template-columns:repeat(2,minmax(0,1fr));margin:0 0 14px}
+.seg.mode button{padding:8px 6px;font-size:13.5px;gap:6px}
+.m-sl{display:none}
+body.mode-sl .m-sl{display:block}
+body.mode-sl .m-flow{display:none!important}
+.a-oc-bg{background:var(--a-oc)} .a-ms-bg{background:var(--a-ms)} .a-ge-bg{background:var(--a-ge)} .a-pr-bg{background:var(--a-pr)} .a-ot-bg{background:var(--a-ot)} .a-ex-bg{background:var(--a-ex)}
+.alli{display:flex;flex-wrap:wrap;gap:5px;margin:2px 6px 0 0}
+.alli .chip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 8px;font-size:12px}
+.alli .chip i{width:10px;height:10px;border-radius:3px;flex:none}
+.alli .chip[aria-pressed="true"]{background:var(--chip);color:var(--ink)}
+.alli .chip[aria-pressed="true"]:hover{background:var(--line-2)}
+.alli .chip[aria-pressed="false"]{background:none;box-shadow:inset 0 0 0 1px var(--line-2);color:var(--ink-3)}
+.alli .chip[aria-pressed="false"] i{background:none!important;box-shadow:inset 0 0 0 1.5px var(--ink-3)}
+.stack{display:flex;gap:2px;height:14px;margin:8px 0 6px}
+.stack i{display:block;height:100%;min-width:2px}
+.stack i:first-child{border-radius:4px 0 0 4px}
+.stack i:last-child{border-radius:0 4px 4px 0}
+.stack i.cond{opacity:.45}
+.stack i.gap{background:var(--line-2)}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:11.5px;color:var(--ink-2);margin-bottom:4px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:9px;height:9px;border-radius:2px;flex:none}
+.legend i.cond{opacity:.45}
+.legend b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.seg.yr{grid-template-columns:repeat(3,minmax(0,1fr));max-width:230px;margin:0 0 8px;padding:2px}
+.seg.yr button{padding:5px 6px;font-size:12px}
+.rot{display:flex;flex-wrap:wrap;align-items:center;gap:3px 2px;font-size:12px;margin:2px 0 6px;color:var(--ink-3)}
+.rot button{border:0;background:var(--chip);border-radius:6px;padding:3px 7px;font-size:12px;font-weight:500;color:var(--ink);cursor:pointer}
+.rot button:hover{background:var(--line-2)}
+.rot button.vn{font-weight:700}
+.rot b{font-weight:600;color:var(--ink-2)}
+.note{border-left:3px solid var(--line-2);padding:6px 0 6px 10px;margin:10px 0;font-size:12px;color:var(--ink-2)}
+.note b{color:var(--ink)}
+.badge.warn{background:#fdeec9;color:#6e4a00}
+.badge.off{background:#f6dcdc;color:#8a1f1f}
+.fitem .fv .badge{margin-left:0}
+.pts{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink-2)}
+.pts b{color:var(--ink)}
+.dt-body table{width:100%;border-collapse:collapse;font-size:11.5px;margin:4px 0 6px}
+.dt-body th{text-align:left;font-weight:600;color:var(--ink-3);padding:4px 6px 4px 0;border-bottom:1px solid var(--line-2)}
+.dt-body td{padding:6px 6px 6px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
+.dt-body td:first-child{color:var(--ink);font-weight:600}
+.dt-body td.n,.dt-body th.n{text-align:right;font-variant-numeric:tabular-nums;padding-right:0}
+dl.facts.sl{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr)}
+dl.facts.sl dd{text-align:right;padding-left:10px}
+.src{font-size:11px;color:var(--ink-3);margin-top:14px;padding-top:8px;border-top:1px solid var(--line)}
+.a-gap-bg,.legend i.gap{background:rgba(18,25,34,.2)}
+.bars.wide .br{grid-template-columns:150px 1fr 58px}
+.tags{display:flex;flex-wrap:wrap;gap:5px}
+.tags span{background:var(--chip);border-radius:999px;padding:4px 10px;font-size:12px;color:var(--ink)}
+.st .t small{display:block;font-size:11px;font-weight:500;color:var(--ink-3);margin-top:1px}
+#slLayers .st{grid-template-columns:18px 34px 1fr;padding:4px 6px 4px 0}
+
+/* tuyến hãng tàu trên bản đồ */
+.sl{transition:opacity .25s}
+.slb{stroke-opacity:.6}
+.slb.ex{stroke:var(--sl-ex);stroke-opacity:.26}
+.slb.a-oc{stroke:var(--sl-oc)} .slb.a-ms{stroke:var(--sl-ms)} .slb.a-ge{stroke:var(--sl-ge)} .slb.a-pr{stroke:var(--sl-pr)} .slb.a-ot{stroke:var(--sl-ot)}
+.slb.svc{stroke-opacity:.95}
+.slb.cond{stroke-opacity:.32}
+.slb.hv{stroke-opacity:.95}
+.slb.ex.hv{stroke-opacity:.5}
+.slp{stroke-opacity:.95}
+.slp.ex{stroke:var(--sl-ex-hi)} .slp.a-oc{stroke:var(--sl-oc-hi)} .slp.a-ms{stroke:var(--sl-ms-hi)} .slp.a-ge{stroke:var(--sl-ge-hi)} .slp.a-pr{stroke:var(--sl-pr-hi)} .slp.a-ot{stroke:var(--sl-ot-hi)}
+.slp.pt-s{animation:flowS .44s linear infinite}
+.slp.pt-l{animation:flowL .72s linear infinite}
+.ah.ex{fill:var(--sl-ex-hi)} .ah.a-oc{fill:var(--sl-oc-hi)} .ah.a-ms{fill:var(--sl-ms-hi)} .ah.a-ge{fill:var(--sl-ge-hi)} .ah.a-pr{fill:var(--sl-pr-hi)} .ah.a-ot{fill:var(--sl-ot-hi)}
+.sl-focus .sl{opacity:.1}
+.sl-focus .sl.hl{opacity:1}
+.slv-exp:not(.sl-focus) .sl:not(.L-exp),.slv-imp:not(.sl-focus) .sl:not(.L-imp),.slv-svc:not(.sl-focus) .sl:not(.L-svc){opacity:.16}
+.sl-focus .nd-sl{opacity:.35}
+.sl-focus .nd-sl.sel,.sl-focus .nd-sl.rel{opacity:1}
+.nd-sl .blg{fill:var(--m-node-2);stroke:var(--m-node);stroke-width:1.3}
+.nd-sl .blt{fill:var(--m-node);font:800 6.5px/1 var(--f-ui);letter-spacing:.02em}
+.leaflet-tooltip.lbl.lb-svc{font:700 10.5px/1 var(--f-ui);letter-spacing:.03em;color:var(--m-lbl);background:var(--m-halo);padding:3px 5px 3px 4px;border-radius:4px;border-left:3px solid var(--sl-ot);text-shadow:none}
+.leaflet-tooltip.lbl.lb-svc.a-oc{border-left-color:var(--sl-oc)} .leaflet-tooltip.lbl.lb-svc.a-ms{border-left-color:var(--sl-ms)} .leaflet-tooltip.lbl.lb-svc.a-ge{border-left-color:var(--sl-ge)} .leaflet-tooltip.lbl.lb-svc.a-pr{border-left-color:var(--sl-pr)}
+.leaflet-tooltip.lbl.lb-dest{font:700 12px/1.15 var(--f-disp);letter-spacing:.03em;text-transform:uppercase}
+.leaflet-tooltip.lbl.lb-dest small{font:600 10.5px/1.2 var(--f-ui);letter-spacing:0;text-transform:none}
+
 /* ---------- small screens ---------- */
 @media (max-width:760px){
   .ui{flex-direction:column;justify-content:space-between;gap:10px;padding-bottom:calc(26px + env(safe-area-inset-bottom,0px))}
@@ -256,6 +343,9 @@ button.br:hover{background:var(--chip)}
   .mob-only{display:inline-block}
   .stages{display:none}
   body.show-layers .stages{display:block}
+  body.mode-sl .stages.m-sl{display:none}
+  body.mode-sl.show-layers .stages.m-sl{display:block}
+  .seg.mode{margin-bottom:10px}
   .detail{width:auto;align-self:stretch;max-height:40%}
   .seg button{font-size:12px;gap:4px;padding:7px 3px}
   .leaflet-control-zoom{display:none}
@@ -267,6 +357,11 @@ button.br:hover{background:var(--chip)}
 <div class="ui">
   <div class="col-left">
     <section class="card brand">
+      <div class="seg mode" id="modeSeg" role="group" aria-label="Chế độ xem">
+        <button data-mode="flow" aria-pressed="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5h14.5M14 3.8l3.7 3.7-3.7 3.7M21 16.5H6.5M10 12.8l-3.7 3.7 3.7 3.7"/></svg>Dòng hàng</button>
+        <button data-mode="sl" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.8 13.2h18.4l-2.6 5.3a2 2 0 0 1-1.8 1.1H7.2a2 2 0 0 1-1.8-1.1z"/><path d="M6.2 13.2V9.4h4.4v3.8M10.6 13.2V6.6h4.4v6.6M15 13.2v-2.4h3.4v2.4"/></svg>Hãng tàu</button>
+      </div>
+      <div class="m-flow">
       <h1>Dòng hàng Furniture Việt Nam</h1>
       <p class="lede">Nguyên liệu đi vào, luân chuyển trong nước và thành phẩm đi ra thị trường.</p>
       <div class="kpis">
@@ -283,9 +378,46 @@ button.br:hover{background:var(--chip)}
         <button class="chip" data-r="wanek" aria-pressed="false">Nguồn hàng Wanek</button>
         <button class="chip mob-only" id="layersBtn" aria-pressed="false">Lớp dòng hàng</button>
       </div>
+      </div>
+      <div class="m-sl">
+        <h1>Hãng tàu phục vụ Wanek / Ashley</h1>
+        <p class="lede">Hãng nào chở hàng xuất, nhập của Wanek, đi tuyến nào, bao nhiêu container và hàng gì. Sản lượng 2021–2023; mạng tuyến công bố đến 9/2026.</p>
+        <div class="kpis">
+          <div class="kpi"><b>39.114<small>cont</small></b><span><i class="a-ex-bg"></i>Wanek xuất khẩu 2023</span></div>
+          <div class="kpi"><b>40,4<small>%</small></b><span><i class="a-oc-bg"></i>COSCO, hãng lớn nhất 2023</span></div>
+          <div class="kpi"><b>70,6<small>%</small></b><span><i class="a-ex-bg"></i>qua cửa ngõ bờ Tây Bắc Mỹ</span></div>
+        </div>
+        <div class="regions" id="slViews" role="group" aria-label="Góc nhìn hãng tàu">
+          <button class="chip" data-v="ov" aria-pressed="true">Tổng quan</button>
+          <button class="chip" data-v="exp" aria-pressed="false">Xuất khẩu</button>
+          <button class="chip" data-v="imp" aria-pressed="false">Nhập nguyên liệu</button>
+          <button class="chip" data-v="svc" aria-pressed="false">Dịch vụ 2026</button>
+          <button class="chip" data-v="mkt" aria-pressed="false">Cước &amp; lịch tàu</button>
+          <button class="chip mob-only" id="slLayersBtn" aria-pressed="false">Lớp tuyến</button>
+        </div>
+      </div>
     </section>
 
-    <section class="card stages" id="stages" aria-label="Chặng dòng hàng">
+    <section class="card stages m-sl" id="slLayers" aria-label="Lớp tuyến hãng tàu">
+      <div class="sec-h"><h2>Lớp tuyến hãng tàu</h2></div>
+      <div id="slLayerList"></div>
+      <div class="grp-h" style="margin-top:12px">Màu theo liên minh 2026<span class="dir">bấm để lọc</span></div>
+      <div class="alli" id="slAlli" role="group" aria-label="Lọc theo liên minh"></div>
+      <div class="howto">
+        <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="3" x2="38" y2="3" stroke="var(--a-ex)" stroke-opacity=".45" stroke-width="1.8"/><line x1="2" y1="9" x2="38" y2="9" stroke="var(--a-ex)" stroke-opacity=".45" stroke-width="5"/></svg>
+        <span>Nét liền: có số container, dày theo lượng. Xám đậm: tổng Wanek, chưa tách theo hãng</span>
+        <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="38" y2="6" stroke="var(--a-oc)" stroke-width="2.2" stroke-dasharray="5 4"/></svg>
+        <span>Nét đứt: dịch vụ hãng công bố 2026, lượng hàng Wanek chưa xác định (KXD)</span>
+        <svg width="40" height="12" viewBox="0 0 40 12" aria-hidden="true"><line x1="2" y1="6" x2="38" y2="6" stroke="var(--a-oc)" stroke-opacity=".4" stroke-width="4"/></svg>
+        <span>Màu nhạt: nhãn chưa xác nhận (OCL có thể là OOCL)</span>
+      </div>
+      <details class="glyphs" id="slGlyphDetails">
+        <summary>Ký hiệu cảng</summary>
+        <div class="gl" id="slGlyphs"></div>
+      </details>
+    </section>
+
+    <section class="card stages m-flow" id="stages" aria-label="Chặng dòng hàng">
       <div class="sec-h"><h2>Chặng dòng hàng</h2></div>
       <div id="stageList"></div>
       <div class="howto">
@@ -919,7 +1051,7 @@ function updateNodes(){
   const z=map.getZoom();
   NODES.forEach(n=>{
     if(n.k==='label'){
-      const on=z>=n.lz&&(n.lzMax==null||z<n.lzMax);
+      const on=z>=n.lz&&(n.lzMax==null||z<n.lzMax)&&!(mode==='sl'&&n.cls==='lb-cluster');
       if(on&&!map.hasLayer(n.tip)) n.tip.addTo(map); else if(!on&&map.hasLayer(n.tip)) map.removeLayer(n.tip);
       return;
     }
@@ -940,7 +1072,7 @@ function updateNodes(){
     if(el){el.classList.toggle('sel',!!n.sel);el.classList.toggle('rel',!!n.rel);}
   });
   ZONES.forEach(z=>{
-    const on=map.getZoom()>=z.lz;
+    const on=mode!=='sl'&&map.getZoom()>=z.lz;
     if(on&&!map.hasLayer(z.lbl)) z.lbl.addTo(map); else if(!on&&map.hasLayer(z.lbl)) map.removeLayer(z.lbl);
     const el=z.layer.getElement();if(el) el.classList.toggle('hl',!!z.hl);
   });
@@ -953,7 +1085,7 @@ const ringLayer=L.layerGroup();
 });
 function updateRings(){
   const cb=document.getElementById('st-ven');
-  const on=map.getZoom()>=8.25&&(!cb||cb.checked);
+  const on=mode!=='sl'&&map.getZoom()>=8.25&&(!cb||cb.checked);
   if(on&&!map.hasLayer(ringLayer)) ringLayer.addTo(map); else if(!on&&map.hasLayer(ringLayer)) map.removeLayer(ringLayer);
 }
 function updateFlows(){FLOWS.forEach(applyFlow);}
@@ -1200,11 +1332,680 @@ function flyToSel(){
     map.flyTo(map.unproject(map.project(L.latLng(n.ll),z).subtract(off),z),z,{duration:1});}
 }
 
+/* =============== CHẾ ĐỘ HÃNG TÀU · DỮ LIỆU =============== */
+/* Nguồn: Phân tích hãng tàu và tuyến vận chuyển phục vụ Wanek/Ashley, chốt 25/09/2026.
+   Ô không có dữ liệu giữ null (hiển thị “—”, không phải 0). */
+let mode='flow';
+const SLSRC={
+  P:'Tài liệu nền Furniture Industry Supply Chain Report 17/01/2024, trang 40–46: sản lượng Wanek theo hãng, cảng; chưa có file giao dịch gốc để kiểm toán.',
+  H:'Công bố hãng tàu về mạng dịch vụ 12/2025–06/2026: OOCL (Day 10, 20/01/2026), MSC (02/04/2026), Maersk (15/01 và 11/05/2026), CMA CGM (flyer MTE 06/2026), ONE (29/01/2026; flyer EC2 12/2025), CNC (01/2026), UWL (06/03/2026).',
+  O:'Báo cáo thường niên, trang cổ đông và công bố hãng về sở hữu, liên minh — kiểm tra đến 25/09/2026.',
+  B:'ImportInfo — dữ liệu manifest công khai, ba vận đơn mẫu 8–9/2026; chưa đối chiếu B/L doanh nghiệp.',
+  M:'Drewry WCI 24/09/2026; Sea-Intelligence GLP 7/2026; VietnamNet (dẫn Bộ NN&MT) 8 tháng 2026; ITTO 01–15/05/2026; kết quả Q2/2026 của Maersk, CMA CGM, Hapag-Lloyd; UNCTAD RMT 2025.'
+};
+const ALLI={
+  oc:{n:'OCEAN',full:'OCEAN Alliance',mem:'CMA CGM (gồm ANL, CNC), COSCO, OOCL, Evergreen',d:'Day 10 công bố 41 dịch vụ, 394 tàu, khoảng 5,3 triệu TEU sức chở (01/2026) — sức chở đội tàu, không phải số container Wanek.'},
+  ms:{n:'MSC',full:'MSC',mem:'MSC',d:'Mạng dịch vụ mang thương hiệu MSC như Sentosa, Chinook. Đánh giá từng dịch vụ.'},
+  ge:{n:'Gemini',full:'Gemini Cooperation',mem:'Maersk, Hapag-Lloyd',d:'Cần kiểm tra tuyến trực tiếp, hub trung chuyển và chuyến được cấp chỗ.'},
+  pr:{n:'Premier',full:'Premier Alliance',mem:'ONE, HMM, Yang Ming (từ 02/2025)',d:'Các thương hiệu có thể cùng một vòng tàu, nên dự phòng phải xuống tới cấp dịch vụ.'},
+  ot:{n:'Khác',full:'Hãng độc lập, NVOCC, nhãn chưa xác định',mem:'Wan Hai, SITC, PIL, ZIM, UWL…',d:'Hãng ngoài bốn nhóm trên, nhà giao nhận/NVOCC và các nhãn chưa đủ căn cứ để gán tập đoàn.'}
+};
+const ALLI_ORD=['oc','ms','ge','pr','ot'];
+const YEARS=[2021,2022,2023],EXT={2021:66905,2022:31059,2023:39114},IMT=17437;
+/* ex: container xuất khẩu 2021/2022/2023 · im: container nhập cộng dồn 2021–2023 (mẫu số 17.437) */
+const CAR=[
+  {id:'cosco',n:'COSCO',a:'oc',ex:[28964,10298,15806],im:5325,own:'Nhóm COSCO SHIPPING; OOCL (thuộc OOIL) nằm trong cùng nhóm.'},
+  {id:'msc',n:'MSC',a:'ms',ex:[19670,12603,5215],im:329,own:'Tập đoàn tư nhân của gia đình Aponte, trụ sở Thụy Sĩ.'},
+  {id:'wanhai',n:'Wan Hai',a:'ot',ex:[2365,1755,4643],im:752,rel:29.8,own:'Wan Hai Lines, niêm yết tại Đài Loan (Trung Quốc); Yi Chun Navigation nắm 12,85% (30/03/2026).'},
+  {id:'evergreen',n:'Evergreen',a:'oc',ex:[2288,797,4199],im:1794,imL:'EMC',own:'Evergreen Marine Corporation, thuộc nhóm Evergreen.'},
+  {id:'uwl',n:'UWL',a:'ot',role:'NVOCC',ex:[null,2090,3846],own:'Thuộc World Shipping/World Group; dịch vụ logistics/NVOCC, không tự xác định tàu hay hãng vận hành.',
+    note:'UWL/ESL đã kết thúc Sun Chief Express, chuyến cuối dự kiến rời TP.HCM 20/03/2026. Không dùng 3.846 container năm 2023 để khẳng định dịch vụ còn khả dụng.'},
+  {id:'ocl',n:'OCL',a:'oc',cond:true,ex:[null,null,2490],note:'Năm 2023 ghi “OCL”, các năm trước ghi “OOCL”. Nếu OCL = OOCL, nhóm COSCO có 18.296 container, 46,78% năm 2023. Cần xác nhận mã trước khi dùng tỷ trọng tập đoàn.'},
+  {id:'oocl',n:'OOCL',a:'oc',ex:[1712,1081,null],im:177,own:'Thuộc OOIL, nhóm COSCO SHIPPING.'},
+  {id:'hmm',n:'HMM',a:'pr',ex:[652,206,555],im:123,own:'Korea Development Bank 35,42%, Korea Ocean Business Corporation 35,08% (31/12/2025).'},
+  {id:'one',n:'ONE',a:'pr',ex:[304,238,478],im:450,own:'ONE Holdings: NYK 38%, MOL 31%, K Line 31%.'},
+  {id:'cma',n:'CMA CGM',a:'oc',ex:[2446,366,442],im:356,imL:'CMA',q2:'≈ 6,3 triệu TEU',own:'Tập đoàn gia đình Saadé; ANL và CNC thuộc nhóm.'},
+  {id:'hapag',n:'Hapag-Lloyd',a:'ge',ex:[724,217,313],im:424,imL:'HPL',rel:69.3,q2:'3,481 triệu TEU',own:'CSAV 30%, Kühne 30%, TP Hamburg 13,9%, Qatar 12,3%, PIF Saudi Arabia 10,2% (30/06/2026).',
+    note:'Công bố thỏa thuận mua ZIM ngày 16/02/2026, dự kiến hoàn tất cuối 2026 và còn điều kiện phê duyệt; chưa gộp ZIM.'},
+  {id:'pil',n:'PIL',a:'ot',ex:[null,392,253],own:'Pacific International Lines (Singapore); công bố 2024: Heliconia (Temasek) là cổ đông đa số.'},
+  {id:'anl',n:'ANL',a:'oc',ex:[null,null,191],own:'Thương hiệu trong nhóm CMA CGM.'},
+  {id:'maersk',n:'Maersk',a:'ge',ex:[4505,507,170],rel:73.7,q2:'3,361 triệu FFE ≈ 6,722 triệu TEU',own:'A.P. Møller–Mærsk; A.P. Møller Holding nắm 52,50% quyền biểu quyết (16/09/2026).'},
+  {id:'zim',n:'ZIM',a:'ot',ex:[1261,192,null],note:'Hapag-Lloyd công bố thỏa thuận mua ZIM (16/02/2026), chưa hoàn tất tại ngày chốt; chưa gộp.'},
+  {id:'yml',n:'Yang Ming',a:'pr',ex:[737,null,null],im:163,imL:'YML'},
+  {id:'damco',n:'DAMCO',a:'ot',role:'Giao nhận',ex:[327,null,null],note:'Nhãn giao nhận trong dữ liệu lịch sử; cần xác định pháp nhân và thời kỳ trước khi gộp với Maersk.'},
+  {id:'hsl',n:'HSL',a:'ot',ex:[180,null,null],note:'Mã dễ gây nhầm; cần tên pháp lý và SCAC trước khi gán tập đoàn.'},
+  {id:'sitc',n:'SITC',a:'ot',im:1894,own:'SITC International Holdings, nhóm vận tải – logistics chuyên nội Á.'},
+  {id:'mcc',n:'MCC',a:'ot',im:909,note:'Cần xác định pháp nhân và thời kỳ trước khi gộp vào nhóm Maersk.'},
+  {id:'tsl',n:'TS Lines',a:'ot',im:696},
+  {id:'cnc',n:'CNC',a:'oc',im:695,own:'Hãng nội Á thuộc nhóm CMA CGM. Dịch vụ CV7/CV8 là dịch vụ riêng của CNC, không phải dịch vụ chung OCEAN.'},
+  {id:'zhonggu',n:'Zhonggu',a:'ot',im:636},
+  {id:'ial',n:'IAL',a:'ot',im:546,note:'Mã dễ gây nhầm; cần tên pháp lý và SCAC trước khi gán tập đoàn.'},
+  {id:'sml',n:'SML',a:'ot',im:428},
+  {id:'culine',n:'CU Line',a:'ot',im:204},
+  {id:'kmtc',n:'KMTC',a:'ot',im:187},
+  {id:'vsico',n:'VSICO',a:'ot',im:176},
+  {id:'haian',n:'Hải An',a:'ot',im:100},
+  {id:'benline',n:'BENLINE',a:'ot',role:'Giao nhận',im:83},
+  {id:'rcl',n:'RCL',a:'ot',im:77}
+];
+const CR=Object.fromEntries(CAR.map(c=>[c.id,c]));
+const EXGAP=[770,317,513],IMGAP=913;
+
+/* cảng & điểm trên bản đồ hãng tàu (kinh độ châu Mỹ cộng 360 để tuyến đi qua Thái Bình Dương) */
+const SLP=[
+  {id:'gw',k:'gw',n:'Cửa ngõ biển phía Nam',sub:'Điểm hội tụ minh họa cho hàng xuất Wanek',ll:[10.22,107.22],dir:'right',lz:5,
+    d:'Điểm xếp hàng Wanek 2023: Bình Dương 46,71%, Cát Lái 37,45%, Đồng Nai 10,84%, Cái Mép 3,94%, Phước Long 1,03%. Chưa xác định cảng xếp tàu mẹ nên tuyến xuất được vẽ từ điểm hội tụ này.'},
+  {id:'vt',k:'vn',n:'Cái Mép – Vũng Tàu',sub:'Cảng tàu mẹ phía Nam',ll:[10.52,107.03],dir:'left',lz:6,
+    d:'Các hãng ghi “Vũng Tàu” chưa đủ để kết luận container đi qua Gemalink hay terminal cụ thể. Gemalink tăng từ 8 dịch vụ (2024) lên 12 (2025), khởi công giai đoạn 2 tháng 04/2026.'},
+  {id:'catlai',k:'vn',n:'Cát Lái',sub:'TP.HCM · cảng nhập chính của Wanek',ll:[10.757,106.788],dir:'left',lz:3.5,
+    d:'Cát Lái nhận 15.601 container, 89,47% hàng nhập của Wanek (cộng dồn 2021–2023); tiếp theo Đồng Nai 815, SPITC 482, VICT 266, Cái Mép 74.'},
+  {id:'hph',k:'vn',n:'Hải Phòng',sub:'Cảng ghé của Sentosa, MTE, FP2',ll:[20.76,106.95],dir:'right',lz:5},
+  {id:'lax',k:'dest',n:'Los Angeles',ctry:'Mỹ',ll:[33.74,241.73],dir:'right',lz:5.5,v:12379,clu:'wc',note:'Giữ riêng với Long Beach'},
+  {id:'lgb',k:'dest',n:'Long Beach',ctry:'Mỹ',ll:[33.765,241.8],dir:'bottom',lz:5.5,v:6731,clu:'wc',note:'6.294 + 437 từ hai cách viết'},
+  {id:'prr',k:'dest',n:'Prince Rupert',ctry:'Canada',ll:[54.31,229.66],dir:'left',lz:3.5,v:4597,clu:'pnw',note:'Cửa ngõ Canada, chưa biết điểm giao cuối'},
+  {id:'sea',k:'dest',n:'Seattle',ctry:'Mỹ',ll:[47.6,237.66],dir:'right',lz:5.5,v:2035,clu:'pnw',note:'1.735 + 300 từ hai dòng'},
+  {id:'tac',k:'dest',n:'Tacoma',ctry:'Mỹ',ll:[47.27,237.59],dir:'right',lz:5.5,v:1878,clu:'pnw',note:'Pacific Northwest'},
+  {id:'nyc',k:'dest',n:'New York',ctry:'Mỹ',ll:[40.67,285.95],dir:'right',lz:3.5,v:2340,clu:'ec',note:'Chưa xác định terminal / điểm nội địa'},
+  {id:'orf',k:'dest',n:'Norfolk',ctry:'Mỹ',ll:[36.9,283.67],dir:'right',lz:4,v:2143,clu:'ec',note:'Bờ Đông'},
+  {id:'dmm',k:'dest',n:'Dammam',ctry:'Saudi Arabia',ll:[26.5,50.2],dir:'top',lz:1.5,v:1359,clu:'me',note:'Ngoài Bắc Mỹ'},
+  {id:'jkt',k:'dest',n:'Jakarta',ctry:'Indonesia',ll:[-6.1,106.88],dir:'left',lz:5.5,v:1209,clu:'id',note:'Chưa gộp với Cikarang'},
+  {id:'cik',k:'dest',n:'Cikarang',ctry:'Indonesia',ll:[-6.33,107.14],dir:'right',lz:5.5,v:1018,clu:'id',note:'Địa điểm nội địa / dry port, cần kiểm tra định nghĩa trường'},
+  {id:'nansha',k:'call',n:'Nansha',ctry:'Trung Quốc',ll:[22.66,113.68],dir:'left',lz:6},
+  {id:'yantian',k:'call',n:'Yantian',ctry:'Trung Quốc',ll:[22.57,114.28],dir:'top',lz:4.5},
+  {id:'hkg',k:'call',n:'Hồng Kông',ctry:'Trung Quốc',ll:[22.32,114.13],dir:'bottom',lz:6},
+  {id:'khh',k:'call',n:'Kaohsiung',ctry:'Đài Loan (Trung Quốc)',ll:[22.6,120.28],dir:'left',lz:5},
+  {id:'xmn',k:'call',n:'Xiamen',ctry:'Trung Quốc',ll:[24.45,118.07],dir:'left',lz:5},
+  {id:'sha',k:'orig',n:'Shanghai',ctry:'Trung Quốc',ll:[30.63,122.07],dir:'right',lz:3.5},
+  {id:'ngb',k:'orig',n:'Ningbo',ctry:'Trung Quốc',ll:[29.93,121.88],dir:'left',lz:5},
+  {id:'tao',k:'call',n:'Qingdao',ctry:'Trung Quốc',ll:[36.05,120.3],dir:'left',lz:5},
+  {id:'pus',k:'call',n:'Busan',ctry:'Hàn Quốc',ll:[35.08,129.08],dir:'right',lz:3.5},
+  {id:'yangpu',k:'call',n:'Yangpu',ctry:'Hải Nam, Trung Quốc',ll:[19.72,109.18],dir:'left',lz:6},
+  {id:'sin',k:'call',n:'Singapore',ctry:'Singapore',ll:[1.26,103.84],dir:'bottom',lz:3.5},
+  {id:'oak',k:'call',n:'Oakland',ctry:'Mỹ',ll:[37.8,237.7],dir:'right',lz:4},
+  {id:'van',k:'call',n:'Vancouver',ctry:'Canada',ll:[49.29,236.9],dir:'right',lz:5},
+  {id:'mzp',k:'call',n:'Manzanillo – Colón',ctry:'Panama',ll:[9.36,280.12],dir:'left',lz:3.5},
+  {id:'sav',k:'orig',n:'Savannah',ctry:'Mỹ',ll:[32.08,278.91],dir:'left',lz:4},
+  {id:'chs',k:'call',n:'Charleston',ctry:'Mỹ',ll:[32.78,280.07],dir:'right',lz:4.5},
+  {id:'hfx',k:'call',n:'Halifax',ctry:'Canada',ll:[44.64,296.43],dir:'right',lz:3.5},
+  {id:'rtm',k:'call',n:'Rotterdam',ctry:'Hà Lan',ll:[51.95,4.05],dir:'right',lz:3.5},
+  {id:'ham',k:'call',n:'Hamburg',ctry:'Đức',ll:[53.54,9.97],dir:'right',lz:4.5},
+  {id:'zee',k:'call',n:'Zeebrugge',ctry:'Bỉ',ll:[51.33,3.2],dir:'bottom',lz:5},
+  {id:'fxt',k:'call',n:'Felixstowe',ctry:'Anh',ll:[51.95,1.33],dir:'left',lz:4.5},
+  {id:'pen',k:'orig',n:'Penang',ctry:'Malaysia',ll:[5.41,100.36],dir:'left',lz:4},
+  {id:'lyg',k:'orig',n:'Lianyungang',ctry:'Trung Quốc',ll:[34.74,119.45],dir:'left',lz:4.5},
+  {id:'riz',k:'orig',n:'Rizhao',ctry:'Trung Quốc',ll:[35.38,119.55],dir:'left',lz:5},
+  {id:'mtl',k:'orig',n:'Montreal',ctry:'Canada',ll:[45.55,286.47],dir:'left',lz:3.5},
+  {id:'sju',k:'call',n:'San Juan',ctry:'Puerto Rico',ll:[18.46,293.9],dir:'right',lz:3.5},
+  {id:'x_wc',k:'label',n:'LA / Long Beach',ll:[33.75,241.76],dir:'bottom',lz:1.5,lzMax:5.5},
+  {id:'x_pnw',k:'label',n:'Prince Rupert / Seattle / Tacoma',ll:[54.31,229.66],dir:'left',lz:1.5,lzMax:3.5},
+  {id:'x_st',k:'label',n:'Seattle / Tacoma',ll:[47.45,237.62],dir:'right',lz:3.5,lzMax:5.5},
+  {id:'x_ec',k:'label',n:'New York / Norfolk',ll:[40.67,285.95],dir:'top',lz:1.5,lzMax:3.5},
+  {id:'x_id',k:'label',n:'Jakarta / Cikarang',ll:[-6.2,107],dir:'left',lz:2.5,lzMax:5.5}
+];
+const SP_=Object.fromEntries(SLP.map(p=>[p.id,p]));
+const CLU={wc:{n:'Los Angeles + Long Beach',v:19110,wk:367.5},pnw:{n:'Prince Rupert + Tacoma + Seattle',v:8510,wk:163.7},ec:{n:'New York + Norfolk',v:4483,wk:86.2},id:{n:'Jakarta + Cikarang',v:2227},me:{n:'Dammam',v:1359}};
+
+/* đoạn biển dùng chung */
+const VT_OUT=[[10.38,107.05],[10.14,107.36]];
+const SCS_UP=[[11.3,109.1],[14.3,110.8],[18.5,113.3]];
+const TO_YT=[[21.7,114.45],[22.42,114.36]];
+const CN_UP=[[22.4,115.4],[23.8,117.8],[25.5,120.2],[27.8,121.8],[29.6,122.45]];
+const TO_HP=[[11.3,109.1],[12.4,109.7],[15.5,109.5],[17.5,108.2],[19.3,107.4],[20.3,107.15]];
+const HP_YT=[[20.4,107.8],[20.25,109.4],[20.2,110.4],[20.6,111.4],[21.6,113.5],[22.12,114.32],[22.42,114.36]];
+const TP_LA=[[27,135],[35,155],[40,180],[40,205],[36,228],[33.6,240.9]];
+const TP_PNW=[[30,140],[42,165],[48,195],[49.2,220],[48.45,235.2],[48.2,236.95],[47.9,237.55]];
+const JP_PNW=[[35.3,129.9],[37.6,133],[41.35,139.9],[41.55,141.5],[43,147],[47,160],[50.3,180],[50.8,200],[49.6,220],[48.45,235.2],[48.2,236.95]];
+const TP_PAN=[[20,140],[16,175],[12,215],[8.4,255],[7.6,275],[8.2,279.8],[8.95,280.43],[9.2,280.28]];
+const PAN_N=[[11.5,281.2],[17,284.6],[20.1,286.3],[23.5,286.2],[27.5,285.4]];
+const LA_OAK=[[33.62,241.4],[34,240.6],[34.3,239.3],[35.5,238.6],[37.2,237.3],[37.81,237.47]];
+const SEA_VAN=[[47.9,237.55],[48.25,237.2],[48.45,236.85],[48.8,236.72],[49.12,236.66]];
+const CN_DN=[[27.5,121.6],[24.6,119.9],[22.2,117.6],[18.6,113.4],[14.2,110.9],[11,108.8],[10.22,107.22],...RIV];
+const SG_W=[[8.5,106.9],[5,105.8],[2.2,104.95],[1.35,104.35]];
+
+/* Xuất khẩu Wanek 2023 theo cảng đến (container, trang 42) */
+const EXP=[
+  {id:'e_lax',to:'lax',off:0,via:[...OUT_N,...TP_LA]},
+  {id:'e_lgb',to:'lgb',off:7,via:[...OUT_N,...TP_LA.slice(0,5),[33.66,241.05]]},
+  {id:'e_prr',to:'prr',off:-16,via:[...OUT_N,[30,140],[43,165],[50,195],[53.2,220],[54.1,228.4]]},
+  {id:'e_sea',to:'sea',off:-7,via:[...OUT_N,...TP_PNW]},
+  {id:'e_tac',to:'tac',off:-12,via:[...OUT_N,...TP_PNW,[47.45,237.62]]},
+  {id:'e_nyc',to:'nyc',off:12,via:[...OUT_N,...TP_PAN,[9.45,280.05],...PAN_N,[33,285],[38.5,286.4],[40.45,286.12]],gen:true},
+  {id:'e_orf',to:'orf',off:17,via:[...OUT_N,...TP_PAN,[9.45,280.05],...PAN_N,[32,283.6],[36.95,284.05]],gen:true},
+  {id:'e_dmm',to:'dmm',off:0,via:[[8.2,106.4],[5,105.4],[2.2,104.9],[1.35,104.3],[1.2,103.7],[1.7,102.8],[2.8,101.1],[4.2,99.8],[5.9,97.6],[6.2,94.5],[5.6,86],[5.6,80.6],[8,76],[13,63],[19.5,59.6],[23.4,59.3],[25.5,57.2],[26.5,56.3],[26.3,54.3],[27,51.6],[26.75,50.45]]},
+  {id:'e_jkt',to:'jkt',off:-4,via:[[8,107.35],[4.5,106.9],[1.5,106.95],[-1.2,107.2],[-3.2,107.25],[-5.3,106.95]]},
+  {id:'e_cik',to:'cik',off:4,via:[[8,107.35],[4.5,106.9],[1.5,106.95],[-1.2,107.2],[-3.2,107.25],[-5.3,106.95],'jkt',[-6.22,107.02]]}
+];
+/* Cặp xuất xứ – hãng nhập tiêu biểu (container, trang 45–46; trích chọn, không phải tổng năm) */
+const IMP=[
+  {id:'i_sha_cosco',from:'sha',car:'cosco',v:2562,pg:'Trang 45, bảng bên trái',m:'Bằng chứng về một luồng nhập lớn từ Trung Quốc',off:-5,via:[[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_sha_sitc',from:'sha',car:'sitc',v:756,pg:'Trang 45, bảng bên trái',m:'Có nhà cung cấp nội Á ngoài nhóm COSCO',off:2,via:[[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_pen_emc',from:'pen',car:'evergreen',v:449,pg:'Trang 45, bảng bên trái',m:'Có luồng từ Malaysia',off:-2.5,via:[[5.05,100.15],[3.9,100.45],[2.8,101.1],[1.7,102.8],[1.2,103.7],[1.5,104.6],[3.5,105.9],[7.2,107.7],[10.22,107.22],...RIV]},
+  {id:'i_pen_whl',from:'pen',car:'wanhai',v:272,pg:'Trang 45, bảng bên trái',m:'Có nhiều hãng trên xuất xứ Malaysia',off:2.5,via:[[5.05,100.15],[3.9,100.45],[2.8,101.1],[1.7,102.8],[1.2,103.7],[1.5,104.6],[3.5,105.9],[7.2,107.7],[10.22,107.22],...RIV]},
+  {id:'i_mtl_hpl',from:'mtl',car:'hapag',v:310,pg:'Trang 45, bảng bên trái',m:'Có luồng nhập từ Bắc Mỹ',off:0,gen:true,via:[[46.8,288.8],[48.4,291.3],[49.3,293.8],[47.3,299.6],[43.5,299],[37,293.5],[28,289],...rev(PAN_N),[9.45,280.05],...rev(TP_PAN),...rev(OUT_N),[10.22,107.22],...RIV]},
+  {id:'i_sav_cma',from:'sav',car:'cma',v:175,pg:'Trang 45, bảng bên trái',m:'Có luồng nhập từ Mỹ',off:4,gen:true,via:[[31.85,279.5],[29,279.8],[26,280.05],[24.3,279.4],[23.9,277.5],[21.8,274.8],[17.5,276.5],[13,278.8],[9.6,280.1],...rev(TP_PAN),...rev(OUT_N),[10.22,107.22],...RIV]},
+  {id:'i_lyg_cosco',from:'lyg',car:'cosco',v:164,pg:'Trang 45, bảng bên trái',m:'Có luồng từ miền đông Trung Quốc',off:-2,via:[[34.6,120.35],[33.2,121.9],[31.5,123],[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_lyg_cnc',from:'lyg',car:'cnc',v:143,pg:'Trang 45, bảng bên trái',m:'Vai trò của hãng nội Á thuộc nhóm CMA CGM',off:2,via:[[34.6,120.35],[33.2,121.9],[31.5,123],[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_riz_cosco',from:'riz',car:'cosco',v:174,pg:'Trang 46',m:'Thêm xuất xứ Trung Quốc',off:-4,via:[[35.1,120.4],[33.6,122.1],[31.5,123.1],[29.9,122.7],[28.8,122.5],...CN_DN]},
+  {id:'i_ngb_cosco',from:'ngb',car:'cosco',v:114,pg:'Trang 46',m:'Thêm xuất xứ Trung Quốc',off:5,via:[[29.75,122.4],[28.8,122.5],...CN_DN]}
+];
+/* Dịch vụ hãng công bố 2026 (lượng hàng Wanek trên từng dịch vụ: KXD) */
+const SVC=[
+  {id:'s_pvcs',code:'PVCS',car:'oocl',cor:'wc',lane:-2,lx:165,ld:'bottom',st:'Day 10; mạng xuyên Thái Bình Dương triển khai từ 05/2026',
+    path:['vt',...VT_OUT,...SCS_UP,[21.5,113.75],'nansha',[22.1,113.9],[22.15,114.33],'yantian',[22.3,115.5],[22.4,118.5],'khh',[21.75,120.75],[22.6,122.7],[27,135.5],[34.5,155],[39.5,180],[39.5,205],[35.8,228],[33.63,240.95],'lgb']},
+  {id:'s_ecx1',code:'ECX1',car:'oocl',cor:'ec',lane:3,lx:200,ld:'bottom',st:'Day 10, thông báo 20/01/2026',
+    path:['vt',...VT_OUT,[11.3,109.1],[13.5,109.6],[16,108.95],[18.3,108.4],[19.45,108.85],'yangpu',[20.05,109.6],[20.2,110.4],[20.6,111.4],[21.6,113.4],[22.15,114.08],'hkg',[22.2,114.33],'yantian',...CN_UP.slice(0,2),[24.2,118.1],'xmn',[24.4,118.6],[25.4,120],[27.7,121.6],[29.8,122.55],'sha',[30.3,123.5],[30.5,127.5],[31,131],[30,138],[25,160],[18,190],[12,225],[8.4,255],[7.6,275],[8.2,279.8],[8.95,280.43],[9.2,280.28],[9.45,280.05],...PAN_N,[33,285],[38.5,286.4],[40.45,286.12],'nyc',[40.3,286.35],[37,285.2],[33.5,282.4],[31.95,279.4],'sav',[31.95,279.75],[32.55,280.25],'chs']},
+  {id:'s_ll3',code:'LL3',car:'oocl',cor:'eu',lane:0,lp:.45,st:'Phương án đi vòng Mũi Hảo Vọng trong công bố Day 10',
+    path:['vt',...VT_OUT,...SG_W,'sin',...rev(CAPE).slice(3),...rev(ATL_EU),[51.6,2.9],[51.98,3.85],'rtm',[52.3,3.9],[53.4,5],[54.0,7.5],[53.95,8.5],[53.75,9.3],'ham',[53.9,8.4],[53.7,6],[52.5,3.6],[51.5,3.05],'zee',[51.6,2.5],[51.85,1.6],'fxt']},
+  {id:'s_sentosa',code:'Sentosa',car:'msc',cor:'wc',lane:-1,lx:185,ld:'top',st:'Điều chỉnh công bố 02/04/2026, từ chuyến FV614N',
+    path:['vt',...VT_OUT,...TO_HP,'hph',...HP_YT,'yantian',...CN_UP.slice(0,2),[24.2,118.1],'xmn',[24.6,118.8],[25.4,120.2],[26.2,122.5],[28.5,130],[33.5,150],[38.8,178],[39,205],[35.6,228],[33.66,241.05],'lgb',...LA_OAK.slice(1),'oak']},
+  {id:'s_chinook',code:'Chinook',car:'msc',cor:'pnw',lane:1,lx:172,ld:'top',st:'Điều chỉnh 02/04/2026, từ chuyến UK616A',
+    path:['vt',...VT_OUT,...SCS_UP,...TO_YT,'yantian',...CN_UP,'ngb',[30.15,122.4],'sha',[31.3,122.7],[33.5,121.8],[35.5,121],[35.95,120.45],'tao',[35.8,121.5],[35,124],[34.4,127.5],[34.85,128.85],'pus',...JP_PNW,[47.9,237.55],'sea',...SEA_VAN,'van',[49.2,236.5],[48.45,236.6],[48.35,235.5],[48.6,234.6],[50,232.6],[51.2,231.4],[52.7,229.8],[53.9,229.5],'prr']},
+  {id:'s_tp6',code:'TP6',car:'maersk',cor:'wc',lane:0,lx:145,ld:'top',st:'Điều chỉnh từ 01/03/2026',
+    note:'Công bố có chỉ tiêu thời gian từ Laem Chabang; không áp số đó cho Việt Nam.',
+    path:['vt',...VT_OUT,...SCS_UP,...TO_YT,'yantian',[22.1,115.5],[21.4,119.8],[21.2,121.3],[23.5,128],[30,145],[37.5,170],[39.5,200],[35.9,228],[33.6,240.9],'lax']},
+  {id:'s_tpx',code:'TPX',car:'maersk',cor:'wc',lane:2,lx:222,ld:'top',badge:'Theo mùa',st:'Dịch vụ mùa vụ: chuyến đầu từ Vũng Tàu 09/06/2026, dự kiến kết thúc quý III/2026',
+    note:'Cần xác nhận còn chuyến cho ngày hàng sẵn sàng.',
+    path:['vt',...VT_OUT,...SCS_UP,[22.2,117.6],[24.6,119.9],[27.5,121.9],[30.5,124.5],[33.2,127.8],[34.8,128.9],'pus',[34.5,129.6],[33.4,131],[33.2,135.5],[35.5,145],[38.5,165],[40,185],[39.2,210],[35.5,229],[33.67,241.08],'lgb']},
+  {id:'s_mte',code:'MTE',car:'cma',cor:'wc',lane:1,lx:205,ld:'bottom',badge:'23 ngày',st:'Flyer 06/2026, hàng tuần',
+    transit:'Vũng Tàu – Los Angeles 23 ngày, Vũng Tàu – Oakland 29 ngày (thời gian quảng bá, không phải cam kết hợp đồng)',
+    path:['hph',...rev(TO_HP),...rev(VT_OUT),'vt',...VT_OUT,...SCS_UP,[22.2,117.6],[24.6,119.9],[27.5,121.6],[29.9,122.6],'sha',[30.4,123.5],[31,128],[33,138],[36.5,155],[39.5,180],[39.5,205],[35.7,228],[33.6,240.9],'lax',...LA_OAK,'oak']},
+  {id:'s_fp2',code:'FP2',car:'one',cor:'pnw',lane:-1,lx:205,ld:'top',st:'Điều chỉnh công bố 29/01/2026',
+    note:'Kiểm tra ngày hiệu lực trên booking / chuyến cụ thể.',
+    path:['vt',...VT_OUT,...TO_HP,'hph',...HP_YT,'yantian',[22.4,115.4],[23.8,117.8],[25.5,120.2],[27.8,122],[30.5,124.5],[33.2,127.8],[34.8,128.9],'pus',...JP_PNW,[47.85,237.55],[47.45,237.62],'tac',[47.6,237.55],[48.0,237.5],[48.3,237.1],[48.5,236.8],[48.8,236.72],[49.12,236.66],'van']},
+  {id:'s_ec2',code:'EC2',car:'one',cor:'ec',lane:-3,lx:232,ld:'bottom',st:'Flyer 12/2025, tra cứu 25/09/2026; không thấy ngày hiệu lực riêng',
+    note:'Công bố đi qua Panama; phải xác nhận rotation hiện hành.',
+    path:['vt',...VT_OUT,...SCS_UP,...TO_YT,'yantian',...CN_UP,'ngb',[30.15,122.4],'sha',[31,123.5],[33,126.8],[34.8,128.9],'pus',[34.5,129.6],[33.3,131],[32.5,137],[26,160],[19,190],[12.5,225],[8.4,255],[7.6,275],[8.2,279.8],[8.95,280.43],[9.2,280.28],'mzp',...PAN_N.slice(0,4),[27,284.2],[30,280.5],[31.95,279.4],'sav',[31.9,279.7],[32.55,280.25],'chs',[32.6,280.5],[34.5,283.3],[36.95,284.05],'orf',[36.85,284.3],[39,286],[41.8,291],[43.8,295],[44.55,296.5],'hfx']},
+  {id:'s_cv7',code:'CV7',car:'cnc',cor:'cn',lane:-1,lp:.35,rt:true,badge:'7 ngày',st:'Triển khai 01/2026, hàng tuần',transit:'Ningbo – TP.HCM 7 ngày',
+    note:'Vòng khứ hồi Ningbo → TP.HCM → Ningbo; bản đồ vẽ chiều về Việt Nam, điểm đến vẽ tại Cát Lái vì công bố chỉ ghi TP.HCM.',
+    path:['ngb',[29.75,122.4],[28.8,122.5],...CN_DN,'catlai']},
+  {id:'s_cv8',code:'CV8',car:'cnc',cor:'cn',lane:1,lp:.3,rt:true,badge:'6 ngày',st:'Điều chỉnh 01/2026, hàng tuần',transit:'Shanghai – TP.HCM 6 ngày',
+    note:'Vòng khứ hồi Shanghai → TP.HCM → Shanghai; bản đồ vẽ chiều về Việt Nam, điểm đến vẽ tại Cát Lái vì công bố chỉ ghi TP.HCM.',
+    path:['sha',[29.9,122.7],[28.8,122.5],...CN_DN,'catlai']}
+];
+const SVC_END={code:'Sun Chief Express',car:'uwl',st:'UWL/ESL thông báo kết thúc ngày 06/03/2026; chuyến cuối ESL Mombasa dự kiến rời TP.HCM 20/03/2026. Thông báo này thay thế kế hoạch chạy hàng tuần từ 06/2026 (công bố 12/2025).'};
+const CORR=[
+  {id:'wc',n:'Việt Nam – LA / Long Beach',g:'Sofa, ghế bọc, bộ phận nội thất, đồ gỗ phòng ngủ',s:'PVCS, Sentosa, TP6, MTE; TPX chỉ khi còn lịch',q:'19.110 container Wanek năm 2023, chưa chia theo dịch vụ',k:'Thiết bị phù hợp, bảo vệ hàng, tổng ngày tới kho, rail/truck sau cảng'},
+  {id:'pnw',n:'Việt Nam – Pacific Northwest / Canada',g:'Hàng nội thất phục vụ kho / khách Bắc Mỹ',s:'Chinook, FP2 và phương án khác cần báo giá',q:'8.510 container tới Prince Rupert, Tacoma, Seattle năm 2023',k:'Đúng cửa ngõ Canada/Mỹ, điểm giao cuối, chặng rail, chuyển tiếp biên giới'},
+  {id:'ec',n:'Việt Nam – bờ Đông Mỹ',g:'Đồ nội thất giao mạng kho phía đông',s:'ECX1, EC2 và lựa chọn cùng điểm giao',q:'Ít nhất 4.483 container tới New York, Norfolk năm 2023',k:'Tổng chi phí tới kho, thời gian biển, độ lệch lịch, khả năng đổi hành trình'},
+  {id:'cn',n:'Trung Quốc – miền Nam Việt Nam',g:'Vải, xơ/sợi, ván và vật liệu khác theo đơn mua thực tế',s:'COSCO, SITC, Evergreen, CNC CV7/CV8, các hãng nội Á trong bảng nhập',q:'Có cặp xuất xứ – hãng lịch sử, chưa có lượng theo mặt hàng',k:'Giao đúng lịch sản xuất, số chuyến, free time, lấy hàng tại cảng nhập'},
+  {id:'my',n:'Malaysia – miền Nam Việt Nam',g:'Nguyên liệu / linh kiện cần xác minh bằng HS và mô tả hàng',s:'Evergreen, Wan Hai, CNC trong bảng lịch sử',q:'Có các dòng Penang, chưa có ma trận hàng',k:'Cân đối lô nhập, thời gian lưu bãi, tồn kho nguyên liệu'},
+  {id:'na',n:'Bắc Mỹ – Việt Nam',g:'Nguyên liệu hoặc hàng khác theo từng B/L',s:'Hapag-Lloyd, CMA CGM, ONE/MSC có dấu vết trong tài liệu',q:'Có Montreal, Savannah; chưa xác nhận lượng từng loại hàng',k:'Lead time mua hàng, trọng lượng, thiết bị, lịch nhận nguyên liệu'},
+  {id:'eu',n:'Việt Nam – châu Âu',g:'Đồ nội thất nếu có đơn hàng / kho nhận tương ứng',s:'LL3 và tuyến khác cần xác minh',q:'Chưa có cơ sở định lượng Wanek – EU riêng',k:'Điểm giao cuối, hành trình thực tế, độ ổn định, chi phí'}
+];
+/* Vận đơn mẫu 2026 (ImportInfo): bằng chứng cấp lô hàng, không phải thị phần */
+const BLS=[
+  {id:'b_1',car:'evergreen',cond:true,g:'Sofa',hs:'94016100',to:'sju',lb:'Sofa · San Juan',
+    f:[['Master / house B/L','EGLV235601262456 / BEJBBHCM26070442'],['Tàu, chuyến','MEDSTAR, 037N'],['Ngày đến thực tế','17/09/2026'],['Nhận hàng / cảng nước ngoài / cảng dỡ','TP.HCM / Colón, Panama / San Juan, Puerto Rico'],['Hàng, HS','Sofa, 94016100'],['Lượng, container','48 kiện carton, 2.667 kg · EGSU1759908 (45G1)'],['Bên vận tải','House: BEJB; master tiền tố EGLV — cần đối chiếu Evergreen ở cấp master']],
+    note:'Hồ sơ Wanek Furniture Co., Ltd. Colón là cảng của chặng manifest phản ánh, không đủ kết luận xuất xứ Panama. Puerto Rico cần phân loại riêng với Mỹ lục địa. Chưa xác định mã dịch vụ.',
+    path:['catlai',...rev(RIV),[10.22,107.22],...OUT_N,...TP_PAN,'mzp',[12,282],[16.5,289],[18,292],[18.62,292.45],[18.55,293.45],'sju']},
+  {id:'b_2',car:'msc',cond:true,g:'Sofa',hs:'94016100',to:'sea',lb:'Sofa · FROB',
+    f:[['Master / house B/L','MEDUXT639358 / BANQ1076216143'],['Tàu, chuyến','MSC NICOLE X, UK633'],['Ngày đến / ngày chạy bản ghi','13/08/2026 / 11/09/2026'],['Nhận hàng / cảng Mỹ trong bản ghi','TP.HCM / Seattle'],['Người nhận','The Dufresne Group Inc., Canada'],['Hàng, HS','Sofa, 94016100'],['Lượng, container','118 carton, 4.559 kg · MSMU4752701 (House FROB)'],['Bên vận tải','House: BANQ; master và tên tàu cho dấu vết MSC']],
+    note:'Hồ sơ Wanek Furniture LLC. FROB là hàng còn trên tàu khi ghé cảng Mỹ, cần tách khỏi chỉ tiêu hàng dỡ nhập Mỹ. Chưa gán lô này vào Chinook chỉ từ tên tàu hoặc tiền tố chuyến.',
+    path:['catlai',...rev(RIV),[10.22,107.22],...OUT_N,...TP_PNW,'sea']},
+  {id:'b_3',car:'one',g:'Đồ gỗ phòng ngủ',hs:'940350',to:'lax',lb:'Phòng ngủ · Ashley',
+    f:[['Master B/L / carrier','ONEYSGNGQ5209303 / ONEY'],['Tàu, chuyến','WIDE ALPHA, 613E, IMO 9694529'],['Ngày đến thực tế','21/09/2026'],['Điểm nhận / cảng xếp / cảng dỡ','Dĩ An, Bình Dương / Vũng Tàu / Los Angeles'],['Người nhận','Ashley Furniture Trading Company LLC'],['Hàng, HS','Giường, tủ đầu giường; 940350'],['Lượng, container','150 carton, 8.478 kg · BSIU9814216 (45G1)']],
+    note:'Hồ sơ Ashley Furniture Trading Company. Trường shipper trống nên không gán cho Wanek. Trường phương thức ghi “Vessel, non-container” nhưng có container ID; cần kiểm tra trước khi tổng hợp tự động.',
+    path:['vt',...VT_OUT,...OUT_N,...TP_LA,'lax']}
+];
+const REC=[
+  ['Duy trì nguồn cung chủ lực',['cosco','oocl','ocl'],'Lượng lịch sử lớn nhất, nhiều cửa ngõ','Contract owner, lượng theo service, phân bổ thiết bị, rollover'],
+  ['Đối chiếu phương án bờ Tây / PNW',['msc'],'Sản lượng lịch sử đáng kể, có Sentosa / Chinook năm 2026','Chuyến thực tế, cảng / terminal, inland rate tới kho, free time'],
+  ['Kiểm tra thêm lựa chọn LA / Oakland',['cma','maersk'],'Có hành trình Việt Nam – bờ Tây công bố (MTE, TP6)','Báo giá cùng cơ sở, transit thực tế, cut-off, bảo đảm chỗ'],
+  ['Đối chiếu phương án Premier',['one','hmm','yml'],'Có FP2 / EC2 và mẫu vận đơn Ashley trên ONE','Hãng bán chỗ, tàu / vòng dịch vụ thực sự sử dụng'],
+  ['Rà soát các hãng tăng mạnh 2023',['wanhai','evergreen'],'Dịch chuyển tỷ trọng lớn trong dữ liệu nền','Số 2024–2026, nguyên nhân thay đổi, tên service hiện hành'],
+  ['Nguyên liệu nội Á',['cosco','sitc','evergreen','cnc'],'Phù hợp cấu trúc nguồn hàng lịch sử','Shanghai / Ningbo / Penang tới đúng cảng nhận, tần suất, giao tới nhà máy'],
+  ['Hàng từng đặt qua UWL',['uwl'],'Cần cập nhật sau khi Sun Chief kết thúc','Phương án thay thế, master carrier, điều kiện dịch vụ hiện tại']
+];
+SP_.x_wc.m=['lax','lgb'];SP_.x_pnw.m=['prr','sea','tac'];SP_.x_st.m=['sea','tac'];SP_.x_ec.m=['nyc','orf'];SP_.x_id.m=['jkt','cik'];
+
+/* =============== CHẾ ĐỘ HÃNG TÀU · BẢN ĐỒ =============== */
+const slLL=r=>typeof r==='string'?SP_[r].ll:r;
+const slW=v=>1.6+8.4*Math.sqrt(v/12379);   /* cùng thang container cho xuất & nhập */
+const acls=a=>a==='ex'?'ex':'a-'+a;
+const SLINES=[];
+EXP.forEach(e=>{const p=SP_[e.to];SLINES.push({id:e.id,L:'exp',a:'ex',v:p.v,w:slW(p.v),off:e.off,gen:e.gen,to:e.to,path:['gw',...e.via,e.to]});});
+IMP.forEach(i=>{const c=CR[i.car];SLINES.push(Object.assign({},i,{L:'imp',a:c.a,cond:c.cond,w:slW(i.v),to:'catlai',path:[i.from,...i.via,'catlai']}));});
+SVC.forEach(s=>{SLINES.push(Object.assign({},s,{L:'svc',a:CR[s.car].a,w:2.2,off:s.lane*3.4}));});
+BLS.forEach(b=>{SLINES.push(Object.assign({},b,{L:'bl',a:CR[b.car].a,w:1.8,off:-7}));});
+const SLI=Object.fromEntries(SLINES.map(l=>[l.id,l]));
+function slLane(pts,off){
+  if(!off||pts.length<3) return pts;
+  const c=cumLen(pts),Lt=c[c.length-1],ramp=Math.max(Math.min(Lt*0.2,Math.abs(off)*8),1e-9),n=pts.length;
+  return pts.map((p,i)=>{
+    const a=pts[Math.max(0,i-1)],b=pts[Math.min(n-1,i+1)];
+    let dx=b.x-a.x,dy=b.y-a.y;const d=Math.hypot(dx,dy)||1;dx/=d;dy/=d;
+    const s=Math.min(1,c[i]/ramp,(Lt-c[i])/ramp),k=off*s*s*(3-2*s);
+    return {x:p.x-dy*k,y:p.y+dx*k};
+  });
+}
+SLINES.forEach(l=>{
+  l.stops=l.path.filter(x=>typeof x==='string');
+  l.from=l.stops[0];if(!l.to) l.to=l.stops[l.stops.length-1];
+  const legs=[];let cur=[];
+  l.path.forEach((x,i)=>{cur.push(P0(slLL(x)));if(typeof x==='string'&&i>0){legs.push(cur);cur=[P0(slLL(x))];}});
+  l.legs0=legs.map(P=>P.length===2?bez(P[0],P[1],0):spline(P));
+});
+function slGeom(l,z){
+  const k=l.off?l.off/Math.pow(2,z):0;let pts=[];
+  l.legs0.forEach((P,i)=>{const q=slLane(P,k);pts=pts.concat(i?q.slice(1):q);});
+  return pts;
+}
+const slAt=(ll,fr)=>{const q=cutAt(ll.map(P0),fr);return U0(q[q.length-1]);};
+const slAtLng=(ll,x)=>{for(let i=1;i<ll.length;i++){const a=ll[i-1],b=ll[i];if(a[1]!==b[1]&&(a[1]-x)*(b[1]-x)<=0){const t=(x-a[1])/(b[1]-a[1]);return [a[0]+(b[0]-a[0])*t,x];}}return slAt(ll,.5);};
+
+const SLL={exp:true,imp:true,svc:true,bl:true};
+const SLA={oc:true,ms:true,ge:true,pr:true,ot:true};
+const slVis=l=>SLL[l.L]&&(l.a==='ex'||SLA[l.a]);
+let slView='ov',slSel=null,slYear=2,slMore=false;
+
+const slLayer=L.layerGroup(),slNodeLayer=L.layerGroup();
+defs.insertAdjacentHTML('beforeend',SLINES.filter(l=>l.L!=='bl').map(l=>{
+  const s=Math.max(9,Math.min(20,l.w*1.35+7));
+  return `<marker id="sle-${l.id}" viewBox="0 0 10 10" refX="${(10+7*10/s).toFixed(2)}" refY="5" markerWidth="${s.toFixed(1)}" markerHeight="${s.toFixed(1)}" markerUnits="userSpaceOnUse" orient="auto" overflow="visible"><path class="ah ${acls(l.a)}" d="M0,0.7 L10,5 L0,9.3 L2.7,5 Z"/></marker>`;
+}).join(''));
+SLINES.slice().sort((a,b)=>b.w-a.w).forEach(l=>{
+  const cls='sl L-'+l.L+' '+acls(l.a)+(l.cond?' cond':''),svc=l.L==='svc',bl=l.L==='bl',big=l.w>5.2;
+  const o={renderer:flowRenderer,interactive:false,lineCap:'round',lineJoin:'round',smoothFactor:0.6};
+  const z0=[[0,0],[0,1]];
+  const base=L.polyline(z0,Object.assign({},o,{weight:l.w,className:cls+' slb'+(svc?' svc':''),dashArray:svc?'6 5':(bl?'0.1 5':null)}));
+  const part=bl?null:L.polyline(z0,Object.assign({},o,{weight:svc?2:Math.max(2.2,l.w*0.78),className:cls+' slp '+(big?'pt-l':'pt-s'),dashArray:big?'7 29':'3.5 18.5'}));
+  const hit=L.polyline(z0,Object.assign({},o,{weight:Math.max(14,l.w+10),opacity:0,className:'sl-hit',interactive:true}));
+  hit.bindTooltip(()=>slTip(l),{sticky:true,className:'tt',direction:'top',offset:[0,-10],opacity:1});
+  hit.on('click',e=>{L.DomEvent.stopPropagation(e);slSelect('line',l.id);});
+  hit.on('mouseover',()=>{l.hv=true;slApply(l);});
+  hit.on('mouseout',()=>{l.hv=false;slApply(l);});
+  hit.on('add',()=>{const b=base.getElement();if(b&&!bl) b.setAttribute('marker-end','url(#sle-'+l.id+')');slApply(l);});
+  l.parts_={base,part,hit};l.grp=L.featureGroup([base,part,hit].filter(Boolean));
+  if(svc) l.lbl=L.tooltip({permanent:true,direction:l.ld||'center',offset:l.ld==='top'?[0,-3]:l.ld==='bottom'?[0,3]:[0,0],className:'lbl lb-svc '+acls(l.a),opacity:1,interactive:false}).setContent(esc(l.code));
+});
+function slApply(l){
+  Object.values(l.parts_).forEach(p=>{const el=p&&p.getElement();if(el){el.classList.toggle('hl',!!l.hl);el.classList.toggle('hv',!!l.hv);}});
+}
+function slGeomAll(){
+  const z=map.getZoom();
+  SLINES.forEach(l=>{l.ll=slGeom(l,z).map(U0);Object.values(l.parts_).forEach(p=>p&&p.setLatLngs(l.ll));});
+}
+function slCarOf(l){return l.car||null;}
+function slTip(l){
+  const c=l.car?CR[l.car]:null;
+  if(l.L==='exp'){const p=SP_[l.to];return `<b>Việt Nam → ${esc(p.n)}</b>, ${esc(p.ctry)}<br><span class="v">${f0(p.v)} container</span> · ${f2(p.v/EXT[2023]*100)}% <span class="m">· Wanek xuất 2023</span><br><span class="m">Tổng Wanek, chưa tách theo hãng</span>`;}
+  if(l.L==='imp') return `<b>${esc(SP_[l.from].n)} → Cát Lái</b> · ${esc(c.n)}<br><span class="v">${f0(l.v)} container</span> <span class="m">· cộng dồn 2021–2023, dòng trích chọn</span><br><span class="m">${esc(ALLI[c.a].n)}${c.cond?' · nhãn chưa xác nhận':''}</span>`;
+  if(l.L==='svc') return `<b>${esc(l.code)}</b> · ${esc(c.n)} <span class="m">(${esc(ALLI[c.a].n)})</span><br>${l.stops.map(s=>esc(SP_[s].n)).join(' → ')}<br><span class="m">Dịch vụ công bố 2026 · lượng Wanek: KXD</span>`;
+  return `<b>Vận đơn mẫu · ${esc(l.g)}</b><br>${esc(c.n)}${l.cond?' (cần đối chiếu cấp master)':''} → ${esc(SP_[l.to].n)}<br><span class="m">Bằng chứng cấp lô hàng, không phải thị phần</span>`;
+}
+
+/* cảng */
+function slGlyph(p){
+  const C='cx="10" cy="10"';let s='';
+  if(p.k==='gw') s=`<circle ${C} r="7.2" class="gh" stroke-width="4.6"/><circle ${C} r="7.2" class="gs" stroke-width="2.4"/><circle ${C} r="2.6" class="gf" stroke-width="1"/>`;
+  else if(p.k==='vn') s=`<rect x="5" y="5" width="10" height="10" rx="2" class="gf"/>`;
+  else if(p.k==='dest') s=`<circle ${C} r="5.8" class="gf"/>`;
+  else if(p.k==='orig') s=`<path d="M10 4.2 L15.6 14.2 L4.4 14.2 Z" class="gf" stroke-linejoin="round"/>`;
+  else s=`<circle ${C} r="4" class="gh" stroke-width="3.6"/><circle ${C} r="4" class="gs" stroke-width="1.8"/>`;
+  return `<svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">${s}</svg>`;
+}
+SLP.forEach(p=>{
+  if(p.k==='label'){p.tip=L.tooltip({permanent:true,direction:p.dir,className:'lbl lb-dest',opacity:1,interactive:false,offset:OFFS[p.dir].map(v=>v?Math.sign(v)*14:0)}).setLatLng(p.ll).setContent(`${esc(p.n)}<small>${f0(p.m.reduce((t,m)=>t+SP_[m].v,0))} cont · 2023</small>`);return;}
+  const icon=L.divIcon({className:'nd nd-sl',html:slGlyph(p),iconSize:[20,20],iconAnchor:[10,10]});
+  p.marker=L.marker(p.ll,{icon,keyboard:true,riseOnHover:true,zIndexOffset:p.k==='dest'||p.k==='vn'?500:0});
+  p.marker.on('click',e=>{L.DomEvent.stopPropagation(e);slSelect('port',p.id);});
+  p.marker.on('add',()=>{const el=p.marker.getElement();if(el){el.setAttribute('aria-label',p.n+(p.ctry?', '+p.ctry:''));el.classList.toggle('sel',!!p.sel);el.classList.toggle('rel',!!p.rel);}});
+  p.labelState=null;
+});
+BLS.forEach(b=>{
+  const icon=L.divIcon({className:'nd nd-sl',html:`<svg width="34" height="17" viewBox="0 0 34 17" aria-hidden="true"><rect x="1" y="1" width="32" height="15" rx="4.5" class="blg"/><circle cx="8" cy="8.5" r="3" style="fill:var(--sl-${b.cond?'ot':CR[b.car].a})"/><text x="21" y="11.3" text-anchor="middle" class="blt">B/L</text></svg>`,iconSize:[34,17],iconAnchor:[40,22]});
+  b.marker=L.marker(SP_[b.to].ll,{icon,keyboard:true,zIndexOffset:900});
+  b.marker.bindTooltip(`<b>Vận đơn mẫu · ${esc(b.g)}</b><br><span class="m">${esc(CR[b.car].n)} · HS ${esc(b.hs)}</span>`,{direction:'top',offset:[-22,-24],className:'tt',opacity:1});
+  b.marker.on('click',e=>{L.DomEvent.stopPropagation(e);slSelect('line',b.id);});
+});
+function slUpdateNodes(){
+  const z=map.getZoom(),on=mode==='sl',vis=new Set();
+  SLINES.forEach(l=>{if(on&&slVis(l)) l.stops.forEach(s=>vis.add(s));});
+  SLP.forEach(p=>{
+    if(p.k==='label'){
+      const v=on&&slView!=='svc'&&z>=p.lz&&(p.lzMax==null||z<p.lzMax)&&p.m.some(m=>vis.has(m));
+      if(v&&!map.hasLayer(p.tip)) p.tip.addTo(map); else if(!v&&map.hasLayer(p.tip)) map.removeLayer(p.tip);
+      return;
+    }
+    const v=vis.has(p.id);
+    if(v&&!slNodeLayer.hasLayer(p.marker)) slNodeLayer.addLayer(p.marker);
+    if(!v&&slNodeLayer.hasLayer(p.marker)) slNodeLayer.removeLayer(p.marker);
+    if(!v) return;
+    const perm=z>=p.lz;
+    if(p.labelState!==perm){
+      p.marker.unbindTooltip();
+      const off=OFFS[p.dir||'right'].map(q=>q===0?0:Math.sign(q)*12);
+      if(perm) p.marker.bindTooltip(p.k==='dest'?`${esc(p.n)}<small>${f0(p.v)} cont · 2023</small>`:esc(p.n),{permanent:true,direction:p.dir||'right',offset:off,className:'lbl'+(p.k==='dest'?' lb-dest':''),opacity:1});
+      else p.marker.bindTooltip(`<b>${esc(p.n)}</b>${p.ctry?`, ${esc(p.ctry)}`:''}${p.v?`<br><span class="v">${f0(p.v)} container</span> <span class="m">· Wanek 2023</span>`:''}`,{direction:'top',offset:[0,-10],className:'tt',opacity:1});
+      p.labelState=perm;
+    }
+    const el=p.marker.getElement();if(el){el.classList.toggle('sel',!!p.sel);el.classList.toggle('rel',!!p.rel);}
+  });
+  BLS.forEach(b=>{const v=on&&slVis(SLI[b.id]);if(v&&!slNodeLayer.hasLayer(b.marker)) slNodeLayer.addLayer(b.marker); else if(!v&&slNodeLayer.hasLayer(b.marker)) slNodeLayer.removeLayer(b.marker);});
+}
+function slUpdateLabels(){
+  const z=map.getZoom();
+  SLINES.forEach(l=>{if(!l.lbl) return;
+    const v=mode==='sl'&&slVis(l)&&z>=(slView==='svc'?1.5:2.4)&&(!slSel||l.hl);
+    if(v){l.lbl.setLatLng(l.lx!=null?slAtLng(l.ll,l.lx):slAt(l.ll,l.lp));if(!map.hasLayer(l.lbl)) l.lbl.addTo(map);}
+    else if(map.hasLayer(l.lbl)) map.removeLayer(l.lbl);
+  });
+}
+function slRefresh(){
+  SLINES.forEach(l=>{const v=mode==='sl'&&slVis(l);if(v&&!slLayer.hasLayer(l.grp)) slLayer.addLayer(l.grp); else if(!v&&slLayer.hasLayer(l.grp)) slLayer.removeLayer(l.grp);});
+  slUpdateNodes();slUpdateLabels();
+}
+map.on('zoomend',()=>{if(mode!=='sl') return;slGeomAll();slUpdateNodes();slUpdateLabels();});
+
+/* =============== CHẾ ĐỘ HÃNG TÀU · BẢNG ĐIỀU KHIỂN =============== */
+const pct=(v,t,d=2)=>nf(d).format(v/t*100)+'%';
+const sum=a=>a.reduce((s,x)=>s+x,0);
+const aBg=a=>a==='gap'?'a-gap-bg':'a-'+(a||'ex')+'-bg';
+function slBars(rows,o={}){
+  const max=o.max||Math.max(...rows.map(r=>r.v||0));
+  return `<div class="bars${o.wide?' wide':''}">`+rows.map(r=>{
+    const bar=r.v==null?'':`<i class="${aBg(r.a)}${r.cond?' alt':''}" style="width:${(r.v/max*100).toFixed(2)}%"></i>`;
+    const inner=`<span class="bn" title="${esc(r.t||r.n)}">${esc(r.n)}</span><span class="bt">${bar}</span><span class="bv">${r.v==null?'—':(o.fmt||f0)(r.v)}</span>`;
+    const t=r.car?`data-car="${r.car}"`:r.line?`data-line="${r.line}"`:r.port?`data-port="${r.port}"`:r.go?`data-v="${r.go}"`:'';
+    return t?`<button class="br" ${t}>${inner}</button>`:`<div class="br">${inner}</div>`;
+  }).join('')+'</div>';
+}
+function slStack(segs,total){
+  const cls=s=>(s.a==='gap'?'gap':'a-'+s.a+'-bg')+(s.cond?' cond':'');
+  return `<div class="stack" role="img" aria-label="${esc(segs.map(s=>s.n+' '+pct(s.v,total,1)).join(', '))}">`+segs.map(s=>`<i class="${cls(s)}" style="flex:${s.v} 0 0" title="${esc(s.n)}: ${f0(s.v)} container · ${pct(s.v,total)}"></i>`).join('')+'</div>'+
+    '<div class="legend">'+segs.map(s=>`<span><i class="${cls(s)}"></i>${esc(s.n)} <b>${pct(s.v,total,1)}</b></span>`).join('')+'</div>';
+}
+function slAlliAgg(yi){const g={};CAR.forEach(c=>{const v=c.ex&&c.ex[yi];if(v==null) return;const k=c.a+(c.cond?'-c':'');g[k]=(g[k]||0)+v;});return g;}
+function slAlliSegs(yi){
+  const g=slAlliAgg(yi),out=[];
+  ALLI_ORD.forEach(a=>{if(g[a]) out.push({a,v:g[a],n:ALLI[a].n});if(g[a+'-c']) out.push({a,v:g[a+'-c'],cond:true,n:'OCL (nếu = OOCL)'});});
+  out.push({a:'gap',v:EXGAP[yi],n:'Chênh chưa giải thích'});
+  return out;
+}
+function slLineGlyph(l){
+  const col=l.a==='ex'?'var(--a-ex)':`var(--a-${l.a})`,op=l.cond?' stroke-opacity=".45"':'';
+  if(l.L==='bl') return `<svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true"><rect x="1" y="1" width="24" height="10" rx="3.5" fill="var(--panel-solid)" stroke="var(--ink)" stroke-width="1.1"/><circle cx="6.5" cy="6" r="2.3" fill="${col}"${l.cond?' fill-opacity=".45"':''}/><path d="M11 4.3h9M11 7.7h6" stroke="var(--ink)" stroke-width="1.1"/></svg>`;
+  return `<svg width="26" height="10" viewBox="0 0 26 10" aria-hidden="true"><line x1="1" y1="5" x2="19" y2="5" stroke="${col}" stroke-width="${l.L==='svc'?2.2:3}"${l.L==='svc'?' stroke-dasharray="4 3"':''}${l.L==='exp'?' stroke-opacity=".55"':op}/><path d="M18 1 L25 5 L18 9 L20 5Z" fill="${col}"/></svg>`;
+}
+function slLineItem(l){
+  const c=l.car?CR[l.car]:null;let t,s,v;
+  if(l.L==='exp'){const p=SP_[l.to];t='Việt Nam → '+p.n;s=p.ctry+' · xuất khẩu 2023';v=f0(l.v)+' cont';}
+  else if(l.L==='imp'){t=SP_[l.from].n+' → Cát Lái';s=c.n+' · '+ALLI[c.a].n+(c.cond?' (chưa xác nhận)':'');v=f0(l.v)+' cont';}
+  else if(l.L==='svc'){t=l.code+' · '+c.n;s=l.stops.map(x=>SP_[x].n).join(' → ');v=l.badge?`<span class="badge${l.badge==='Theo mùa'?' warn':''}">${esc(l.badge)}</span>`:'<span class="badge">KXD</span>';}
+  else{t='Vận đơn mẫu · '+l.g;s=c.n+(l.cond?' (dấu vết cấp master)':'')+' → '+SP_[l.to].n;v='HS '+esc(l.hs);}
+  return `<button class="fitem" data-line="${l.id}">${slLineGlyph(l)}<span class="fn">${esc(t)}<small>${esc(s)}</small></span><span class="fv">${v}</span></button>`;
+}
+const KEYS=[
+  '<b>COSCO lớn nhất năm 2023:</b> 15.806 container, 40,41%. Nếu OCL là OOCL, nhóm COSCO lên 46,78% — cần xác nhận mã.',
+  '<b>Bờ Tây Bắc Mỹ nhận ít nhất 70,61%:</b> LA / Long Beach 48,86%, Prince Rupert / Tacoma / Seattle 21,76%. Prince Rupert thuộc Canada.',
+  '<b>Nhập khác cấu trúc xuất:</b> Cát Lái nhận 89,47% trong 17.437 container nhập (cộng dồn 2021–2023); COSCO, SITC, Evergreen dẫn đầu.',
+  '<b>Mạng tuyến 2026 đã đổi:</b> Sun Chief Express (UWL/ESL) kết thúc 20/03/2026 — không dùng 3.846 container UWL năm 2023 để suy ra dịch vụ còn khả dụng.',
+  '<b>Có vận đơn 2026</b> về sofa và đồ gỗ phòng ngủ, nhưng chưa có ma trận hãng × tuyến × hàng × sản lượng.',
+  '<b>Mua dịch vụ theo tuyến thực tế:</b> OCEAN là nguồn quan trọng; đối chiếu MSC, Gemini, Premier trên cùng cửa ngõ. Hai hãng chung một vòng tàu không phải hai phương án dự phòng độc lập.'
+];
+const GOODS_IN=['Ván OSB','Veneer','Vật liệu bọc ghế','Vải','Xơ / sợi','Lông vũ','Vật liệu, thành phần nệm','Đầu vào khác'];
+const recTable=rows=>`<table><thead><tr><th>Việc cần làm</th><th>Bằng chứng cần lấy trước</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}<br><span class="muted" style="font-weight:500">${r[1].map(i=>esc(CR[i].n)).join(', ')}</span></td><td>${esc(r[3])}</td></tr>`).join('')}</tbody></table>`;
+
+function slOverview(){
+  let h='';
+  if(slView==='ov'){
+    const c23=CAR.filter(c=>c.ex&&c.ex[2]!=null).sort((a,b)=>b.ex[2]-a.ex[2]),top=c23.slice(0,8),rest=c23.slice(8);
+    h=`<div class="tag"><i class="a-ex-bg"></i>Hãng tàu · Wanek / Ashley</div><h2>COSCO chở 40% hàng xuất Wanek, 71% đi bờ Tây Bắc Mỹ</h2>
+    <p>Năm 2023, bốn nhãn COSCO, MSC, Wan Hai và Evergreen chở 76,35% trong 39.114 container xuất. Hàng nhập nguyên liệu tập trung ở Cát Lái, qua mạng nội Á của COSCO, SITC, Evergreen.</p>
+    <h3>Xuất khẩu 2023 theo liên minh 2026</h3>`+slStack(slAlliSegs(2),EXT[2023])+
+    `<p class="small muted">Phép chiếu theo cấu trúc nhóm hiện tại. Nếu OCL = OOCL và gộp ANL vào CMA CGM, OCEAN có 23.128 container, 59,13% — không chứng minh hàng đã đi cùng mạng dịch vụ.</p>
+    <h3>Hãng chở nhiều nhất · 2023 · container</h3>`+
+    slBars(top.map(c=>({n:c.n+(c.cond?' (?)':''),v:c.ex[2],a:c.a,cond:c.cond,car:c.id})).concat([{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.ex[2])),go:'exp'},{n:'Chênh chưa giải thích',v:EXGAP[2],a:'gap'}]))+
+    `<div class="bar-foot"><span>Tổng Wanek xuất khẩu 2023</span><span>39.114</span></div>
+    <h3>Cụm cửa ngõ đến · 2023 · container</h3>`+
+    slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}])+
+    `<p class="small muted" style="margin-top:6px">Bình quân toán học 752 container / tuần; bờ Tây Bắc Mỹ 531 / tuần. Không phải dự báo booking.</p>
+    <h3>Sáu điểm cần biết</h3><ol class="pts">${KEYS.map(k=>`<li>${k}</li>`).join('')}</ol>
+    <div class="btnrow"><button class="btn" data-v="exp">Xuất khẩu</button><button class="btn" data-v="imp">Nhập nguyên liệu</button><button class="btn" data-v="svc">Dịch vụ 2026</button><button class="btn" data-v="mkt">Cước &amp; lịch tàu</button></div>
+    <p class="src">Nguồn: ${esc(SLSRC.P)} ${esc(SLSRC.O)}</p>`;
+  }else if(slView==='exp'){
+    const y=YEARS[slYear],cs=CAR.filter(c=>c.ex&&c.ex[slYear]!=null).sort((a,b)=>b.ex[slYear]-a.ex[slYear]);
+    h=`<div class="tag"><i class="a-ex-bg"></i>Xuất khẩu Wanek · 2021–2023</div><h2>39.114 container năm 2023: phục hồi, nhưng còn dưới 2021</h2>
+    <p>Năm 2023 tăng 25,93% so với 2022 nhưng thấp hơn 2021 41,54%. Chưa có số 2024–2026 đủ đồng nhất để kết luận xu hướng.</p>
+    <h3>Tổng container theo năm</h3>`+slBars(YEARS.map(yy=>({n:String(yy),v:EXT[yy]})))+
+    `<h3>Theo hãng / nhãn · container</h3><div class="seg yr" role="group" aria-label="Chọn năm">${YEARS.map((yy,i)=>`<button data-yr="${i}" aria-pressed="${i===slYear}">${yy}</button>`).join('')}</div>
+    <div class="legend">${slAlliSegs(slYear).filter(s=>s.a!=='gap').map(s=>`<span><i class="a-${s.a}-bg${s.cond?' cond':''}"></i>${esc(s.n)} <b>${pct(s.v,EXT[y],1)}</b></span>`).join('')}</div>`+
+    slBars(cs.map(c=>({n:c.n+(c.cond?' (?)':''),v:c.ex[slYear],a:c.a,cond:c.cond,car:c.id})).concat([{n:'Chênh chưa giải thích',v:EXGAP[slYear],a:'gap'}]))+
+    `<div class="bar-foot"><span>Tổng theo tài liệu · các dòng hãng ${f0(sum(cs.map(c=>c.ex[slYear])))}</span><span>${f0(EXT[y])}</span></div>
+    <p class="small muted" style="margin-top:6px">Nhãn không có dòng trong năm không hiện, không có nghĩa bằng 0. Hai nhãn lớn nhất COSCO + MSC: 72,69% (2021), 73,73% (2022), 53,74% (2023).</p>
+    <h3>Cảng / địa điểm đến · 2023</h3>`+
+    slBars(SLINES.filter(l=>l.L==='exp').sort((a,b)=>b.v-a.v).map(l=>({n:SP_[l.to].n,t:SP_[l.to].n+', '+SP_[l.to].ctry+' — '+SP_[l.to].note,v:l.v,line:l.id})).concat([{n:'Chưa giải thích',v:3425,a:'gap'}]))+
+    `<h3>Điểm xếp hàng tại Việt Nam · 2023</h3>`+
+    slBars([{n:'Bình Dương',v:18272},{n:'Cát Lái',v:14649,port:'catlai'},{n:'Đồng Nai',v:4241},{n:'Cái Mép',v:1543,port:'vt'},{n:'Phước Long',v:404},{n:'SPICT (nhãn gốc)',v:5}])+
+    `<p class="small muted" style="margin-top:6px">“Bình Dương” có thể là điểm nhận hàng / khai thác nội địa. Không thể kết luận chỉ 3,94% hàng đi qua Cái Mép trên chặng tàu mẹ.</p>
+    <p class="src">Nguồn: ${esc(SLSRC.P)}</p>`;
+  }else if(slView==='imp'){
+    const im=CAR.filter(c=>c.im).sort((a,b)=>b.im-a.im),show=slMore?im:im.slice(0,10),rest=im.slice(10);
+    h=`<div class="tag"><i class="a-oc-bg"></i>Nhập nguyên liệu · cộng dồn 2021–2023</div><h2>Cát Lái nhận 89,5% container nhập; COSCO, SITC, Evergreen dẫn đầu</h2>
+    <p>Tổng 17.437 container theo cảng nhập; 23 nhãn hãng cộng 16.524, chênh 913 (5,24%). Kỳ cộng dồn theo chú thích biểu đồ, cần xác nhận bằng dữ liệu gốc.</p>
+    <h3>Theo nhãn hãng · container</h3>`+
+    slBars(show.map(c=>({n:c.n+(c.imL?' · '+c.imL:''),v:c.im,a:c.a,car:c.id})).concat(slMore?[]:[{n:rest.length+' nhãn khác',t:rest.map(c=>c.n).join(', '),v:sum(rest.map(c=>c.im))}]).concat([{n:'Chênh lệch',v:IMGAP,a:'gap'}]))+
+    `<div class="bar-foot"><span>Tổng đối soát theo cảng nhập</span><span>17.437</span></div>
+    <div class="btnrow" style="margin-top:8px"><button class="btn" data-more>${slMore?'Thu gọn danh sách':'Xem đủ 23 nhãn'}</button></div>
+    <h3>Cặp xuất xứ – hãng tiêu biểu</h3><div class="flist">${SLINES.filter(l=>l.L==='imp').sort((a,b)=>b.v-a.v).map(slLineItem).join('')}</div>
+    <p class="small muted" style="margin-top:6px">Trích chọn để chứng minh cặp tuyến – hãng; không cộng thành sản lượng năm. Tuyến Montreal, Savannah vẽ khái quát qua Panama.</p>
+    <h3>Cảng nhập tại Việt Nam · container</h3>`+
+    slBars([{n:'Cát Lái',v:15601,port:'catlai'},{n:'Đồng Nai',v:815},{n:'SPITC',v:482},{n:'VICT',v:266},{n:'Cái Mép',v:74,port:'vt'},{n:'Khác',v:199}])+
+    `<h3>Nhóm hàng nhập</h3><div class="tags">${GOODS_IN.map(g=>`<span>${esc(g)}</span>`).join('')}</div>
+    <p class="note">Hai biểu đồ cơ cấu (trang 43 và 48) khác nhau rõ: xơ/sợi 36,42% so với 10,36%, veneer 5,30% so với 27,95%. <b>Chưa đủ bằng chứng</b> để nói hãng nào chở bao nhiêu OSB, vải hay gỗ — cần bảng nối B/L – container – mã hàng.</p>
+    <p class="src">Nguồn: ${esc(SLSRC.P)}</p>`;
+  }else if(slView==='svc'){
+    const G=[['wc','Việt Nam → bờ Tây Mỹ'],['pnw','Việt Nam → Tây Bắc Mỹ / Canada'],['ec','Việt Nam → bờ Đông Mỹ qua Panama'],['eu','Việt Nam → châu Âu'],['cn','Trung Quốc → TP.HCM · chiều nhập']];
+    h=`<div class="tag"><i class="a-oc-bg"></i>Dịch vụ công bố · 12/2025–06/2026</div><h2>12 dịch vụ nối Việt Nam với Bắc Mỹ, châu Âu và Trung Quốc</h2>
+    <p>Lượng hàng Wanek trên từng dịch vụ đều <b>chưa xác định (KXD)</b>. Số hãng năm 2023 không được phân bổ sang mã dịch vụ 2026; lịch công bố chưa bảo đảm chuyến cụ thể giữ nguyên rotation.</p>`+
+    G.map(([k,n])=>`<h3>${esc(n)}</h3><div class="flist">${SLINES.filter(l=>l.L==='svc'&&l.cor===k).map(slLineItem).join('')}</div>`).join('')+
+    `<div class="note"><b>Đã kết thúc: ${esc(SVC_END.code)}</b> (UWL/ESL). ${esc(SVC_END.st)}</div>
+    <h3>Hàng nào hợp hành lang nào</h3>
+    <table><thead><tr><th>Hành lang</th><th>Nhóm hàng cần kiểm tra</th><th>Đối chiếu · quy mô có bằng chứng</th></tr></thead><tbody>${CORR.map(c=>`<tr><td>${esc(c.n)}</td><td>${esc(c.g)}</td><td>${esc(c.s)}<br><span class="muted">${esc(c.q)}</span></td></tr>`).join('')}</tbody></table>
+    <p class="small muted">Định hướng phân tích và mua dịch vụ, không khẳng định từng hãng đang chở các nhóm hàng này cho Wanek.</p>
+    <p class="src">Nguồn: ${esc(SLSRC.H)}</p>`;
+  }else{
+    h=`<div class="tag"><i class="a-ex-bg"></i>Thị trường · 2026</div><h2>Cước Shanghai – LA 7.838 USD/FEU; lịch tàu đúng giờ 56,4%</h2>
+    <p>Chỉ số thị trường để đặt câu hỏi khi so RFQ, không thay cho báo giá hay KPI tuyến của Wanek.</p>
+    <h3>Drewry WCI · 24/09/2026 · USD / container 40’</h3>`+
+    slBars([{n:'Shanghai – New York',v:10373},{n:'Shanghai – Los Angeles',v:7838},{n:'WCI tổng hợp',v:4468}],{wide:true})+
+    `<p class="small muted" style="margin-top:6px">Chỉ số từ Shanghai: không phải báo giá Wanek từ Cái Mép, không theo từng hãng, không đại diện hợp đồng dài hạn.</p>
+    <h3>Độ tin cậy lịch tàu · 7/2026</h3>`+
+    slBars([{n:'Maersk',v:73.7,a:'ge',car:'maersk'},{n:'Hapag-Lloyd',v:69.3,a:'ge',car:'hapag'},{n:'Toàn cầu',v:56.4},{n:'Wan Hai',v:29.8,a:'ot',car:'wanhai'}],{fmt:v=>f1(v)+'%',max:100,wide:true})+
+    `<p class="small muted" style="margin-top:6px">Tàu đến muộn trễ bình quân 6,06 ngày. Chỉ số toàn cầu theo hãng, chưa phản ánh riêng Việt Nam – LA; dùng làm bộ lọc ban đầu.</p>
+    <h3>Kim ngạch ngành gỗ 2026</h3>
+    <dl class="facts"><dt>Gỗ &amp; SP gỗ, 8 tháng (dẫn Bộ NN&amp;MT)</dt><dd>≈ 11,69 tỷ USD · +5%</dd><dt>Đồ nội thất gỗ, 4 tháng (ITTO)</dt><dd>≈ 3,1 tỷ USD · −6%</dd><dt>Gỗ &amp; SP gỗ, 4 tháng (ITTO)</dt><dd>≈ 5,4 tỷ USD · +0,4%</dd></dl>
+    <p class="small muted" style="margin-top:6px">Hai chuỗi khác phạm vi hàng và kỳ. Không nhân tăng trưởng kim ngạch với 39.114 container để dự báo Wanek.</p>
+    <h3>Sản lượng toàn hãng · Q2/2026</h3>
+    <dl class="facts"><dt>Maersk Ocean (hàng xếp)</dt><dd>6,722 tr TEU</dd><dt>CMA CGM</dt><dd>≈ 6,3 tr TEU</dd><dt>Hapag-Lloyd</dt><dd>3,481 tr TEU</dd></dl>
+    <p class="small muted" style="margin-top:6px">Quy mô toàn mạng, không phải thị phần Wanek. UNCTAD dự báo container tăng khoảng 2,3%/năm giai đoạn 2026–2030.</p>
+    <h3>Tiêu chí chấm RFQ đề xuất</h3>`+
+    slBars([['Tổng chi phí tới kho',35],['Đúng lịch, đúng hạn giao',25],['Chỗ và thiết bị',15],['Thời gian, độ biến động',15],['Xử lý phát sinh, dữ liệu',10]].map(([n,v])=>({n,v})),{fmt:v=>v+'%',max:35,wide:true})+
+    `<p class="small muted" style="margin-top:6px">Trọng số khởi đầu để thảo luận, không phải chuẩn ngành hay kết quả kiểm định.</p>
+    <h3>Việc cần làm theo hãng</h3>${recTable(REC)}
+    <p class="src">Nguồn: ${esc(SLSRC.M)}</p>`;
+  }
+  body.innerHTML=h;slWire();
+}
+const SLBACK='<button class="back">← Tổng quan hãng tàu</button>';
+const facts=rows=>rows.length?`<dl class="facts sl">${rows.map(([a,b])=>`<dt>${esc(a)}</dt><dd>${esc(b)}</dd>`).join('')}</dl>`:'';
+const lineList=(title,ls)=>ls.length?`<h3>${esc(title)}</h3><div class="flist">${ls.map(slLineItem).join('')}</div>`:'';
+function slRenderCar(id){
+  const c=CR[id],A=ALLI[c.a],ex=c.ex||[null,null,null],ls=SLINES.filter(l=>l.car===id),rec=REC.filter(r=>r[1].includes(id));
+  let big='';
+  if(ex[2]!=null) big=`<div class="bigv">${f0(ex[2])}<small>container xuất 2023</small></div><p class="muted small">${pct(ex[2],EXT[2023])} tổng xuất khẩu Wanek 2023${ex[1]!=null?` · ${ex[2]>=ex[1]?'+':'−'}${f2(Math.abs(ex[2]/ex[1]*100-100))}% so với 2022`:''}</p>`;
+  else if(c.im) big=`<div class="bigv">${f0(c.im)}<small>container nhập 2021–2023</small></div><p class="muted small">${pct(c.im,IMT)} tổng container nhập của Wanek</p>`;
+  const F=[['Nhóm / liên minh 2026',A.full+(c.cond?' (nếu OCL = OOCL)':'')],['Vai trò',c.role?c.role+' — không tự xác định tàu vận hành':'Hãng tàu']];
+  if(c.im) F.push(['Nhập nguyên liệu 2021–2023',f0(c.im)+' cont · '+pct(c.im,IMT)]);
+  if(c.imL) F.push(['Nhãn trong bảng nhập',c.imL]);
+  if(c.rel) F.push(['Độ tin cậy lịch tàu 7/2026',f1(c.rel)+'% · toàn cầu 56,4%']);
+  if(c.q2) F.push(['Sản lượng toàn hãng Q2/2026',c.q2]);
+  body.innerHTML=`${SLBACK}<div class="tag"><i class="${aBg(c.a)}"${c.cond?' style="opacity:.45"':''}></i>${esc(A.full)}${c.role?' · '+esc(c.role):''}</div>
+  <h2>${esc(c.n)}</h2>${c.own?`<p class="muted">${esc(c.own)}</p>`:''}${big}
+  ${c.ex?`<h3>Container xuất khẩu theo năm</h3>`+slBars(YEARS.map((y,i)=>({n:String(y),v:ex[i],a:c.a,cond:c.cond})),{max:Math.max(...ex.filter(v=>v!=null))})+`<p class="small muted" style="margin-top:4px">“—”: không thấy dòng trong bảng năm đó, không có nghĩa bằng 0.</p>`:''}
+  ${facts(F)}
+  ${c.note?`<p class="note">${esc(c.note)}</p>`:''}
+  ${lineList('Dịch vụ công bố 2026',ls.filter(l=>l.L==='svc'))}${lineList('Cặp nhập tiêu biểu',ls.filter(l=>l.L==='imp'))}${lineList('Vận đơn mẫu 2026',ls.filter(l=>l.L==='bl'))}
+  ${rec.length?`<h3>Việc cần làm</h3>${recTable(rec)}`:''}
+  <div class="btnrow">${ls.length?'<button class="btn" data-fly>Phóng tới tuyến</button>':''}<button class="btn" data-solo="${c.a}">Chỉ xem nhóm ${esc(A.n)}</button></div>
+  <p class="src">Nguồn: ${esc(SLSRC.P)} ${esc(SLSRC.O)}</p>`;
+  slWire();
+}
+function slRenderLine(id){
+  const l=SLI[id],c=l.car?CR[l.car]:null;let h='';
+  if(l.L==='exp'){
+    const p=SP_[l.to],cl=CLU[p.clu];
+    h=`<div class="tag"><i class="a-ex-bg"></i>Xuất khẩu Wanek 2023 · cảng đến</div><h2>Việt Nam → ${esc(p.n)}</h2><p class="muted">${esc(p.ctry)} · ${esc(p.note)}</p>
+    <div class="bigv">${f0(p.v)}<small>container</small></div><p class="muted small">${pct(p.v,EXT[2023])} tổng xuất khẩu Wanek 2023</p>
+    ${facts([['Cụm cửa ngõ',cl.n],['Cả cụm',f0(cl.v)+' cont · '+pct(cl.v,EXT[2023])]].concat(cl.wk?[['Bình quân toán học / tuần (cả cụm)',f1(cl.wk)]]:[]).concat([['Hãng chở','Chưa tách theo hãng'],['Điểm xuất phát','Điểm hội tụ minh họa phía Nam']]))}
+    ${l.gen?'<p class="note">Hành trình vẽ khái quát qua Panama theo các dịch vụ bờ Đông 2026; tài liệu không nêu hành trình của lô 2023.</p>':''}
+    ${lineList('Dịch vụ 2026 ghé cảng này',SLINES.filter(s=>s.L==='svc'&&s.stops.includes(l.to)))}${lineList('Vận đơn mẫu tại cảng này',SLINES.filter(s=>s.L==='bl'&&s.to===l.to))}`;
+  }else if(l.L==='imp'){
+    h=`<div class="tag"><i class="${aBg(c.a)}"></i>Nhập nguyên liệu · cặp xuất xứ – hãng</div><h2>${esc(SP_[l.from].n)} → Cát Lái</h2><p class="muted">${esc(c.n)} · ${esc(ALLI[c.a].full)}</p>
+    <div class="bigv">${f0(l.v)}<small>container</small></div><p class="muted small">Trên dòng được trích chọn · cộng dồn 2021–2023</p>
+    ${facts([['Hãng',c.n+(c.imL?' (nhãn '+c.imL+')':'')],['Vị trí nguồn',l.pg],['Ý nghĩa',l.m]])}
+    <p class="note">Trích chọn để chứng minh cặp tuyến – hãng, không phải tổng năm. Đích vẽ về Cát Lái (89,47% container nhập); cảng nhập của từng cặp chưa tách.${l.gen?' Hành trình vẽ khái quát qua Panama, chưa rõ trung chuyển.':''}</p>`;
+  }else if(l.L==='svc'){
+    const F=[['Hãng công bố',c.n],['Nhóm / liên minh',ALLI[c.a].full],['Ngày cơ sở / trạng thái',l.st]];
+    if(l.transit) F.push(['Thời gian công bố',l.transit]);
+    F.push(['Lượng hàng Wanek','KXD — chưa xác định']);
+    h=`<div class="tag"><i class="${aBg(c.a)}"></i>Dịch vụ công bố 2026 · ${esc(ALLI[c.a].n)}</div><h2>${esc(l.code)} · ${esc(c.n)}</h2>
+    <h3>Thứ tự cảng ghé</h3><div class="rot">${l.stops.map((s,i)=>`${i?'<span aria-hidden="true">→</span>':''}<button data-port="${s}"${SP_[s].k==='vn'?' class="vn"':''}>${esc(SP_[s].n)}</button>`).join('')}${l.rt?'<span aria-hidden="true">→</span><b>(quay về)</b>':''}</div>
+    ${facts(F)}${l.note?`<p class="note">${esc(l.note)}</p>`:''}
+    <p class="small muted">“Trực tiếp” là đi cùng dịch vụ qua các cảng ghé trung gian. Hai hãng bán chỗ trên cùng vòng tàu không tạo hai phương án dự phòng độc lập.</p>`;
+  }else{
+    h=`<div class="tag"><i class="${aBg(c.a)}"${l.cond?' style="opacity:.45"':''}></i>Vận đơn mẫu · ImportInfo</div><h2>${esc(l.g)} · ${esc(c.n)}${l.cond?' ?':''}</h2><p class="muted">Bằng chứng cấp lô hàng, không phải thị phần hãng năm 2026</p>
+    ${facts(l.f)}<p class="note">${esc(l.note)}</p>`;
+  }
+  body.innerHTML=`${SLBACK}${h}<div class="btnrow"><button class="btn" data-fly>Phóng tới tuyến</button>${c?`<button class="btn" data-car="${c.id}">Hồ sơ ${esc(c.n)}</button>`:''}</div>
+  <p class="src">Nguồn: ${esc(l.L==='svc'?SLSRC.H:l.L==='bl'?SLSRC.B:SLSRC.P)}</p>`;
+  slWire();
+}
+function slRenderPort(id){
+  const p=SP_[id],ls=SLINES.filter(l=>l.stops.includes(id));
+  const kind={gw:'Điểm hội tụ minh họa',vn:'Cảng Việt Nam',dest:'Cảng / địa điểm đến 2023',call:'Cảng ghé của dịch vụ 2026',orig:'Cảng xuất phát hàng nhập'}[p.k];
+  body.innerHTML=`${SLBACK}<div class="tag"><i class="a-ex-bg"></i>${esc(kind)}</div><h2>${esc(p.n)}</h2><p class="muted">${esc(p.ctry||p.sub||'')}</p>
+  ${p.d?`<p>${esc(p.d)}</p>`:''}
+  ${p.v?`<div class="bigv">${f0(p.v)}<small>container Wanek 2023</small></div><p class="muted small">${pct(p.v,EXT[2023])} · ${esc(p.note)}</p>`:''}
+  ${lineList('Xuất khẩu Wanek 2023',ls.filter(l=>l.L==='exp'&&(l.to===id||id==='gw')))}${lineList('Dịch vụ 2026 ghé cảng',ls.filter(l=>l.L==='svc'))}${lineList('Nhập nguyên liệu',ls.filter(l=>l.L==='imp'))}${lineList('Vận đơn mẫu',ls.filter(l=>l.L==='bl'))}
+  <div class="btnrow"><button class="btn" data-fly>Phóng tới cảng</button></div>`;
+  slWire();
+}
+function slWire(){
+  const on=(sel,fn)=>body.querySelectorAll(sel).forEach(b=>b.addEventListener('click',()=>fn(b)));
+  on('[data-car]',b=>slSelect('car',b.dataset.car,true));
+  on('[data-line]',b=>slSelect('line',b.dataset.line,true));
+  on('[data-port]',b=>slSelect('port',b.dataset.port,true));
+  on('[data-v]',b=>{slSelect(null,null,true);slGoView(b.dataset.v,true);});
+  const keep=fn=>{const st=body.scrollTop;fn();slOverview();body.scrollTop=st;};
+  on('[data-yr]',b=>keep(()=>{slYear=+b.dataset.yr;}));
+  on('[data-more]',()=>keep(()=>{slMore=!slMore;}));
+  on('.back',()=>slSelect(null));
+  on('[data-fly]',()=>slFly());
+  on('[data-solo]',b=>{ALLI_ORD.forEach(a=>{SLA[a]=a===b.dataset.solo;});slSyncControls();slRefresh();});
+  body.scrollTop=0;
+}
+function slSelect(type,id,fly,silent){
+  SLINES.forEach(l=>{l.hl=false;});SLP.forEach(p=>{p.sel=false;p.rel=false;});
+  slSel=type?{type,id}:null;
+  const mark=l=>{l.hl=true;l.stops.forEach(s=>{SP_[s].rel=true;});};
+  if(type==='line') mark(SLI[id]);
+  else if(type==='port'){SP_[id].sel=true;SLINES.forEach(l=>{if(l.stops.includes(id)) mark(l);});}
+  else if(type==='car') SLINES.forEach(l=>{if(l.car===id) mark(l);});
+  const any=SLINES.some(l=>l.hl&&slVis(l))||(type==='port');
+  map.getContainer().classList.toggle('sl-focus',!!slSel&&any);
+  SLINES.forEach(slApply);slUpdateNodes();slUpdateLabels();
+  if(!silent){
+    if(!slSel) slOverview();
+    else if(type==='car') slRenderCar(id);
+    else if(type==='line') slRenderLine(id);
+    else slRenderPort(id);
+  }
+  if(fly&&slSel&&any) slFly();
+}
+function slFly(){
+  if(!slSel) return;
+  const o=Object.assign(fitPad(),{maxZoom:8,duration:1});
+  if(slSel.type==='port'){
+    const n=SP_[slSel.id],z=Math.max(map.getZoom(),n.k==='vn'?7:5),p=fitPad(),pl=p.paddingTopLeft,pr=p.paddingBottomRight,off=L.point((pl[0]-pr[0])/2,(pl[1]-pr[1])/2);
+    map.flyTo(map.unproject(map.project(L.latLng(n.ll),z).subtract(off),z),z,{duration:1});return;
+  }
+  const ll=[];SLINES.forEach(l=>{if(l.hl) ll.push(...l.ll);});
+  if(ll.length) map.flyToBounds(L.latLngBounds(ll),o);
+}
+const SLVIEW={ov:[[-10,44],[57,298]],exp:[[-8,46],[56,298]],imp:[[0,99],[37,126]],svc:[[-36,-8],[57,298]],mkt:[[-36,-8],[57,298]]};
+function slGoView(v,animate){
+  slView=v;
+  document.querySelectorAll('#slViews .chip[data-v]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===v)));
+  if(['exp','imp','svc'].includes(v)&&!SLL[v]){SLL[v]=true;slSyncControls();slRefresh();}
+  const mc=map.getContainer();['exp','imp','svc'].forEach(k=>mc.classList.toggle('slv-'+k,v===k));
+  slUpdateLabels();slUpdateNodes();
+  const o=Object.assign(fitPad(),{maxZoom:9});
+  if(animate) map.flyToBounds(SLVIEW[v],Object.assign(o,{duration:1.1})); else map.fitBounds(SLVIEW[v],o);
+  if(!slSel) slOverview();
+}
+
+/* lớp tuyến, bộ lọc liên minh, ký hiệu */
+const SLLAY=[
+  {id:'exp',n:'Xuất khẩu Wanek 2023 → cảng đến',s:'Container, tổng chưa tách theo hãng',ic:`<line x1="2" y1="6" x2="26" y2="6" stroke="var(--a-ex)" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/><path d="M25 1.8 L33 6 L25 10.2 L27 6Z" fill="var(--a-ex)"/>`},
+  {id:'svc',n:'Dịch vụ hãng công bố 2026',s:'12 dịch vụ · lượng Wanek chưa xác định',ic:`<line x1="2" y1="3" x2="30" y2="3" stroke="var(--a-oc)" stroke-width="2" stroke-dasharray="4 3"/><line x1="2" y1="6.5" x2="30" y2="6.5" stroke="var(--a-ms)" stroke-width="2" stroke-dasharray="4 3"/><line x1="2" y1="10" x2="30" y2="10" stroke="var(--a-pr)" stroke-width="2" stroke-dasharray="4 3"/>`},
+  {id:'imp',n:'Nhập nguyên liệu → Cát Lái',s:'Cặp xuất xứ – hãng, 2021–2023',ic:`<line x1="2" y1="6" x2="14" y2="6" stroke="var(--a-oc)" stroke-width="3.2"/><line x1="14" y1="6" x2="26" y2="6" stroke="var(--a-ot)" stroke-width="3.2"/><path d="M25 1.8 L33 6 L25 10.2 L27 6Z" fill="var(--a-ot)"/>`},
+  {id:'bl',n:'Vận đơn mẫu 2026',s:'Sofa, đồ gỗ phòng ngủ · cấp lô hàng',ic:`<rect x="3" y="0.8" width="28" height="10.4" rx="3.6" fill="var(--panel-solid)" stroke="var(--ink)" stroke-width="1.1"/><circle cx="8.6" cy="6" r="2.4" fill="var(--a-pr)"/><path d="M13.5 4.2h12M13.5 7.8h8" stroke="var(--ink)" stroke-width="1.1"/>`}
+];
+document.getElementById('slLayerList').innerHTML=SLLAY.map(x=>`<label class="st" for="sll-${x.id}"><input type="checkbox" id="sll-${x.id}" data-sll="${x.id}" checked><svg width="34" height="12" viewBox="0 0 34 12" aria-hidden="true">${x.ic}</svg><span class="t">${esc(x.n)}<small>${esc(x.s)}</small></span></label>`).join('');
+document.getElementById('slAlli').innerHTML=ALLI_ORD.map(a=>`<button class="chip" data-a="${a}" aria-pressed="true" title="${esc(ALLI[a].full+': '+ALLI[a].mem)}"><i class="a-${a}-bg"></i>${esc(ALLI[a].n)}</button>`).join('');
+document.getElementById('slGlyphs').innerHTML=[['Điểm hội tụ phía Nam',{k:'gw'}],['Cảng Việt Nam',{k:'vn'}],['Cảng đến 2023',{k:'dest'}],['Cảng ghé dịch vụ',{k:'call'}],['Cảng xuất phát hàng nhập',{k:'orig'}]].map(([t,p])=>`<div>${slGlyph(p)}<span>${t}</span></div>`).join('')+
+  `<div><svg width="26" height="12" viewBox="0 0 26 12" aria-hidden="true"><rect x="1" y="1" width="24" height="10" rx="3.5" fill="var(--panel-solid)" stroke="var(--ink)" stroke-width="1.1"/><circle cx="6.5" cy="6" r="2.3" fill="var(--a-pr)"/><path d="M11 4.3h9M11 7.7h6" stroke="var(--ink)" stroke-width="1.1"/></svg><span>Vận đơn mẫu</span></div>`;
+function slSyncControls(){
+  SLLAY.forEach(x=>{document.getElementById('sll-'+x.id).checked=SLL[x.id];});
+  document.querySelectorAll('#slAlli .chip').forEach(b=>b.setAttribute('aria-pressed',String(SLA[b.dataset.a])));
+}
+document.getElementById('slLayerList').addEventListener('change',e=>{const k=e.target.dataset.sll;if(!k) return;SLL[k]=e.target.checked;slRefresh();if(slSel) slSelect(slSel.type,slSel.id,false,true);});
+document.getElementById('slAlli').addEventListener('click',e=>{const b=e.target.closest('button');if(!b) return;SLA[b.dataset.a]=!SLA[b.dataset.a];slSyncControls();slRefresh();if(slSel) slSelect(slSel.type,slSel.id,false,true);});
+document.getElementById('slViews').addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b) return;
+  if(b.id==='slLayersBtn'){const on=!document.body.classList.contains('show-layers');document.body.classList.toggle('show-layers',on);b.setAttribute('aria-pressed',String(on));return;}
+  slSelect(null,null,true);slGoView(b.dataset.v,true);
+});
+map.on('click',()=>{if(mode==='sl'&&slSel) slSelect(null);});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&mode==='sl'&&slSel) slSelect(null);});
+
+/* chuyển chế độ */
+function setMode(m,instant){
+  if(m===mode) return;
+  mode=m;
+  document.body.classList.toggle('mode-sl',m==='sl');
+  document.querySelectorAll('#modeSeg button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===m)));
+  document.body.classList.remove('show-layers');
+  ['layersBtn','slLayersBtn'].forEach(i=>document.getElementById(i).setAttribute('aria-pressed','false'));
+  const mc=map.getContainer();
+  if(m==='sl'){
+    select(null,null,true);
+    STAGES.forEach(s=>map.removeLayer(stageLayers[s.id]));
+    [zoneLayer,nodeLayer,ringLayer].forEach(l=>map.removeLayer(l));
+    updateNodes();
+    slGeomAll();slLayer.addTo(map);slNodeLayer.addTo(map);slRefresh();
+    slGoView(slView,!instant);
+  }else{
+    slSelect(null,null,false,true);
+    [slLayer,slNodeLayer].forEach(l=>map.removeLayer(l));
+    slRefresh();
+    mc.classList.remove('slv-exp','slv-imp','slv-svc','sl-focus');
+    STAGES.forEach(s=>{const cb=document.getElementById('st-'+s.id);if(!cb||cb.checked) stageLayers[s.id].addTo(map);});
+    zoneLayer.addTo(map);nodeLayer.addTo(map);
+    updateFlows();updateNodes();updateRings();
+    goRegion(region,!instant);
+  }
+  try{history.replaceState(null,'',m==='sl'?'#hang-tau':location.pathname+location.search);}catch(e){}
+}
+document.getElementById('modeSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(b) setMode(b.dataset.mode);});
+
 /* =============== BOOT =============== */
 let bm=null;try{bm=localStorage.getItem('fvn-bm2');}catch(e){}
 setBase(BASE[bm]?bm:'light',true);
 goRegion('global',false);
 updateFlows();updateNodes();updateRings();
+if(/^#hang-?tau$/i.test(location.hash)) setMode('sl',true);
 setTimeout(checkFallback,6000);
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>map.invalidateSize(),150);});
 })();
