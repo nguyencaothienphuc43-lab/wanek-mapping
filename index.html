@@ -300,8 +300,6 @@ body.mode-sl .m-flow{display:none!important}
 .badge.warn{background:#fdeec9;color:#6e4a00}
 .badge.off{background:#f6dcdc;color:#8a1f1f}
 .fitem .fv .badge{margin-left:0}
-.pts{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--ink-2)}
-.pts b{color:var(--ink)}
 .dt-body table{width:100%;border-collapse:collapse;font-size:11.5px;margin:4px 0 6px}
 .dt-body th{text-align:left;font-weight:600;color:var(--ink-3);padding:4px 6px 4px 0;border-bottom:1px solid var(--line-2)}
 .dt-body td{padding:6px 6px 6px 0;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink-2)}
@@ -1747,14 +1745,6 @@ function slLineItem(l){
   else{t='Vận đơn mẫu · '+l.g;s=c.n+(l.cond?' (dấu vết cấp master)':'')+' → '+SP_[l.to].n;v='HS '+esc(l.hs);}
   return `<button class="fitem" data-line="${l.id}">${slLineGlyph(l)}<span class="fn">${esc(t)}<small>${esc(s)}</small></span><span class="fv">${v}</span></button>`;
 }
-const KEYS=[
-  '<b>COSCO lớn nhất năm 2023:</b> 15.806 container, 40,41%. Nếu OCL là OOCL, nhóm COSCO lên 46,78% — cần xác nhận mã.',
-  '<b>Bờ Tây Bắc Mỹ nhận ít nhất 70,61%:</b> LA / Long Beach 48,86%, Prince Rupert / Tacoma / Seattle 21,76%. Prince Rupert thuộc Canada.',
-  '<b>Nhập khác cấu trúc xuất:</b> Cát Lái nhận 89,47% trong 17.437 container nhập (cộng dồn 2021–2023); COSCO, SITC, Evergreen dẫn đầu.',
-  '<b>Mạng tuyến 2026 đã đổi:</b> Sun Chief Express (UWL/ESL) kết thúc 20/03/2026 — không dùng 3.846 container UWL năm 2023 để suy ra dịch vụ còn khả dụng.',
-  '<b>Có vận đơn 2026</b> về sofa và đồ gỗ phòng ngủ, nhưng chưa có ma trận hãng × tuyến × hàng × sản lượng.',
-  '<b>Mua dịch vụ theo tuyến thực tế:</b> OCEAN là nguồn quan trọng; đối chiếu MSC, Gemini, Premier trên cùng cửa ngõ. Hai hãng chung một vòng tàu không phải hai phương án dự phòng độc lập.'
-];
 const GOODS_IN=['Ván OSB','Veneer','Vật liệu bọc ghế','Vải','Xơ / sợi','Lông vũ','Vật liệu, thành phần nệm','Đầu vào khác'];
 const recTable=rows=>`<table><thead><tr><th>Việc cần làm</th><th>Bằng chứng cần lấy trước</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r[0])}<br><span class="muted" style="font-weight:500">${r[1].map(i=>esc(CR[i].n)).join(', ')}</span></td><td>${esc(r[3])}</td></tr>`).join('')}</tbody></table>`;
 
@@ -1771,9 +1761,7 @@ function slOverview(){
     `<div class="bar-foot"><span>Tổng Wanek xuất khẩu 2023</span><span>39.114</span></div>
     <h3>Cụm cửa ngõ đến · 2023 · container</h3>`+
     slBars([{n:'LA / Long Beach',v:19110,go:'exp'},{n:'PR / Tacoma / Seattle',t:'Prince Rupert (Canada) + Tacoma + Seattle',v:8510,go:'exp'},{n:'New York / Norfolk',v:4483,go:'exp'},{n:'Jakarta / Cikarang',v:2227,go:'exp'},{n:'Dammam',v:1359,line:'e_dmm'},{n:'Chưa giải thích',v:3425,a:'gap'}])+
-    `<p class="small muted" style="margin-top:6px">Bình quân toán học 752 container / tuần; bờ Tây Bắc Mỹ 531 / tuần. Không phải dự báo booking.</p>
-    <h3>Sáu điểm cần biết</h3><ol class="pts">${KEYS.map(k=>`<li>${k}</li>`).join('')}</ol>
-    <div class="btnrow"><button class="btn" data-v="exp">Xuất khẩu</button><button class="btn" data-v="imp">Nhập nguyên liệu</button><button class="btn" data-v="svc">Dịch vụ 2026</button><button class="btn" data-v="mkt">Cước &amp; lịch tàu</button></div>`;
+    `<p class="small muted" style="margin-top:6px">Bình quân toán học 752 container / tuần; bờ Tây Bắc Mỹ 531 / tuần. Không phải dự báo booking.</p>`;
   }else if(slView==='exp'){
     const y=YEARS[slYear],cs=CAR.filter(c=>c.ex&&c.ex[slYear]!=null).sort((a,b)=>b.ex[slYear]-a.ex[slYear]);
     h=`<div class="tag"><i class="a-ex-bg"></i>Xuất khẩu Wanek · 2021–2023</div><h2>39.114 container năm 2023: phục hồi, nhưng còn dưới 2021</h2>
